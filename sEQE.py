@@ -32,9 +32,11 @@ from numpy import *
 from scipy.interpolate import interp1d
 
 import codecs
-import threading
+
+from monochromator import Monochromator
 from microscope.filterwheels.thorlabs import ThorlabsFilterWheel
-#import LINK_automation
+from lockin import LockIn
+
 from tkinter import Tk
 from tkinter import filedialog 
 
@@ -45,11 +47,17 @@ class MainWindow(QtWidgets.QMainWindow):
         file = pathlib.Path('pathsNdevices_config.txt')
         if file.exists():
             pNpdata = file.read_text().split(',')
+            print(pNpdata)
             self.zurich_device = pNpdata[0]
             self.filter_usb = pNpdata[1]
             self.mono_usb =  pNpdata[2]
             self.save_path = pNpdata[3]
-            #file.unlink() # to delete file        
+            
+            for i in range(len(pNpdata)):
+                if pNpdata[i] == '':
+                    print('Empty string in pathsNdevices.txt found. The current file will be deleted, please recreate the file')
+                    file.unlink()  # to delete file
+                
         else:
             file.touch(exist_ok = False)
             if platform.system() == 'Linux':
@@ -102,6 +110,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.filter_connected = False  # Set the filterwheel connection to False
         
         self.thorfilterwheel = ThorlabsFilterWheel(com=self.filter_usb) # Initialize Thorlabs filter wheel
+        self.mono = Monochromator(self.mono_usb)
+        self.lockin = LockIn(self.zurich_device)
         
         # General Setup
          
@@ -144,10 +154,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.connectButton.clicked.connect(self.connectToEquipment)
 
-        self.ui.measureButtonRef_Si.clicked.connect(self.MonoHandleSiRefButton)
-        self.ui.measureButtonRef_GA.clicked.connect(self.MonoHandleGARefButton)        
-        self.ui.measureButtonDev.clicked.connect(self.MonoHandleMeasureButton)        
-        self.ui.stopButton.clicked.connect(self.HandleStopButton)
+        # self.ui.measureButtonRef_Si.clicked.connect(self.MonoHandleSiRefButton)
+        # self.ui.measureButtonRef_GA.clicked.connect(self.MonoHandleGARefButton)        
+        # self.ui.measureButtonDev.clicked.connect(self.MonoHandleMeasureButton)        
+        # self.ui.stopButton.clicked.connect(self.HandleStopButton)
 
         self.ui.completeScanButton_start.clicked.connect(self.MonoHandleCompleteScanButton)  #########################################################################################
         self.ui.completeScanButton_stop.clicked.connect(self.HandleStopCompleteScanButton)   #########################################################################################
@@ -206,67 +216,11 @@ class MainWindow(QtWidgets.QMainWindow):
         None
         
         """
-        with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-
-            self.p.write('HELLO\r'.encode())   # "Hello" initializes the Monochromator
-            time.sleep(25)   # Sleep function makes window time out. This is to avoid that the user sends signals while the Monochromator is still initializing
-            self.mono_connected = self.waitForOK()   # Checks for OK response of Monochromator
-
-            if self.mono_connected:
-                self.logger.info('Connection to Monochromator Established')
-                self.ui.imageConnect_mono.setPixmap(QtGui.QPixmap("Button_on.png"))           
-    
-    # Check Monochromator response
-    
-    def waitForOK(self):
-        """Function to wait for acceptance signal from monochromator.
-        
-        Returns
-        -------
-        bool 
-            True if connection successful, False otherwise
-        
-        Raises
-        ------
-        LoggerError
-            Raises error if monochromator connection failed
-        
-        """
-        ret = False
-        self.p.timeout = 400
-        shouldbEOk = 'filler'
-        
-        try:
-            while shouldbEOk != 'ok\r\n':
-                shouldbEOk = self.p.readline()
-                shouldbEOk = codecs.decode(shouldbEOk)
-                print(shouldbEOk)
-                #print ( shouldbEOk.endswith('ok\r\n') == True )
-                if shouldbEOk.endswith('ok\r\n'):
-                    ret = True
-                    return ret
-                else:
-                    print('Connection to Monochromator Could Not Be Established')
-           
-            self.p.timeout = 0
-            return ret
-
+        self.mono_connected = self.mono.connect()
+        if self.mono_connected:
+            self.logger.info('Connection to Monochromator Established')
+            self.ui.imageConnect_mono.setPixmap(QtGui.QPixmap("Button_on.png"))           
             
-        except Exception as error:
-            self.logger.error('An exception occured within the waitForOk function - is the ok\r\n still detected ?:')
-            print(error)
-#         ret = False
-#         self.p.timeout = 10 #0.05 is possible, but the monochromator sounds different - could we break it ?
-#         shouldbEOk = ''.join([element.decode(encoding = 'utf-8' , errors = 'ignore') for element in self.p.readlines()])
-#         print(shouldbEOk)
-
-#         if shouldbEOk.endswith('ok\r\n'):
-#             ret = True
-#         else:
-#             print('Connection to Monochromator Could Not Be Established')
-#         self.p.timeout = 0
-#         return ret
-        
     # Establish connection to LOCKIN
     
     def connectToLockin(self):    
@@ -277,25 +231,8 @@ class MainWindow(QtWidgets.QMainWindow):
         list
             Zurich Instruments localhost name and device details
         """
-        self.lockin_connected = False
+        self.daq, self.device, self.lockin_connected = self.lockin.connect()
         
-        # Find device via Device Discovery and open connection to ziServer 
-        d = zhinst.ziPython.ziDiscovery()
-        props = d.get(d.find(self.zurich_device))
-        daq = zhinst.ziPython.ziDAQServer(props['serveraddress'],
-                                          props['serverport'], 
-                                          props['apilevel'])
-        daq.connectDevice(self.zurich_device, 
-                          props['interfaces'][0])
-        
-        self.daq = daq
-        
-        # Detect device
-        self.device = zhinst.utils.autoDetect(daq)
-
-        self.logger.info('Connection to Lock-In Established')
-        
-        self.lockin_connected = True       
         self.ui.imageConnect_lockin.setPixmap(QtGui.QPixmap("Button_on.png"))
         
         return self.daq, self.device
@@ -309,38 +246,8 @@ class MainWindow(QtWidgets.QMainWindow):
         -------
         None
         
-        Raises
-        ------
-        SerialException
-            Raises exception if filter wheel USB port is inaccessible
-        OSError
-            Raises exception if filter wheel USB port is inaccessible
-        
         """ 
-#         with serial.Serial(port=self.filter_usb, baudrate=115200,
-#                                      bytesize=8, parity='N', stopbits=1,
-#                                      timeout=1, xonxoff=0, rtscts=0) as self._fw:
-#             try: True
-            
-#             except  serial.SerialException as ex:
-#                 self.logger.error('Port {0} is unavailable: {1}'.format(self.filter_usb, ex))
-#                 self.filter_connected = False
-#                 return
-#             except  OSError as ex:
-#                 self.logger.error('Port {0} is unavailable: {1}'.format(self.filter_usb, ex))
-#                 self.filter_connected = False
-#                 return
-
-#             self._sio = io.TextIOWrapper(io.BufferedRWPair(self._fw, self._fw, 1),
-#                                      newline=None, encoding='ascii')
-
-#             self.logger.info("Connection to External Filter Wheel Established")
-
-# #        self._sio.write('*idn?\r')
-# #        devInfo = self._sio.readlines(2048)[1][:-1]
-# #        print(devInfo)
-
-#             self._sio.flush()
+        
         if self.thorfilterwheel.position == 0:
             self.filter_connected = True
             self.logger.info("Connection to External Filter Wheel Established")
@@ -351,7 +258,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 # -----------------------------------------------------------------------------------------------------------        
         
-    # Establish connection to both
+    # Establish connection to all equipment
         
     def connectToEquipment(self):
         """Function to establish connection to monochromator, Lockin & filter wheel.
@@ -386,35 +293,8 @@ class MainWindow(QtWidgets.QMainWindow):
         
         """
         wavelength = self.ui.pickNM.value()
-        self.chooseWavelength(wavelength)
+        self.mono.chooseWavelength(wavelength)
       
-    def chooseWavelength(self, wavelength):   # Function to send GOTO command to monochromator
-        """Function to send wavelength command to monochromator.
-        
-        Parameters
-        ----------
-        wavelength: float, required
-            target wavelength
-        
-        Returns
-        -------
-        None
-        
-        Raises
-        ------
-        LoggerError
-            Raises error if monochromator not connected
-
-        """
-        if self.mono_connected:
-            with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-                print('%d nm' % wavelength)
-                self.p.write('{:.2f} GOTO\r'.format(wavelength).encode())
-                self.waitForOK()
-                
-        else:
-            self.logger.error('Monochromator Not Connected')
-            
     # Update the scan speed
             
     def MonoHandleSpeedButton(self):   # Function sets desired scan speed and calls chooseScanSpeed function
@@ -426,33 +306,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         """
         speed = self.ui.pickScanSpeed.value()
-        self.chooseScanSpeed(speed)
-        
-    def chooseScanSpeed(self, speed):   # Function to send scan speed command to monochromator
-        """Function to send scan speed command to monochromator.
-        
-        Parameters
-        ----------
-        speed: float, required
-            monochromator grating scan speed
-            
-        Returns
-        -------
-        None 
-        
-        Raises
-        ------
-        LoggerError
-            Raises error if monochromator not connected
-
-        """
-        if self.mono_connected:
-            with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-#            self.logger.info('Updating Scan Speed to %d nm/min.' % speed)
-                self.p.write('{:.2f} NM/MIN\r'.format(speed).encode())
-                self.waitForOK()
-        else:
-            self.logger.error('Monochromator Not Connected')   
+        self.mono.chooseScanSpeed(speed)
 
     # Set and move to grating 
     
@@ -470,42 +324,9 @@ class MainWindow(QtWidgets.QMainWindow):
             gratingNo = 2
         elif self.ui.Blaze_1600.isChecked():
             gratingNo = 3
-        self.chooseGrating(gratingNo)
-      
-    def chooseGrating(self, gratingNo):   # Function to send grating command to monochromator
-        """Function to send grating command to monochromator.
-        
-        Parameters
-        ----------
-        gratingNo: float, required
-            Monochromator grating number
             
-        Returns
-        -------
-        None
-        
-        Raises
-        -------
-        LoggerError
-            Raises error if monochromator not connected
-
-        """
-        if self.mono_connected:
-            if self.p.is_open:
-                self.logger.info('Moving to Grating %d' % gratingNo)
-                self.p.write('{:d} grating\r'.format(gratingNo).encode())
-                #print(self.p.readline())
-                self.waitForOK()
-            else:
-                with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-                    self.logger.info('Moving to Grating %d' % gratingNo)
-                    self.p.write('{:d} grating\r'.format(gratingNo).encode())
-                    #print(self.p.readline())
-                    self.waitForOK()
-        else:
-            self.logger.error('Monochromator Not Connected')
-
-            
+        self.mono.chooseGrating(gratingNo)
+       
     # Update filter number
             
     def MonoHandleFilterButton(self):
@@ -517,44 +338,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         """
         filterNo = int(self.ui.pickFilter.value())
-        self.chooseFilter(filterNo)
-
-    def chooseFilter(self, filterNo):
-        """Function to send filter selection command to filter wheel.
-        
-        Parameters
-        ----------
-        filterNo: float, required
-            Filter position
-            
-        Returns
-        -------
-        None
-        
-        Raises
-        ------
-        LoggerError
-            Raises error if monochromator not connected
-
-        """
-        if self.mono_connected:
-            
-            if self.p.is_open:
-                self.logger.info('Moving to Monochromator Filter %d' % filterNo)
-                self.p.write('{:d} FILTER\r'.format(filterNo).encode())
-                #print(self.p.readline())
-                self.waitForOK()
-            
-            else: 
-                with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-                    if self.mono_connected:
-                        self.logger.info('Moving to Monochromator Filter %d' % filterNo)
-                        self.p.write('{:d} FILTER\r'.format(filterNo).encode())
-                        #print(self.p.readline())
-                        self.waitForOK()
-            
-        else:
-            self.logger.error('Monochromator Not Connected')
+        self.mono.chooseFilter(filterNo)
 
     # Initialize filter 
 
@@ -568,36 +352,9 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         filterStart = self.ui.pickFilterInitStart.value()
         filterDiff = int(8-filterStart)
-        self.initializeFilter(filterDiff)                
-
-    def initializeFilter(self, filterDiff):
-        """Function to initialize filter wheel.
-        
-        Parameters
-        ----------
-        filterDiff: int, required
-            Difference between filter position and initialization position
-
-        Returns
-        -------
-        None
-        
-        Raises
-        ------
-        LoggerError:
-            Raises error if monochromator not connected
-
-        """
-        if self.mono_connected:
-            with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-                self.logger.info('Initializing Monochromator Filter Wheel')
-                self.p.write('{:d} FILTER\r'.format(filterDiff).encode())
-                self.p.write('FHOME\r'.encode())
-                self.waitForOK()
-                self.ui.imageInit_filterwheel.setPixmap(QtGui.QPixmap("Button_on.png"))
-
-        else:
-            self.logger.error('Monochromator Not Connected') 
+        self.mono.initializeFilter(filterDiff)
+        self.ui.imageInit_filterwheel.setPixmap(QtGui.QPixmap("Button_on.png"))
+        self.logger.info('Monochromator Filter Wheel initialized') 
     
 # -----------------------------------------------------------------------------------------------------------        
     
@@ -613,12 +370,23 @@ class MainWindow(QtWidgets.QMainWindow):
         None
         
         """
-        if self.lockin_connected:
-            self.amplification = self.ui.pickAmp.value()
-            self.LockinUpdateParameters()
+        try:
+            if self.lockin_connected:
+                self.amplification = self.ui.pickAmp.value()
+                self.LockinUpdateParameters(self.amplification)
+            else: 
+                self.logger.info('Lock-In not connected')
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of LockinHandleParametersButton function: {type(err)=}")
+            raise
         
-    def LockinUpdateParameters(self):   # Function sets desired Lock-in parameters and calls setParameter function 
+    def LockinUpdateParameters(self,amplification):   # Function sets desired Lock-in parameters and calls setParameter function 
         """Function to update Lockin parameters.
+        
+        Parameters
+        ----------
+        amplification int, required
+            amplification value of the LockIn signal
         
         Returns
         -------
@@ -627,95 +395,38 @@ class MainWindow(QtWidgets.QMainWindow):
         Raises
         ------
         LoggerError
-            Raises error if Lockin not connected
+            Raises error if Lockin not connected or Exception handling
 
-        """     
-        if self.lockin_connected:  
-            self.c_2 = str(self.channel) # Channel 2, with value 1, for the reference input
-            self.tc = self.ui.pickTC.value() # Import value for time constant
-            self.rate = self.ui.pickDTR.value() # Import value for data transfer rate
-            self.lowpass = self.ui.pickLPFO.value() # Import value for low pass filter order
-            self.range = 2 # This sets the default voltage range to 2
-            self.ac = 0 # AC off
-            self.imp50 = 0 # 50 Ohm off
-            self.imp50_2 = 1 # Turn on 50 Ohm on channel 2 to attenuate signal from chopper controller as reference signal
-            self.diff = 1 # Diff off
-#            if self.ui.acButton.isChecked(): # AC on if button is checked
-#                self.ac = 1
-#            if self.ui.imp50Button.isChecked(): # 50 Ohm on if button is checked
-#                self.imp50 = 1
-#            if self.ui.diffButton.isChecked(): # Diff on if button is checked
-#                self.diff = 1                
-#            self.frequency = self.ui.pickFreq.value() # For manual frequency control. The frequency tab is currently not implemented in the GUI
-            
-            self.setParameters()
-            self.logger.info('Updating Lock-In Settings')
-            
-        else:
-            self.logger.error("Lock-In Not Connected")
-             
-    def setParameters(self):       
-        """Function to set default Lockin parameters.
-        
-        Returns
-        -------
-        None
-        
         """
- #       c = str(0)      
- #       print(self.amplification)
-     
-        # Disable all outputs and all demods
-        general_setting = [
-             [['/', self.device, '/demods/0/trigger'], 0],
-             [['/', self.device, '/demods/1/trigger'], 0],
-             [['/', self.device, '/demods/2/trigger'], 0],
-             [['/', self.device, '/demods/3/trigger'], 0],
-             [['/', self.device, '/demods/4/trigger'], 0],
-             [['/', self.device, '/demods/5/trigger'], 0],
-             [['/', self.device, '/sigouts/0/enables/*'], 0],
-             [['/', self.device, '/sigouts/1/enables/*'], 0]
-        ]
-        self.daq.set(general_setting)
-       
-        # Set test settings
-        t1_sigOutIn_setting = [
-            [['/', self.device, '/sigins/',self.c,'/diff'], self.diff],  # Diff Button (Enable for differential mode to measure the difference between +In and -In.)
-            [['/', self.device, '/sigins/',self.c,'/imp50'], self.imp50],  # 50 Ohm Button (Enable to switch input impedance between low (50 Ohm) and high (approx 1 MOhm). Select for signal frequencies of > 10 MHz.) 
-            [['/', self.device, '/sigins/',self.c,'/ac'], self.ac],  # AC Button (Enable for AC coupling to remove DC signal. Cutoff frequency = 1kHz) 
-            [['/', self.device, '/sigins/',self.c,'/range'], self.range],  # Input Range               
-            [['/', self.device, '/demods/',self.c,'/order'], self.lowpass],  # Low-Pass Filter Order                        
-            [['/', self.device, '/demods/',self.c,'/timeconstant'], self.tc],  # Time Constant
-            [['/', self.device, '/demods/',self.c,'/rate'], self.rate],  # Data Transfer Rate 
-            [['/', self.device, '/demods/',self.c,'/oscselect'], self.channel-1],  # Oscillators
-            [['/', self.device, '/demods/',self.c,'/harmonic'], 1],  # Harmonicss
-            [['/', self.device, '/demods/',self.c,'/phaseshift'], 0],  # Phase Shift       
-            [['/', self.device, '/zctrls/',self.c,'/tamp/0/currentgain'], self.amplification],  #  Amplifier Setting
-            [['/', self.device, '/demods/',self.c,'/adcselect'], self.channel-1], # ???
-                        
-        # For locked reference signal
-            [['/', self.device, '/sigins/', self.c_2,'/imp50'], self.imp50_2],  # 50 Ohm Button (Enable to switch input impedance between low (50 Ohm) and high (approx 1 MOhm). Select for signal frequencies of > 10 MHz.)
-            [['/', self.device, '/plls/',self.c,'/enable'], 1],  # Manual [0], External Reference [1]
-            [['/', self.device, '/plls/',self.c,'/adcselect'], 1], # ???
+        try:
+            if self.lockin_connected:  
+                self.c_2 = str(self.channel) # Channel 2, with value 1, for the reference input
+                self.tc = self.ui.pickTC.value() # Import value for time constant
+                self.rate = self.ui.pickDTR.value() # Import value for data transfer rate
+                self.lowpass = self.ui.pickLPFO.value() # Import value for low pass filter order
+                self.range = 2 # This sets the default voltage range to 2
+                self.ac = 0 # AC off
+                self.imp50 = 0 # 50 Ohm off
+                self.imp50_2 = 1 # Turn on 50 Ohm on channel 2 to attenuate signal from chopper controller as reference signal
+                self.diff = 1 # Diff off
+    #            if self.ui.acButton.isChecked(): # AC on if button is checked
+    #                self.ac = 1
+    #            if self.ui.imp50Button.isChecked(): # 50 Ohm on if button is checked
+    #                self.imp50 = 1
+    #            if self.ui.diffButton.isChecked(): # Diff on if button is checked
+    #                self.diff = 1                
+    #            self.frequency = self.ui.pickFreq.value() # For manual frequency control. The frequency tab is currently not implemented in the GUI
 
-        # For manual reference signal - The frequency tab is currently not implemented in the GUI
-#            [['/', self.device, '/plls/',self.c,'/enable'], 0],  # Manual [0], External Reference [1]
-#            [['/', self.device, '/oscs/',self.c,'/freq'], self.frequency],  # Demodulation Frequency
-            
-        # Additional settings ?                        
-    #        [['/', self.device, '/sigouts/',self.c,'/add'], -179.8390],  # Output Add Button (Adds signal from "Add" connection)
-    #        [['/', self.device, '/sigouts/',self.c,'/on'], 1],  # Turn on Output Channel
-    #        [['/', self.device, '/sigouts/',self.c,'/enables/',c6], 1],  # Enable Output Channel
-    #        [['/', self.device, '/sigouts/',self.c,'/range'], 1],  # Output Range
-    #        [['/', self.device, '/sigouts/',self.c,'/amplitudes/',c6], amplitude],  # Output Amplitude
-    #        [['/', self.device, '/sigouts/',self.c,'/offset'], 0],  # Output Offset
-            
-        ]
-        self.daq.set(t1_sigOutIn_setting);       
-        time.sleep(1)  # wait 1s to get a settled lowpass filter
-        self.daq.flush()   # clean queue
-        
-#        self.logger.info("Lock-in settings have been updated")
+                self.lockin.setParameters(self.diff, self.imp50, self.imp50_2, self.ac, self.range, self.lowpass, self.rate, self.tc, self.c_2, amplification)
+                self.logger.info('Updating Lock-In Settings')
+
+            else:
+                self.logger.error("Lock-In not connected")
+                
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of LockinUpdateParameters function: {type(err)=}")
+            raise
+             
         
 # -----------------------------------------------------------------------------------------------------------        
     
@@ -743,68 +454,39 @@ class MainWindow(QtWidgets.QMainWindow):
             Raises error if filter wheel commands are invalid or monochromator not connected
 
         """
-        if self.mono_connected:
-            with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-                self.p.write('?filter\r'.encode())
-                self.p.timeout = 30000
-                response = self.p.readline() 
-                print(response)
-                
-                if response.endswith('1  ok\r\n'.encode(errors='ignore')):
-                    filterNo = 1
-                elif response.endswith('2  ok\r\n'.encode(errors='ignore')):
-                    filterNo = 2 
-                elif response.endswith('3  ok\r\n'.encode(errors='ignore')):
-                    filterNo = 3
-                elif response.endswith('4  ok\r\n'.encode(errors='ignore')):
-                    filterNo = 4 
-                elif response.endswith('5  ok\r\n'.encode(errors='ignore')):
-                    filterNo = 5
-                elif response.endswith('6  ok\r\n'.encode(errors='ignore')):
-                    filterNo = 6
-                elif response.endswith('ok\r\n'.encode(errors='ignore')):
-                    filterNo = 0
-                #elif response.endswith('\n'.encode(errors='ignore')):
-                    #filterNo = 0
-                
-                else:   # Do I need this?
-                    self.logger.error('Error: Monchromator Filter Response')
+        filterNo = self.mono.checkFilter()
 
-                startNM_F2 = int(self.ui.startNM_F2.value())
-                stopNM_F2 = int(self.ui.stopNM_F2.value())                
-                startNM_F3 = int(self.ui.startNM_F3.value())
-                stopNM_F3 = int(self.ui.stopNM_F3.value())
-                startNM_F4 = int(self.ui.startNM_F4.value())
-                stopNM_F4 = int(self.ui.stopNM_F4.value())
-                startNM_F5 = int(self.ui.startNM_F5.value())
-                stopNM_F5 = int(self.ui.stopNM_F5.value())            
+        startNM_F2 = int(self.ui.startNM_F2.value())
+        stopNM_F2 = int(self.ui.stopNM_F2.value())                
+        startNM_F3 = int(self.ui.startNM_F3.value())
+        stopNM_F3 = int(self.ui.stopNM_F3.value())
+        startNM_F4 = int(self.ui.startNM_F4.value())
+        stopNM_F4 = int(self.ui.stopNM_F4.value())
+        startNM_F5 = int(self.ui.startNM_F5.value())
+        stopNM_F5 = int(self.ui.stopNM_F5.value())            
 
-                if startNM_F2 <= wavelength < stopNM_F2: # Filter 3 [FESH0700]: from 350 - 649  -- including start, excluing end
-                    shouldbeFilterNo = 2                  
-                elif startNM_F3 <= wavelength < stopNM_F3: # Filter 3 [FESH0700]: from 350 - 649  -- including start, excluing end
-                    shouldbeFilterNo = 3  
-                elif startNM_F4 <= wavelength < stopNM_F4: # Filter 4 [FESH1000]: from 650 - 984  -- including start, excluding end
-                    shouldbeFilterNo = 4 
-                elif startNM_F5 <= wavelength <= stopNM_F5: # Filter 5 [FELH0950]: from 985 - 1800  -- including start, including end
-                    shouldbeFilterNo = 5
-                else:   
-    #                shouldbeFilterNo = 2
-                    self.logger.error('Error: Filter Out Of Range')
+        if startNM_F2 <= wavelength < stopNM_F2: # Filter 3 [FESH0700]: from 350 - 649  -- including start, excluing end
+            shouldbeFilterNo = 2                  
+        elif startNM_F3 <= wavelength < stopNM_F3: # Filter 3 [FESH0700]: from 350 - 649  -- including start, excluing end
+            shouldbeFilterNo = 3  
+        elif startNM_F4 <= wavelength < stopNM_F4: # Filter 4 [FESH1000]: from 650 - 984  -- including start, excluding end
+            shouldbeFilterNo = 4 
+        elif startNM_F5 <= wavelength <= stopNM_F5: # Filter 5 [FELH0950]: from 985 - 1800  -- including start, including end
+            shouldbeFilterNo = 5
+        else:   
+            self.logger.error('Error: Filter Out Of Range')
 
-                if shouldbeFilterNo != filterNo:
-                    self.chooseFilter(shouldbeFilterNo)    
+        if shouldbeFilterNo != filterNo:
+            self.mono.chooseFilter(shouldbeFilterNo)    
 
 
-                    # Take data and discard it, this is required to avoid kinks
-                    # Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms) 
-                    dataDict = self.daq.poll(5*self.tc,500)  # Dictionary with ['timestamp']['x']['y']['frequency']['phase']['dio']['trigger']['auxin0']['auxin1']['time']
+            # Take data and discard it, this is required to avoid kinks
+            # Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms) 
+            dataDict = self.daq.poll(5*self.tc,500)  
+            # Dictionary with ['timestamp']['x']['y']['frequency']['phase']['dio']['trigger']['auxin0']['auxin1']['time']
 
-                else:
-                    pass
-                
         else:
-            self.logger.error('Monochromator Not Connected') 
-    
+            pass
     
     def monoCheckGrating(self, wavelength):   # Grating switching points from GUI
         """Function to update monochromator grating position from GUI defaults.
@@ -824,50 +506,33 @@ class MainWindow(QtWidgets.QMainWindow):
             Raises error if grating commands are invalid or monochromator not connected
 
         """
-        if self.mono_connected:
-            with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-                self.p.write('?grating\r'.encode())
-                self.p.timeout = 30000
-                response = self.p.readline()
-                print(response)
+        gratingNo = self.mono.checkGrating()
+        
+        startNM_G1 = int(self.ui.startNM_G1.value())
+        stopNM_G1 = int(self.ui.stopNM_G1.value())
+        startNM_G2 = int(self.ui.startNM_G2.value())
+        stopNM_G2 = int(self.ui.stopNM_G2.value())
+        startNM_G3 = int(self.ui.startNM_G3.value())
+        stopNM_G3 = int(self.ui.stopNM_G3.value()) 
 
-                if response.endswith('1  ok\r\n'.encode()):
-                    gratingNo = 1
-                elif response.endswith('2  ok\r\n'.encode()):
-                    gratingNo = 2 
-                elif response.endswith('3  ok\r\n'.encode()):
-                    gratingNo = 3
-                else:   # Do I need this?
-                    self.logger.error('Error: Grating Response')
+        if startNM_G1 <= wavelength < stopNM_G1: # Grating 1: from 350 - 549  -- including start, excluding end
+            shouldbeGratingNo = 1  
+        elif startNM_G2 <= wavelength < stopNM_G2: # Grating 2: from 550 - 1299  -- including start, excluding end
+            shouldbeGratingNo = 2  
+        elif startNM_G3 <= wavelength <= stopNM_G3: # Grating 3: from 1300 - 1800  -- including start, including end
+            shouldbeGratingNo = 3
+        else:   # Do I need this?
+            self.logger.error('Error: Grating Out Of Range')
+        if shouldbeGratingNo != gratingNo:
+            self.mono.chooseGrating(shouldbeGratingNo)
 
-                startNM_G1 = int(self.ui.startNM_G1.value())
-                stopNM_G1 = int(self.ui.stopNM_G1.value())
-                startNM_G2 = int(self.ui.startNM_G2.value())
-                stopNM_G2 = int(self.ui.stopNM_G2.value())
-                startNM_G3 = int(self.ui.startNM_G3.value())
-                stopNM_G3 = int(self.ui.stopNM_G3.value()) 
+            # Take data and discard it, this is required to avoid kinks                
+            # Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms) 
+            dataDict = self.daq.poll(5*self.tc,500)  
+            # Dictionary with ['timestamp']['x']['y']['frequency']['phase']['dio']['trigger']['auxin0']['auxin1']['time']
 
-                if startNM_G1 <= wavelength < stopNM_G1: # Grating 1: from 350 - 549  -- including start, excluding end
-                    shouldbeGratingNo = 1  
-                elif startNM_G2 <= wavelength < stopNM_G2: # Grating 2: from 550 - 1299  -- including start, excluding end
-                    shouldbeGratingNo = 2  
-                elif startNM_G3 <= wavelength <= stopNM_G3: # Grating 3: from 1300 - 1800  -- including start, including end
-                    shouldbeGratingNo = 3
-                else:   # Do I need this?
-                    self.logger.error('Error: Grating Out Of Range')
-
-                if shouldbeGratingNo != gratingNo:
-                    self.chooseGrating(shouldbeGratingNo)
-
-                    # Take data and discard it, this is required to avoid kinks                
-                    # Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms) 
-                    dataDict = self.daq.poll(5*self.tc,500)  # Dictionary with ['timestamp']['x']['y']['frequency']['phase']['dio']['trigger']['auxin0']['auxin1']['time']
-   
-                else:
-                    pass
-                
         else:
-            self.logger.error('Monochromator Not Connected')
+            pass
 
 # -----------------------------------------------------------------------------------------------------------
 
@@ -894,167 +559,20 @@ class MainWindow(QtWidgets.QMainWindow):
             Raises error if second filter wheel not connected
        
         """
-#         with serial.Serial(port=self.filter_usb, baudrate=115200,
-#                                      bytesize=8, parity='N', stopbits=1,
-#                                      timeout=1, xonxoff=0, rtscts=0) as self._fw:
-#             if not self.filter_connected:
-#                 self.logger.error("External Filter Wheel Not Connected")
-#                 return False
-
-#             #ans = 'ERROR'
-#             self._sio = io.TextIOWrapper(io.BufferedRWPair(self._fw, self._fw, 1),
-#                                      newline=None, encoding='ascii')
-#             self._sio.flush()
-#             self._sio.write('pos=' + str(pos) + '\r')
+        
         if not self.filter_connected:
             self.logger.error("External Filter Wheel Not Connected")
             return False
 
         self.thorfilterwheel._do_set_position(pos-1)
         self.logger.info('Thorlabs filterwheel updated')
-        
-    
-        # ans = self._sio.readlines(2048)
-        # regerr = re.compile("Command error.*")
-        # errors = [m.group(0) for l in ans for m in [regerr.search(l)] if m]
-        # # print 'res=',repr(res),'ans=',repr(ans),cmd
-        # if len(errors) > 0:
-        #     print(errors[0])
-        #     return False
-        # ans = self.query(cmd + '?')
-        # print 'ans=',repr(ans),cmd+'?'
-        # print(ans)
-
         return True
         
 # -----------------------------------------------------------------------------------------------------------        
     
-    #### Functions to handle measurement buttons
+    #### Functions to handle measurement parameter and measurment itself
     
 # -----------------------------------------------------------------------------------------------------------  
-
-    # Set parameters and measure Silicon reference diode
-
-    def MonoHandleSiRefButton(self):
-        """Function to meausure silicon reference photodiode.
-        
-        Returns
-        -------
-        None 
-
-        """
-        start_si = self.ui.startNM_Si.value()
-        stop_si = self.ui.stopNM_Si.value()
-        step_si = self.ui.stepNM_Si.value()
-        amp_si = self.ui.pickAmp_Si.value()
-            
-        self.amplification = amp_si
-        self.LockinUpdateParameters()
-        self.MonoHandleSpeedButton()
-        
-        scan_list = self.createScanJob(start_si, stop_si, step_si)
-        self.HandleMeasurement(scan_list, start_si, stop_si, step_si, amp_si, 1)
-        
-        self.chooseFilter(1)        
-        self.ui.imageRef_Si.setPixmap(QtGui.QPixmap("Button_on.png"))      
-        self.logger.info('Finished Measurement')        
-    
-        
-    # Set parameters and measure InGaAs reference diode
-               
-    def MonoHandleGARefButton(self):
-        """Function to meausure silicon reference photodiode.
-        
-        Returns
-        -------
-        None 
-
-        """
-        start_ga = self.ui.startNM_GA.value()
-        stop_ga = self.ui.stopNM_GA.value()
-        step_ga = self.ui.stepNM_GA.value()
-        amp_ga = self.ui.pickAmp_GA.value()
-
-        self.amplification = amp_ga
-        self.LockinUpdateParameters()
-        self.MonoHandleSpeedButton()
-
-        scan_list = self.createScanJob(start_ga, stop_ga, step_ga)
-        self.HandleMeasurement(scan_list, start_ga, stop_ga, step_ga, amp_ga, 2)
-        
-        self.chooseFilter(1)              
-        self.ui.imageRef_GA.setPixmap(QtGui.QPixmap("Button_on.png"))       
-        self.logger.info('Finished Measurement')  
-        
-        
-    # Set parameters and measure sample
-        
-    def MonoHandleMeasureButton(self):
-        """Function to meausure samples with different wavelength ranges.
-        
-        Returns
-        -------
-        None
-
-        """
-        if self.ui.Range1.isChecked():    
-            start_r1 = self.ui.startNM_R1.value()
-            stop_r1 = self.ui.stopNM_R1.value()
-            step_r1 = self.ui.stepNM_R1.value()
-            amp_r1 = self.ui.pickAmp_R1.value()
-
-            self.amplification = amp_r1
-            self.LockinUpdateParameters()
-            self.MonoHandleSpeedButton()
-                        
-            scan_list = self.createScanJob(start_r1, stop_r1, step_r1)
-            self.HandleMeasurement(scan_list, start_r1, stop_r1, step_r1, amp_r1, 3)
-        
-        if self.ui.Range2.isChecked():         
-            start_r2 = self.ui.startNM_R2.value()
-            stop_r2 = self.ui.stopNM_R2.value()
-            step_r2 = self.ui.stepNM_R2.value()
-            amp_r2 = self.ui.pickAmp_R2.value()
-
-            self.amplification = amp_r2
-            self.LockinUpdateParameters()
-            self.MonoHandleSpeedButton()        
-            
-            scan_list = self.createScanJob(start_r2, stop_r2, step_r2)
-            self.HandleMeasurement(scan_list, start_r2, stop_r2, step_r2, amp_r2, 3)
-            
-        if self.ui.Range3.isChecked():   
-            start_r3 = self.ui.startNM_R3.value()
-            stop_r3 = self.ui.stopNM_R3.value()
-            step_r3 = self.ui.stepNM_R3.value()
-            amp_r3 = self.ui.pickAmp_R3.value()
-
-            self.amplification = amp_r3
-            self.LockinUpdateParameters()
-            self.MonoHandleSpeedButton()
-            
-            scan_list = self.createScanJob(start_r3, stop_r3, step_r3)
-            self.HandleMeasurement(scan_list, start_r3, stop_r3, step_r3, amp_r3, 3)       
-        
-        if self.ui.Range4.isChecked():   
-            start_r4 = self.ui.startNM_R4.value()
-            stop_r4 = self.ui.stopNM_R4.value()
-            step_r4 = self.ui.stepNM_R4.value()
-            amp_r4 = self.ui.pickAmp_R4.value()
-
-            self.amplification = amp_r4
-            self.LockinUpdateParameters()
-            self.MonoHandleSpeedButton()
-            
-            scan_list = self.createScanJob(start_r4, stop_r4, step_r4)
-            self.HandleMeasurement(scan_list, start_r4, stop_r4, step_r4, amp_r4, 3)
-            
-        self.chooseFilter(1)
-        self.ui.imageMeasure.setPixmap(QtGui.QPixmap("Button_on.png"))
-        self.logger.info('Finished Measurement')
-
-
-    # Set parameters for complete scan and measure sample
 
     def MonoHandleCompleteScanButton(self):
         """Function to measure samples with different filters.
@@ -1085,7 +603,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 measurement_values['f1']=[start_f1,stop_f1,step_f1,amp_f1]
                 
                 self.amplification = amp_f1
-                self.LockinUpdateParameters()
+                self.LockinUpdateParameters(self.amplification)
                 self.MonoHandleSpeedButton() 
                 
                 scan_list = self.createScanJob(start_f1, stop_f1, step_f1)
@@ -1109,7 +627,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 measurement_values['f2']=[start_f2,stop_f2,step_f2,amp_f2]
                 
                 self.amplification = amp_f2
-                self.LockinUpdateParameters()
+                self.LockinUpdateParameters(self.amplification)
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f2, stop_f2, step_f2)
@@ -1133,7 +651,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 measurement_values['f3']=[start_f3,stop_f3,step_f3,amp_f3]
                 
                 self.amplification = amp_f3
-                self.LockinUpdateParameters()
+                self.LockinUpdateParameters(self.amplification)
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f3, stop_f3, step_f3)
@@ -1157,7 +675,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 measurement_values['f4']=[start_f4,stop_f4,step_f4,amp_f4]
                 
                 self.amplification = amp_f4
-                self.LockinUpdateParameters()
+                self.LockinUpdateParameters(self.amplification)
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f4, stop_f4, step_f4)
@@ -1181,7 +699,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 measurement_values['f5']=[start_f5,stop_f5,step_f5,amp_f5]
 
                 self.amplification = amp_f5
-                self.LockinUpdateParameters()
+                self.LockinUpdateParameters(self.amplification)
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f5, stop_f5, step_f5)
@@ -1205,7 +723,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 measurement_values['f6']=[start_f6,stop_f6,step_f6,amp_f6]
 
                 self.amplification = amp_f6
-                self.LockinUpdateParameters()
+                self.LockinUpdateParameters(self.amplification)
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f6, stop_f6, step_f6)
@@ -1213,7 +731,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.changeFilter(1) 
         self.logger.info('Moving to open filter')               
-        self.chooseFilter(1)
+        self.mono.chooseFilter(1)
         self.complete_scan = False   
         self.ui.imageCompleteScan_start.setPixmap(QtGui.QPixmap("Button_off.png"))
         self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_off.png"))
@@ -1348,8 +866,8 @@ class MainWindow(QtWidgets.QMainWindow):
         except FileNotFoundError:
             self.logger.warning('No parameters were safed due to missing filename')
             
-        except Exception as e:
-            self.logger.exception(e)
+        except Exception as err:
+            self.logger.exception(err)
     
     
     def load_parameter(self):
@@ -1446,42 +964,14 @@ class MainWindow(QtWidgets.QMainWindow):
         scan_list = []       
         number = int((stop-start)/step)
         
-        for n in range(-1, number + 1): # -1 to start from before the beginning, +1 to include the last iteration of 'number', [and +2 to go above stop (this can be changed later])
+        for n in range(-1, number + 1): 
+        # -1 to start from before the beginning, +1 to include the last iteration of 'number', [and +2 to go above stop (this can
+        # be changed later])
             wavelength = start + n*step
             scan_list.append(wavelength)
             
         return scan_list
            
-    # Scan through wavelength range   ### Not being used currently
-           
-    def Scan(self, scan_list):
-        """Function to send commmands to monochromator and move through wavelength list.
-        
-        Parameters
-        ----------
-        scan_list: list of ints, required
-            List of wavelength values to scan
-            
-        Returns
-        -------
-        None
-        
-        Raises
-        ------
-        LoggerError
-            Raises error if second filter wheel not connected
-
-        """
-        if self.mono_connected:
-            for element in scan_list:
-                with serial.Serial(self.mono_usb, 9600, timeout=0) as self.p:
-                    self.p.write('{:.2f} GOTO\r'.format(element).encode())
-    #                self.p.write('{:.2f} NM\r'.format(stop).encode())
-                    self.waitForOK()
-
-        else:
-            self.logger.error('Monochromator Not Connected')
-        
 # -----------------------------------------------------------------------------------------------------------        
     
     #### Functions to handle measurement
@@ -1569,7 +1059,7 @@ class MainWindow(QtWidgets.QMainWindow):
         columns = ['Wavelength', 'Mean Current', 'Amplification', 'Mean R', 'Mean Frequency', 'Mean Phase']    
         
         self.measuring = True 
-        self.ui.imageStop.setPixmap(QtGui.QPixmap("Button_off.png"))
+        self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_off.png"))
         
         # Set up plot style                
         if self.do_plot:
@@ -1602,7 +1092,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.monoCheckFilter(wavelength)
                 self.monoCheckGrating(wavelength)
                 
-                self.chooseWavelength(wavelength)
+                self.mono.chooseWavelength(wavelength)
                 
                 # Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms) 
                 dataDict = self.daq.poll(5*self.tc,500)  # Dictionary with ['timestamp']['x']['y']['frequency']['phase']['dio']['trigger']['auxin0']['auxin1']['time']
@@ -1772,42 +1262,6 @@ class MainWindow(QtWidgets.QMainWindow):
         plt.show()
         
         return fig1
-#        plt.rcParams['font.family']='sans-serif'
-#        plt.rcParams['font.sans-serif']='Times'   
-        
-#        plt.show()
-
-#     def pause_without_popup_plot(self,interval):
-#         """Function to pause matplotlib without plt.show()
-        
-#         Parameters
-#         ----------
-#         interval: int, required
-#             Pause time
-            
-#         Returns
-#         -------
-#         None
-        
-#         Notes
-#         -----
-#         This is a reimplementation of the matplotlib pause function, removing the final show() call.
-#         It prevents the matplotlib plot window to pop up after each measurement
-        
-#         Code was taken from a stack exchange answer by ImportanceOfBeingErnest
-        
-#         """
-#         # Matplotlib backend choice influences the plotting process:
-#         backend = plt.rcParams['backend'] 
-#         # Check whether current backend is in a list of interactive backends:
-#         if backend in matplotlib.rcsetup.interactive_bk: 
-#             figManager = matplotlib._pylab_helpers.Gcf.get_active() # Activate current figure
-#             if figManager is not None:                              # Check if figManager exists 
-#                 canvas = figManager.canvas                          # Assigns the matplotlib canvas
-#                 if canvas.figure.stale:                             # If stale=true, internal state of artist has changed
-#                     canvas.draw()                                   # Redraw canvas
-#                 canvas.start_event_loop(interval)                   # Blocks events until interval time is reached
-#                 return
 
     def pause(self,interval):
         """Function to pause matplotlib without plt.show()
@@ -1894,7 +1348,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         """
         self.measuring = False
-        self.ui.imageStop.setPixmap(QtGui.QPixmap("Button_on.png"))
+        self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_on.png"))
         return self.measuring
 
 
@@ -1941,10 +1395,15 @@ class MainWindow(QtWidgets.QMainWindow):
         
 def main():
 
-    app = QtWidgets.QApplication(sys.argv)
-    monoUI = MainWindow()
-    monoUI.show()
-    sys.exit(app.exec_())
+    try:
+        app = QtWidgets.QApplication(sys.argv)
+        monoUI = MainWindow()
+        monoUI.show()
+        sys.exit(app.exec_())
+        
+    except Exception as error:
+        logging.error(f"Unexpected {error=} during main function, {type(error)=}")
+        raise
 
 if __name__ == "__main__": 
     main()
