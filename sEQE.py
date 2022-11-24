@@ -36,6 +36,7 @@ import codecs
 from monochromator import Monochromator
 from microscope.filterwheels.thorlabs import ThorlabsFilterWheel
 from lockin import LockIn
+from LINK_automation import Cryostat
 
 from tkinter import Tk
 from tkinter import filedialog 
@@ -47,11 +48,11 @@ class MainWindow(QtWidgets.QMainWindow):
         file = pathlib.Path('pathsNdevices_config.txt')
         if file.exists():
             pNpdata = file.read_text().split(',')
-            print(pNpdata)
             self.zurich_device = pNpdata[0]
             self.filter_usb = pNpdata[1]
             self.mono_usb =  pNpdata[2]
             self.save_path = pNpdata[3]
+            self.LINK_path = pNpdata[4]
             
             for i in range(len(pNpdata)):
                 if pNpdata[i] == '':
@@ -72,8 +73,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.filter_usb = port_prefix+str(input('Which port number is used by the second filter wheel ? - type a number  '))#'COM4'
             self.mono_usb =  port_prefix+str(input('Which port number is used by the monochromator ? - type a number  '))#'COM1'
             self.save_path = pathlib.Path(input('Where do you want to save your data ? - copy absolute path of folder  '))#'C:\\Users\\Public\\Documents\\sEQE'
+            self.LINK_path = pathlib.Path(input('Where does your LINK.exe reside ? - copy absolut path to .exe file  ')) #'C:\\Program Files\\Linkam Scientific\\LINK\\LINK.exe'
             
-            file.write_text(f'{self.zurich_device},{self.filter_usb},{self.mono_usb},{self.save_path}')
+            file.write_text(f'{self.zurich_device},{self.filter_usb},{self.mono_usb},{self.save_path},{self.LINK_path}')
             #print(file.read_text())
             
         # if platform.system() == 'Linux':
@@ -108,10 +110,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.mono_connected = False   # Set the monochromator connection to False
         self.lockin_connected = False   # Set the Lock-in connection to False
         self.filter_connected = False  # Set the filterwheel connection to False
+        self.cryo_connected = False # Set the cryostat connection To False
         
         self.thorfilterwheel = ThorlabsFilterWheel(com=self.filter_usb) # Initialize Thorlabs filter wheel
         self.mono = Monochromator(self.mono_usb)
         self.lockin = LockIn(self.zurich_device)
+        self.cryo = Cryostat(self.LINK_path)
         
         # General Setup
          
@@ -143,12 +147,16 @@ class MainWindow(QtWidgets.QMainWindow):
             
         # Handle Lock-in Buttons
         
-        self.ui.connectButton_Lockin.clicked.connect(self.connectToLockin)   # Connect only to Lock-in         
+        self.ui.connectButton_Lockin.clicked.connect(self.connectToLockin)      
         self.ui.lockinParameterButton.clicked.connect(self.LockinHandleParameterButton)   # Set Lock-in parameters
 
         # Handle Filterwheel Buttons
 
-        self.ui.connectButton_Filter.clicked.connect(self.connectToFilter) # Connect only to Filterwheel
+        self.ui.connectButton_Filter.clicked.connect(self.connectToFilter)
+        
+        # Handle Cryostat Buttons
+        
+        self.ui.connectButton_Cryo.clicked.connect(self.connectToCryo)
          
         # Handle Combined Buttons
 
@@ -216,10 +224,20 @@ class MainWindow(QtWidgets.QMainWindow):
         None
         
         """
-        self.mono_connected = self.mono.connect()
-        if self.mono_connected:
-            self.logger.info('Connection to Monochromator Established')
-            self.ui.imageConnect_mono.setPixmap(QtGui.QPixmap("Button_on.png"))           
+        try:
+            self.mono_connected = self.mono.connect()
+            
+            if self.mono_connected:
+                self.logger.info('Connection to Monochromator Established')
+                self.ui.imageConnect_mono.setPixmap(QtGui.QPixmap("Button_on.png"))
+            
+            else:
+                self.logger.error("No connection to Monochromator - check cables and try again")
+            
+            
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of connectToMono function: {type(err)=}")
+            raise
             
     # Establish connection to LOCKIN
     
@@ -231,11 +249,16 @@ class MainWindow(QtWidgets.QMainWindow):
         list
             Zurich Instruments localhost name and device details
         """
-        self.daq, self.device, self.lockin_connected = self.lockin.connect()
-        
-        self.ui.imageConnect_lockin.setPixmap(QtGui.QPixmap("Button_on.png"))
-        
-        return self.daq, self.device
+        try:
+            self.daq, self.device, self.lockin_connected = self.lockin.connect()
+
+            self.ui.imageConnect_lockin.setPixmap(QtGui.QPixmap("Button_on.png"))
+
+            return self.daq, self.device
+    
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of connectToLockin function: {type(err)=}")
+            raise
 
     # Establish connection to Filterwheel
 
@@ -247,15 +270,47 @@ class MainWindow(QtWidgets.QMainWindow):
         None
         
         """ 
-        
-        if self.thorfilterwheel.position == 0:
-            self.filter_connected = True
-            self.logger.info("Connection to External Filter Wheel Established")
-            self.ui.imageConnect_filter.setPixmap(QtGui.QPixmap("Button_on.png"))
-        else:
-            self.logger.error('Port {0} is unavailable: {1}'.format(self.filter_usb, ex))
-            self.filter_connected = False
+        try:
+            if self.thorfilterwheel.position == 0:
+                self.filter_connected = True
+                self.logger.info("Connection to External Filter Wheel Established")
+                self.ui.imageConnect_filter.setPixmap(QtGui.QPixmap("Button_on.png"))
+            else:
+                self.logger.error('Port {0} is unavailable: {1}'.format(self.filter_usb, ex))
+                self.filter_connected = False
+            
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of connectToFilter function: {type(err)=}")
+            raise
 
+            
+    def connectToCryo(self):
+        """Function to start LINK programm and connect to Cryostat
+        
+        Returns
+        -------
+        None 
+        
+        Notes
+        -----
+        This function uses the python package pyautogui. Dont use the mouse during execution, it will disturb the functions execution.
+        
+        """
+        try:
+            
+            self.cryo.connected = self.cryo.connect()
+            if self.cryo_connected:
+                self.logger.info("Connection to Linkam's cryostat established")
+                self.ui.imageConnect_cryo.setPixmap(QtGui.QPixmap("Button_on.png"))
+            else:
+                self.logger.error("No connection to Linkam's cryostat - check cables and screenshots")
+
+                  
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of connectToCryo function: {type(err)=}")
+            raise
+
+            
 # -----------------------------------------------------------------------------------------------------------        
         
     # Establish connection to all equipment
@@ -271,6 +326,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.connectToLockin()
         self.connectToMono()
         self.connectToFilter()
+        self.connectToCryo()
         
         self.ui.imageConnect.setPixmap(QtGui.QPixmap("Button_on.png"))        
     

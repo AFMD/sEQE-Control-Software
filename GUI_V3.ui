@@ -3391,7 +3391,7 @@
        <string>Cryostat</string>
       </property>
      </widget>
-     <widget class="QLabel" name="imageConnect_Cryo_2">
+     <widget class="QLabel" name="imageConnect_cryo">
       <property name="geometry">
        <rect>
         <x>600</x>
