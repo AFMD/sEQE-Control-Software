@@ -298,7 +298,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         try:
             
-            self.cryo.connected = self.cryo.connect()
+            self.cryo_connected = self.cryo.connect()
             if self.cryo_connected:
                 self.logger.info("Connection to Linkam's cryostat established")
                 self.ui.imageConnect_cryo.setPixmap(QtGui.QPixmap("Button_on.png"))
