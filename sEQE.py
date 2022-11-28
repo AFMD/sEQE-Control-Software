@@ -166,8 +166,13 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.ui.measureButtonRef_GA.clicked.connect(self.MonoHandleGARefButton)        
         # self.ui.measureButtonDev.clicked.connect(self.MonoHandleMeasureButton)        
         # self.ui.stopButton.clicked.connect(self.HandleStopButton)
-
-        self.ui.completeScanButton_start.clicked.connect(self.MonoHandleCompleteScanButton)  #########################################################################################
+        
+        
+        # If cryostate button ticked execute the self.MonoCryoCompleteScannButton function
+        self.ui.completeScanButton_start.clicked.connect(self.MonoHandleCompleteScanButton)
+        
+        
+#########################################################################################
         self.ui.completeScanButton_stop.clicked.connect(self.HandleStopCompleteScanButton)   #########################################################################################
         
         # Save and Import data from files or naming from path
@@ -641,6 +646,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.complete_scan = True
         self.ui.imageCompleteScan_start.setPixmap(QtGui.QPixmap("Button_on.png"))
         measurement_values = {}
+        
         if self.ui.scan_noFilter.isChecked():
 
             self.changeFilter(1)
@@ -795,7 +801,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.logger.info('Finished Measurement') 
         
         measurement_parameter = pd.DataFrame.from_dict(measurement_values)
-            
+        
+    def MonoCryoHandleCompleteMeasurementButton(self):
+        # If cryo connected: 
+        # t_0 = user input from GUI , buffertime = user input from GUI
+        # self.calculate_time(t_0,b,c,buffertime)
+        # for ramp in dictionary : 
+        #  wait the value calculated by self.calculate_time
+        #  self.MonoHandleCompleteScanButton()
+        #  self.logger.info(f'{ramp}.ramp is completed')
+        #  self.cryo.change.ramp_cycle(True)
+        #
+        pass 
+    
+    
     def load_naming(self):
         """Function to load naming from directory path
 
@@ -1014,6 +1033,20 @@ class MainWindow(QtWidgets.QMainWindow):
             logging.error(f"Unexpected {err=} during execution of load_cryo_parameter function: {type(err)=}")
             raise
         
+        
+    def calculate_time(self,t_0,buffertime):
+        """Methode to calculate measurment time for synchronization with cryo.
+        
+        """
+        # get filename.txt from GUI textfiled and "with filename.txt as " readlines and for each line import parameter as a,b,c
+        # 
+        #     calculate 1. ramp time and save in ramp dictionary
+        #     t_0 = a 
+        # 
+        # 
+        # return dictionary 
+        pass 
+    
     # General function to create scanning list
         
     def createScanJob(self, start, stop, step):

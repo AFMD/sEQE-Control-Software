@@ -47,7 +47,7 @@ class Cryostat:
     #     return files_found
     
     def define_picture_path(self):
-        """Function to retrieve the screenshot folder.
+        """Methode to retrieve the screenshot folder.
         
         Returns
         -------
@@ -72,7 +72,7 @@ class Cryostat:
     #     return None
 
     def connect(self,):
-        """Function to connect T96 controller to LINK.
+        """Methode to connect T96 controller to LINK.
         
         Returns
         ------
@@ -103,7 +103,7 @@ class Cryostat:
 
 
     def import_parameter(self,filename):
-        """Function to import parameters via profile file.
+        """Methode to import parameters via profile file.
         
         Parameters
         ----------
@@ -132,7 +132,7 @@ class Cryostat:
 
     def set_parameter(self,a,b,c): #40 pixels down is the enter
         """ methode to set manually the parameter of one ramp cycle """
-        array0 = [a,b,c]
+        array0 = [a,b,c] # Import via csv file 
         array = [self.picturepath / 'rate_logo.png',self.picturepath / 'limit_logo.png',self.picturepath / 'time_logo.png']#'pictures\lnp-speed_logo.png']
         try:
             for parameter,picture in list(zip(array0,array)):
