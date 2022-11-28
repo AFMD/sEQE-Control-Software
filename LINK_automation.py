@@ -102,18 +102,32 @@ class Cryostat:
             raise
 
 
-    def import_cryoparameter(self,filename):
-        """ methode to import parameters via profile file 
-            Give ONLY filename to methode, not path
+    def import_parameter(self,filename):
+        """Function to import parameters via profile file.
+        
+        Parameters
+        ----------
+        filename: string, required
+            name of LINK's profile file
+        
+        Notes
+        -----
+        Give ONLY filename, not path
+        
         """
-        file_menu = pyag.locateOnScreen(str(self.picturepath / 'file-menu.png') ,confidence=0.9)
-        pyag.click(file_menu, clicks = 1 ,button='left')
-        pyag.move(10,25)
-        profile_menu = pyag.locateOnScreen(str(self.picturepath / 'Profile_file-button.png') ,confidence=0.9)
-        pyag.click(profile_menu, clicks = 1 ,button='left')
-        pyag.write(filename)
-        pyag.press('enter')
-        return None
+        try:
+            pyag.confirm('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
+            file_menu = pyag.locateOnScreen(str(self.picturepath / 'file-menu.png') ,confidence=0.9)
+            pyag.click(file_menu, clicks = 1 ,button='left')
+            pyag.move(10,25)
+            profile_menu = pyag.locateOnScreen(str(self.picturepath / 'Profile_file-button.png') ,confidence=0.9)
+            pyag.click(profile_menu, clicks = 1 ,button='left')
+            pyag.write(filename)
+            pyag.press('enter')
+        
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of import_parameter function: {type(err)=}")
+            raise
 
 
     def set_parameter(self,a,b,c): #40 pixels down is the enter

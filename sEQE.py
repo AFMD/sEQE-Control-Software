@@ -172,8 +172,8 @@ class MainWindow(QtWidgets.QMainWindow):
         
         # Save and Import data from files or naming from path
         
-        self.ui.save_to_file.clicked.connect(self.save_parameter) # Save measurement parameter to file
-        self.ui.import_from_file.clicked.connect(self.load_parameter)
+        self.ui.save_to_file.clicked.connect(self.save_mono_parameter) # Save measurement parameter to file
+        self.ui.import_from_file.clicked.connect(self.load_mono_parameter)
         self.ui.importNamingButton.clicked.connect(self.load_naming)
         
         
@@ -795,7 +795,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.logger.info('Finished Measurement') 
         
         measurement_parameter = pd.DataFrame.from_dict(measurement_values)
-                #self.save(measurement_values)
             
     def load_naming(self):
         """Function to load naming from directory path
@@ -823,7 +822,7 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.logger.exception(e)
     
-    def save_parameter(self):
+    def save_mono_parameter(self):
         """Function to save measurement parameters to file
         
         Parameters
@@ -926,7 +925,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.logger.exception(err)
     
     
-    def load_parameter(self):
+    def load_mono_parameter(self):
         """Function to load measurement parameters from file.
         
         Parameters
@@ -996,6 +995,24 @@ class MainWindow(QtWidgets.QMainWindow):
             self.logger.exception(e)        
 
         
+    def load_cryo_parameter(self):
+        """Function to load cryostat parameter from LINK's profile files.
+        
+        Returns
+        -------
+        none
+        """
+        
+        try:
+            root = Tk() # Creates master window for tkinters filedialog window
+            root.withdraw() # Hides master window
+            profilefile = filedialog.askopenfilename(title= 'Select the correct LINK profile file').split('/')[-1] # Extracting filename from absolut path
+            
+            self.cryo.import_parameter(profilefile)
+            
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of load_cryo_parameter function: {type(err)=}")
+            raise
         
     # General function to create scanning list
         
