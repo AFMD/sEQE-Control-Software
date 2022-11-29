@@ -157,7 +157,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         # Handle Cryostat Buttons
         
-        self.ui.connectButton_Cryo.clicked.connect(self.connectToCryo)
+        #self.ui.connectButton_Cryo.clicked.connect(self.connectToCryo)
          
         # Handle Combined Buttons
 
