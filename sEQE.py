@@ -161,12 +161,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # Handle Combined Buttons
 
         self.ui.connectButton.clicked.connect(self.connectToEquipment)
-
-        # self.ui.measureButtonRef_Si.clicked.connect(self.MonoHandleSiRefButton)
-        # self.ui.measureButtonRef_GA.clicked.connect(self.MonoHandleGARefButton)        
-        # self.ui.measureButtonDev.clicked.connect(self.MonoHandleMeasureButton)        
-        # self.ui.stopButton.clicked.connect(self.HandleStopButton)
-        
         
         # If cryostate button ticked execute the self.MonoCryoCompleteScannButton function
         self.ui.completeScanButton_start.clicked.connect(self.MonoHandleCompleteScanButton)
@@ -1013,6 +1007,16 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.logger.exception(e)        
 
+            
+    def save_cryo_parameter(self):
+        """Function to save cryostat parameter into .txt and LINK's .lpf format. 
+        """
+        # Read data + filename from GUI
+        # Create .txt file or raise question to overwrite an equally named file
+        # Type in data 
+        # Save and Close file 
+        # Open LINK
+        # Automatically type in GUI parameter and name file
         
     def load_cryo_parameter(self):
         """Function to load cryostat parameter from LINK's profile files.
