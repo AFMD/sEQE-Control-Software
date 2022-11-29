@@ -48,6 +48,7 @@ class MainWindow(QtWidgets.QMainWindow):
         file = pathlib.Path('pathsNdevices_config.txt')
         if file.exists():
             pNpdata = file.read_text().split(',')
+            print(pNpdata)
             self.zurich_device = pNpdata[0]
             self.filter_usb = pNpdata[1]
             self.mono_usb =  pNpdata[2]
@@ -167,6 +168,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         
 #########################################################################################
+
         self.ui.completeScanButton_stop.clicked.connect(self.HandleStopCompleteScanButton)   #########################################################################################
         
         # Save and Import data from files or naming from path
@@ -308,9 +310,6 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of connectToCryo function: {type(err)=}")
             raise
-
-            
-# -----------------------------------------------------------------------------------------------------------        
         
     # Establish connection to all equipment
         
@@ -464,6 +463,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.imp50 = 0 # 50 Ohm off
                 self.imp50_2 = 1 # Turn on 50 Ohm on channel 2 to attenuate signal from chopper controller as reference signal
                 self.diff = 1 # Diff off
+                self.diff_2 = 0 #diff for channel 2 off
     #            if self.ui.acButton.isChecked(): # AC on if button is checked
     #                self.ac = 1
     #            if self.ui.imp50Button.isChecked(): # 50 Ohm on if button is checked
@@ -472,7 +472,7 @@ class MainWindow(QtWidgets.QMainWindow):
     #                self.diff = 1                
     #            self.frequency = self.ui.pickFreq.value() # For manual frequency control. The frequency tab is currently not implemented in the GUI
 
-                self.lockin.setParameters(self.diff, self.imp50, self.imp50_2, self.ac, self.range, self.lowpass, self.rate, self.tc, self.c_2, amplification)
+                self.lockin.setParameters(self.diff_2, self.diff, self.imp50, self.imp50_2, self.ac, self.range, self.lowpass, self.rate, self.tc, self.c_2, amplification)
                 self.logger.info('Updating Lock-In Settings')
 
             else:
