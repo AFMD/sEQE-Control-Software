@@ -32,6 +32,7 @@ from numpy import *
 from scipy.interpolate import interp1d
 
 import codecs
+import pyautogui as pyag
 
 from monochromator import Monochromator
 from microscope.filterwheels.thorlabs import ThorlabsFilterWheel
@@ -157,7 +158,9 @@ class MainWindow(QtWidgets.QMainWindow):
         
         # Handle Cryostat Buttons
         
-        #self.ui.connectButton_Cryo.clicked.connect(self.connectToCryo)
+        self.ui.connectButton_Cryo.clicked.connect(self.connectToCryo)
+        self.ui.save_cryo_to_csv.clicked.connect(self.save_cryo_parameter)
+        self.ui.convert_csv_to_lpf.clicked.connect(self.convert_cryo_parameter)
          
         # Handle Combined Buttons
 
@@ -958,7 +961,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             root = Tk() # Creates master window for tkinters filedialog window
             root.withdraw() # Hides master window
-            filepath = filedialog.askopenfilename() # Creates pop-up window to ask for file save
+            filepath = filedialog.askopenfilename() # Creates pop-up window to ask for file
 
             measurement_parameters = pd.read_csv(filepath)
 
@@ -1009,15 +1012,76 @@ class MainWindow(QtWidgets.QMainWindow):
 
             
     def save_cryo_parameter(self):
-        """Function to save cryostat parameter into .txt and LINK's .lpf format. 
+        """Function to save cryostat parameter into .csv file. 
+        
+        Returns
+        -------
+        None
+        
+        Note
+        ----
+        Creates .csv file in chosen directory containing cryostat parameter.
+        
+        Raises
+        ------
+        ValueError
+            If .csv file has more values per row then LINK takes in per ramp cycle
+        
         """
+        try:
+            root = Tk() # Creates master window for tkinters filedialog window
+            root.withdraw() # Hides master window
+            filepath = filedialog.asksaveasfilename(title= "Choose cryo parameter file name") # Creates pop-up window to ask for file save
+
+            content = self.ui.cryo_parameter.toPlainText().split('\n')
+            column_labels = content[0]
+            column_labels = column_labels.split(',')
+            data = content[1::]
+            print(data)
+            for element in data:
+                data[data.index(element)] = element.split(',')
+            print(data)
+            content = pd.DataFrame(data,columns = column_labels )
+            content.to_csv(filepath+'.csv', index= False)
+        
+        except ValueError: 
+            self.logger.error('Too many values in a line of the cryo parameter .csv file - confirm that each row only has three values')
+            pyag.alert('Too many values in a line of the cryo parameter .csv file - confirm that each row only has three values')
+            
+        except Exception as err:
+            self.logger.error(f"Unexpected {err=} during save_cryo_parameter function, {type(err)=}")
+            raise 
+            
         # Read data + filename from GUI
         # Create .txt file or raise question to overwrite an equally named file
         # Type in data 
         # Save and Close file 
         # Open LINK
         # Automatically type in GUI parameter and name file
+                               
+    def convert_cryo_parameter(self):
+        """Function to convert .csv file into 
+        """
+        try: 
+            root = Tk() # Creates master window for tkinters filedialog window
+            root.withdraw() # Hides master window
+            filepath = filedialog.askopenfilename()
+            
+            data = pd.read_csv(filepath)
+            
+            if self.cryo_connected:
+                
+                for parameter in data:
+                    
+                
+            else:
+                self.logger.info('Could not convert .csv to .lpf file - Cryostat not connected')
+
         
+        except Exception as err:
+            self.logger.error(f"Unexpected {err=} during save_cryo_parameter function, {type(err)=}")
+            
+                               
     def load_cryo_parameter(self):
         """Function to load cryostat parameter from LINK's profile files.
         

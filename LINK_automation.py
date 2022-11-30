@@ -102,7 +102,7 @@ class Cryostat:
             raise
 
 
-    def import_parameter(self,filename):
+    def import_lpf(self,filename):
         """Methode to import parameters via profile file.
         
         Parameters
@@ -126,10 +126,15 @@ class Cryostat:
             pyag.press('enter')
         
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of import_parameter function: {type(err)=}")
+            logging.error(f"Unexpected {err=} during execution of import_lpf methode: {type(err)=}")
             raise
 
 
+    def create_lpf(self,filename):
+        """Methode to save cryo parameter to .lpf file.
+        """
+        
+            
     def set_parameter(self,a,b,c): #40 pixels down is the enter
         """ methode to set manually the parameter of one ramp cycle """
         array0 = [a,b,c] # Import via csv file 
