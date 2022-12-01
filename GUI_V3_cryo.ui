@@ -1788,7 +1788,11 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QLineEdit" name="file"/>
+        <widget class="QLineEdit" name="file">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </item>
        <item row="1" column="2">
         <widget class="QLineEdit" name="experiment"/>
@@ -1878,7 +1882,7 @@
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>700</y>
+        <y>750</y>
         <width>951</width>
         <height>20</height>
        </rect>
@@ -3086,8 +3090,8 @@
      <widget class="QLabel" name="imageCompleteScan_start">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>730</y>
+        <x>50</x>
+        <y>800</y>
         <width>51</width>
         <height>41</height>
        </rect>
@@ -3105,8 +3109,8 @@
      <widget class="QLabel" name="imageCompleteScan_stop">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>810</y>
+        <x>440</x>
+        <y>800</y>
         <width>51</width>
         <height>41</height>
        </rect>
@@ -3124,8 +3128,8 @@
      <widget class="QPushButton" name="completeScanButton_start">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>720</y>
+        <x>120</x>
+        <y>790</y>
         <width>281</width>
         <height>61</height>
        </rect>
@@ -3144,8 +3148,8 @@
      <widget class="QPushButton" name="completeScanButton_stop">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>800</y>
+        <x>510</x>
+        <y>790</y>
         <width>281</width>
         <height>61</height>
        </rect>
@@ -3552,32 +3556,6 @@
       <property name="checked">
        <bool>false</bool>
       </property>
-      <widget class="QPushButton" name="import_cryo_from_file">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>331</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Import cryo parameter from .lpf file</string>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-      </widget>
       <widget class="QPlainTextEdit" name="cryo_parameter">
        <property name="geometry">
         <rect>
@@ -3600,7 +3578,7 @@
         <bool>false</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="save_cryo_to_csv">
+      <widget class="QPushButton" name="export_cryo_to_csv">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -3617,7 +3595,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Save cryo parameter to .csv file</string>
+        <string>Export cryo parameter to .csv file</string>
        </property>
       </widget>
       <widget class="QPushButton" name="convert_csv_to_lpf">
@@ -3640,6 +3618,57 @@
         <string>Convert .csv to .lpf file</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="import_cryo_from_file">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>331</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Import cryo parameter from file</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QDoubleSpinBox" name="current_temperature">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>730</y>
+        <width>62</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <double>-99.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>700</y>
+        <width>361</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>What is the current temperature of the cryostat ?</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="widget">
