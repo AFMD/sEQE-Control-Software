@@ -170,18 +170,17 @@ class Cryostat:
         """ methode to set parameter for multiple ramp cycles """ 
         try:
             ramp_cycle = 0
-            #for i in range(number_ramp_cycles):
-                #change_ramp_cycle(False)
+            
             for i in range(number_ramp_cycles):
-                rate = args[i][0]
-                temperature = args[i][1]
-                duration = args[i][2]
-                args = args[3:]
+                rate = args[0][0]        # First row first item
+                temperature = args[0][1] # First row second item
+                duration = args[0][2]    # First row third item
+                args = args[3:]          # Move on to second row 
                 self.set_parameter(rate,temperature,duration)
                 ramp_cycle += 1
                 self.change_ramp_cycle(ramp_cycle < number_ramp_cycles)
                 print(ramp_cycle)
-            for i in range(ramp_cycle-2):
+            for i in range(ramp_cycle-2): # by emperical findings it is -2 to get back to the first ramp
                 self.change_ramp_cycle(False)
         except KeyboardInterrupt:
             print('\n')
