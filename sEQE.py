@@ -159,9 +159,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # Handle Cryostat Buttons
         
         self.ui.connectButton_Cryo.clicked.connect(self.connectToCryo)
-        self.ui.save_cryo_to_csv.clicked.connect(self.save_cryo_parameter)
+        self.ui.export_cryo_to_csv.clicked.connect(self.save_cryo_parameter)
+        self.ui.import_cryo_from_file.clicked.connect(self.load_cryo_parameter)
         self.ui.convert_csv_to_lpf.clicked.connect(self.convert_cryo_parameter)
-         
         # Handle Combined Buttons
 
         self.ui.connectButton.clicked.connect(self.connectToEquipment)
@@ -1043,6 +1043,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 data[data.index(element)] = element.split(',')
             content = pd.DataFrame(data,columns = column_labels )
             content.to_csv(filepath+'.csv', index= False)
+            
+        except IndexError:
+             self.logger.error('Something went wrong - check file name')
         
         except ValueError: 
             self.logger.error('Too many values in a line of the cryo parameter .csv file - confirm that each row only has three values')
@@ -1064,23 +1067,25 @@ class MainWindow(QtWidgets.QMainWindow):
             filepath = filedialog.askopenfilename()
             
             data = pd.read_csv(filepath)
-            ramp_cycles = len(data.index)
+            num_ramp_cycles = len(data.index)
             
             data = data.to_numpy()
+            print(data)
             
             if self.cryo_connected:
-                self.cryo.multiple_ramps(ramp_cycles,data)
-                #self.cryo.create_lpf(filepath)
+                pyag.confirm('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
+                self.cryo.multiple_ramps(num_ramp_cycles,data)
+                self.cryo.export_lpf(filepath.split('/')[-1]) # Give only filename, not filepath
                 self.logger.info('Typed in the cryometer parameter and saved to .lpf file')
-
+        
                 
             else:
                 self.logger.info('Could not convert .csv to .lpf file - Cryostat not connected')
 
         
         except Exception as err:
-            self.logger.error(f"Unexpected {err=} during save_cryo_parameter function, {type(err)=}")
-            
+            self.logger.error(f"Unexpected {err=} during convert_cryo_parameter function, {type(err)=}")
+            raise
                                
     def load_cryo_parameter(self):
         """Function to load cryostat parameter from LINK's profile files.
@@ -1094,22 +1099,42 @@ class MainWindow(QtWidgets.QMainWindow):
             root = Tk() # Creates master window for tkinters filedialog window
             root.withdraw() # Hides master window
             profilefile = filedialog.askopenfilename(title= 'Select the correct LINK profile file').split('/')[-1] # Extracting filename from absolut path
-            
-            self.cryo.import_parameter(profilefile)
+            pyag.confirm('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
+            self.cryo.import_lpf(profilefile)
             
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of load_cryo_parameter function: {type(err)=}")
             raise
         
         
-    def calculate_time(self,t_0,buffertime):
+    def calculate_time(self,):
         """Methode to calculate measurment time for synchronization with cryo.
         
         """
-        # get filename.txt from GUI textfiled and "with filename.txt as " readlines and for each line import parameter as a,b,c
-        # 
-        #     calculate 1. ramp time and save in ramp dictionary
-        #     t_0 = a 
+        try:
+            # read in  current temperature and buffer time 
+            t_0 = self.ui.current_temperature.value()
+            buffer_time = self.ui.buffer_time.value()
+            
+            # read in ramp speed and final temperature
+            root = Tk() # Creates master window for tkinters filedialog window
+            root.withdraw() # Hides master window
+            profilefile = filedialog.askopenfile(title= 'Which cryostat parameter are used for the measurement ? - Choose the .csv file')
+            
+            df = pd.read_csv(profilefile)
+            
+            rate = df['Rate [°C/min]'].to_numpy()
+            t_final = df['Limit [°C]'].to_numpy()
+            
+            # calculate ramp time
+            ramp_time = (t_final - t_0)/rate
+            
+            #calcualte absolute time
+            
+            abs_time = buffer_time + ramp_time
+            
+            return abs_time
+        #
         # 
         # 
         # return dictionary 

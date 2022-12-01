@@ -34,7 +34,7 @@ class Cryostat:
             self.LINKpath = exe_path
             
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of setParameters function: {type(err)=}")
+            logging.error(f"Unexpected {err=} during execution of __init__ function: {type(err)=}")
             raise
     
     # def find_file(self,file_name, directory_name):
@@ -83,7 +83,7 @@ class Cryostat:
             subprocess.Popen(self.LINKpath) #'C:\\Program Files\\Linkam Scientific\\LINK\\LINK.exe'
             self.picturepath = self.define_picture_path()
             
-            pyag.confirm('Confirm that the LINK software as started, is open in front of you and you are ready for pyautogui to take over the mouse.')
+            pyag.confirm('Confirm that the LINK software has started, is open in front of you and you are ready for pyautogui to take over the mouse.')
             controller_menu = pyag.locateOnScreen(str(self.picturepath / 'controller-menu.png') ,confidence=0.9)
             pyag.moveTo(controller_menu)
             pyag.click(controller_menu, clicks = 1 ,button='left')
@@ -94,11 +94,12 @@ class Cryostat:
             
             if pyag.locateOnScreen(str(self.picturepath / 'Temp_logo.png') ,confidence=0.9):
                 self.connected = True
-            
+                pyag.confirm('Mouse is free to use')
+                
             return self.connected
             
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of setParameters function: {type(err)=}")
+            logging.error(f"Unexpected {err=} during execution of connect function: {type(err)=}")
             raise
 
 
@@ -116,7 +117,6 @@ class Cryostat:
         
         """
         try:
-            pyag.confirm('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
             file_menu = pyag.locateOnScreen(str(self.picturepath / 'file-menu.png') ,confidence=0.9)
             pyag.click(file_menu, clicks = 1 ,button='left')
             pyag.move(10,25)
@@ -130,14 +130,20 @@ class Cryostat:
             raise
 
 
-    def create_lpf(self,filename):
+    def export_lpf(self,filename):
         """Methode to save cryo parameter to .lpf file.
         """
-        try: #pyag find buttons and click
-            # pyag type in file name and save
+        try:
+            file_menu = pyag.locateOnScreen(str(self.picturepath / 'file-menu.png') ,confidence=0.9)
+            pyag.click(file_menu, clicks = 1 ,button='left')
+            pyag.move(10,40)
+            profile_menu = pyag.locateOnScreen(str(self.picturepath / 'Profile_file-button.png') ,confidence=0.9)
+            pyag.click(profile_menu, clicks = 1 ,button='left')
+            pyag.write(filename.split('.')[0] + '.lpf')
+            pyag.press('enter')
             
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of import_lpf methode: {type(err)=}")
+            logging.error(f"Unexpected {err=} during execution of export_lpf methode: {type(err)=}")
             raise
             
     def set_parameter(self,a,b,c): #40 pixels down is the enter
@@ -169,19 +175,24 @@ class Cryostat:
     def multiple_ramps(self,number_ramp_cycles,*args):
         """ methode to set parameter for multiple ramp cycles """ 
         try:
-            ramp_cycle = 0
-            
+            print(args)
+            ramp_cycle = 0 
+            parameter = args[0] # First [0] strips the args environment away
+            print(parameter)
             for i in range(number_ramp_cycles):
-                rate = args[0][0]        # First row first item
-                temperature = args[0][1] # First row second item
-                duration = args[0][2]    # First row third item
-                args = args[3:]          # Move on to second row 
+                rate = parameter[0][0]        
+                temperature = parameter[0][1] # [0][1] = First row second item
+                duration = parameter[0][2]    # [0][2] = First row third item
+                parameter = parameter[1:] # Move on to second row 
+                print(parameter) 
                 self.set_parameter(rate,temperature,duration)
                 ramp_cycle += 1
                 self.change_ramp_cycle(ramp_cycle < number_ramp_cycles)
-                print(ramp_cycle)
-            for i in range(ramp_cycle-2): # by emperical findings it is -2 to get back to the first ramp
-                self.change_ramp_cycle(False)
+            for i in range(number_ramp_cycles):
+                if not pyag.locateOnScreen(str(self.picturepath / 'ramp-1_logo.png') ,confidence=0.9):
+                    self.change_ramp_cycle(False)
+                else: break
+                
         except KeyboardInterrupt:
             print('\n')
 
