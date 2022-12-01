@@ -133,7 +133,12 @@ class Cryostat:
     def create_lpf(self,filename):
         """Methode to save cryo parameter to .lpf file.
         """
-        
+        try: #pyag find buttons and click
+            # pyag type in file name and save
+            
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of import_lpf methode: {type(err)=}")
+            raise
             
     def set_parameter(self,a,b,c): #40 pixels down is the enter
         """ methode to set manually the parameter of one ramp cycle """
@@ -168,9 +173,9 @@ class Cryostat:
             #for i in range(number_ramp_cycles):
                 #change_ramp_cycle(False)
             for i in range(number_ramp_cycles):
-                rate = args[0]
-                temperature = args[1]
-                duration = args[2]
+                rate = args[i][0]
+                temperature = args[i][1]
+                duration = args[i][2]
                 args = args[3:]
                 self.set_parameter(rate,temperature,duration)
                 ramp_cycle += 1

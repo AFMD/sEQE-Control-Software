@@ -1034,13 +1034,13 @@ class MainWindow(QtWidgets.QMainWindow):
             filepath = filedialog.asksaveasfilename(title= "Choose cryo parameter file name") # Creates pop-up window to ask for file save
 
             content = self.ui.cryo_parameter.toPlainText().split('\n')
+            
             column_labels = content[0]
             column_labels = column_labels.split(',')
+            
             data = content[1::]
-            print(data)
             for element in data:
                 data[data.index(element)] = element.split(',')
-            print(data)
             content = pd.DataFrame(data,columns = column_labels )
             content.to_csv(filepath+'.csv', index= False)
         
@@ -1052,10 +1052,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.logger.error(f"Unexpected {err=} during save_cryo_parameter function, {type(err)=}")
             raise 
             
-        # Read data + filename from GUI
-        # Create .txt file or raise question to overwrite an equally named file
-        # Type in data 
-        # Save and Close file 
         # Open LINK
         # Automatically type in GUI parameter and name file
                                
@@ -1068,11 +1064,15 @@ class MainWindow(QtWidgets.QMainWindow):
             filepath = filedialog.askopenfilename()
             
             data = pd.read_csv(filepath)
+            ramp_cycles = len(data.index)
+            
+            data = data.to_numpy()
             
             if self.cryo_connected:
-                
-                for parameter in data:
-                    
+                self.cryo.multiple_ramps(ramp_cycles,data)
+                #self.cryo.create_lpf(filepath)
+                self.logger.info('Typed in the cryometer parameter and saved to .lpf file')
+
                 
             else:
                 self.logger.info('Could not convert .csv to .lpf file - Cryostat not connected')
