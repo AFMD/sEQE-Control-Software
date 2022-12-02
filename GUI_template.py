@@ -1332,7 +1332,7 @@ class Ui_MainWindow(object):
         self.scan_stopNM_1.setDecimals(0)
         self.scan_stopNM_1.setMinimum(350.0)
         self.scan_stopNM_1.setMaximum(1800.0)
-        self.scan_stopNM_1.setProperty("value", 1800.0)
+        self.scan_stopNM_1.setProperty("value", 900.0)
         self.scan_stopNM_1.setObjectName("scan_stopNM_1")
         self.gridLayout_dev_3.addWidget(self.scan_stopNM_1, 2, 6, 1, 1)
         self.line_156 = QtWidgets.QFrame(self.gridLayoutWidget_12)

@@ -188,8 +188,12 @@ class Cryostat:
     def set_start_cycle(self):
         """methode to set the current ramp as start ramp
         """
-        pyag.locateOnScreen(str(self.picturepath / 'ramp-1_logo.png') ,confidence=0.9)
-    
+        item = pyag.locateOnScreen(str(self.picturepath / 'ramp_logo.png') ,confidence=0.9)
+        pyag.click(item, clicks = 1 ,button='left')
+        item = pyag.locateOnScreen(str(self.picturepath / 'set_start_row_button.png') ,confidence=0.9)
+        pyag.click(item, clicks = 1 ,button='left')
+
+        
     def multiple_ramps(self,number_ramp_cycles,*args):
         """ methode to set parameter for multiple ramp cycles """ 
         try:

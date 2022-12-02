@@ -822,9 +822,11 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.cryo.click_ok()
                     self.cryo.close_results()
                     self.cryo.change_ramp_cycle(True)
+                    self.cryo.set_start_cycle()
                     
                 self.cryo.open_minimized_LINK()
                 self.cryo.go_to_first_ramp_cycle(waiting_time.shape[0])
+                self.cryo.set_start_cycle()
                 self.logger.info('Cryostat measurement finished')
                 
             else: 
