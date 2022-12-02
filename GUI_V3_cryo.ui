@@ -2584,7 +2584,7 @@
           <double>1800.000000000000000</double>
          </property>
          <property name="value">
-          <double>1800.000000000000000</double>
+          <double>900.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -3539,7 +3539,7 @@
         <x>650</x>
         <y>350</y>
         <width>351</width>
-        <height>351</height>
+        <height>411</height>
        </rect>
       </property>
       <property name="font">
@@ -3571,7 +3571,7 @@
         </font>
        </property>
        <property name="plainText">
-        <string>Rate [°C/min],Limit [°C],Time[h:m:s]
+        <string>Rate [C/min],Limit [C],Time[h:m:s]
 20,30,0:20:0</string>
        </property>
        <property name="overwriteMode">
@@ -3638,37 +3638,65 @@
         <string>Import cryo parameter from file</string>
        </property>
       </widget>
-     </widget>
-     <widget class="QDoubleSpinBox" name="current_temperature">
-      <property name="geometry">
-       <rect>
-        <x>780</x>
-        <y>730</y>
-        <width>62</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="minimum">
-       <double>-99.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>650</x>
-        <y>700</y>
-        <width>361</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>What is the current temperature of the cryostat ?</string>
-      </property>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>380</y>
+         <width>241</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>buffer time in min</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>350</y>
+         <width>241</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>current temperature of cryostat ?</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="current_temperature">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>350</y>
+         <width>62</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <double>-99.000000000000000</double>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="buffer_time">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>380</y>
+         <width>42</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="widget">

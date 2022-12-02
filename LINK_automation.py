@@ -96,7 +96,7 @@ class Cryostat:
                 self.connected = True
                 pyag.confirm('Mouse is free to use')
                 
-            return self.connected
+            return self.connected, self.picturepath
             
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of connect function: {type(err)=}")
@@ -172,30 +172,45 @@ class Cryostat:
             pyag.click(item, clicks = 1 ,button='left')
         return None
 
-    def multiple_ramps(self,number_ramp_cycles,*args):
-        """ methode to set parameter for multiple ramp cycles """ 
+    def go_to_first_ramp_cycle(self,number_ramp_cycles):
+        """
+        """
         try:
-            print(args)
-            ramp_cycle = 0 
-            parameter = args[0] # First [0] strips the args environment away
-            print(parameter)
-            for i in range(number_ramp_cycles):
-                rate = parameter[0][0]        
-                temperature = parameter[0][1] # [0][1] = First row second item
-                duration = parameter[0][2]    # [0][2] = First row third item
-                parameter = parameter[1:] # Move on to second row 
-                print(parameter) 
-                self.set_parameter(rate,temperature,duration)
-                ramp_cycle += 1
-                self.change_ramp_cycle(ramp_cycle < number_ramp_cycles)
             for i in range(number_ramp_cycles):
                 if not pyag.locateOnScreen(str(self.picturepath / 'ramp-1_logo.png') ,confidence=0.9):
                     self.change_ramp_cycle(False)
                 else: break
                 
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of go_to_first_ramp_cycle methode: {type(err)=}")
+            raise
+    
+    def set_start_cycle(self):
+        """methode to set the current ramp as start ramp
+        """
+        pyag.locateOnScreen(str(self.picturepath / 'ramp-1_logo.png') ,confidence=0.9)
+    
+    def multiple_ramps(self,number_ramp_cycles,*args):
+        """ methode to set parameter for multiple ramp cycles """ 
+        try:
+            ramp_cycle = 0 
+            parameter = args[0] # First [0] strips the args environment away
+            for i in range(number_ramp_cycles):
+                rate = parameter[0][0]        
+                temperature = parameter[0][1] # [0][1] = First row second item
+                duration = parameter[0][2]    # [0][2] = First row third item
+                parameter = parameter[1:] # Move on to second row 
+                self.set_parameter(rate,temperature,duration)
+                ramp_cycle += 1
+                self.change_ramp_cycle(ramp_cycle < number_ramp_cycles)
+                
+            self.go_to_first_ramp_cycle(number_ramp_cycles)
+                
         except KeyboardInterrupt:
             print('\n')
 
+    
+    
     def move_temperature_line(self):
         """ methode to display current cryostat temperature """
         item = pyag.locateOnScreen(str(self.picturepath / 'temperature_line.png') ,confidence=0.9)
@@ -208,8 +223,26 @@ class Cryostat:
         item = pyag.locateOnScreen(str(self.picturepath / ('start_button.png')) ,confidence=0.9)
         pyag.click(item, clicks = 1 ,button='left')
         time.sleep(1)
-        pyag.write('enter')
+        self.click_ok()
 
+    def click_ok(self):
+        item = pyag.locateOnScreen(str(self.picturepath / ('OK_button.png')) ,confidence=0.9)
+        pyag.click(item, clicks = 1 ,button='left')
+
+        #pyag.write('enter')
+        
+    def stop_measurement(self):
+        """methode to stop measurement"""
+        item = pyag.locateOnScreen(str(self.picturepath / ('stop_button.png')) ,confidence=0.9)
+        pyag.click(item, clicks = 1 ,button='left')
+        
+
+        
+    def close_results(self,):
+        """method to close temperature window. """
+        item = pyag.locateOnScreen(str(self.picturepath / ('results_x_button.png')) ,confidence=0.9)
+        pyag.click(item, clicks = 1 ,button='left')
+        
     def open_minimized_LINK(self):
         """ methode to open minimized LINK window """
         try:
