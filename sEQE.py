@@ -162,15 +162,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.export_cryo_to_csv.clicked.connect(self.save_cryo_parameter)
         self.ui.import_cryo_from_file.clicked.connect(self.load_cryo_parameter)
         self.ui.convert_csv_to_lpf.clicked.connect(self.convert_cryo_parameter)
+        
         # Handle Combined Buttons
 
         self.ui.connectButton.clicked.connect(self.connectToEquipment)
         
-        if self.ui.CryoBox.isChecked():
-            print('Is Cryobox checked ?'+ str(self.ui.CryoBox.isChecked())) 
-            self.ui.completeScanButton_start.clicked.connect(self.MonoCryoHandleCompleteMeasurementButton)
-        else :
-            self.ui.completeScanButton_start.clicked.connect(self.MonoHandleCompleteScanButton)
+        self.ui.completeScanButton_start.clicked.connect(self.MonoHandleCompleteScanButton)
         
         
 #########################################################################################
@@ -308,6 +305,9 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.cryo_connected:
                 self.logger.info("Connection to Linkam's cryostat established")
                 self.ui.imageConnect_cryo.setPixmap(QtGui.QPixmap("Button_on.png"))
+                self.ui.CryoBox.setCheckable(True)
+                t = self.ui.CryoBox.isChecked()
+                self.logger.info(f'CryoBox is checked ?: {t}')
             else:
                 self.logger.error("No connection to Linkam's cryostat - check cables and screenshots")
 
@@ -329,7 +329,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.connectToLockin()
         self.connectToMono()
         self.connectToFilter()
-        self.connectToCryo()
         
         self.ui.imageConnect.setPixmap(QtGui.QPixmap("Button_on.png"))        
     
@@ -635,6 +634,25 @@ class MainWindow(QtWidgets.QMainWindow):
 # -----------------------------------------------------------------------------------------------------------  
 
     def MonoHandleCompleteScanButton(self):
+        """Function to handle full measurement with or without temperatrue dependence.
+        
+        Returns
+        -------
+        None
+        
+        """
+        try: 
+            if self.cryo_connected and self.ui.CryoBox.isChecked():
+                self.MonoCryoHandleCompleteMeasurement()
+
+            else: self.MonoHandleCompleteMeasurement()
+        
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of MonoHandleCompleteScanButton function:" + "\n" + f"{type(err)=}")
+
+        
+        
+    def MonoHandleCompleteScan(self):
         """Function to measure samples with different filters.
         
         Returns
@@ -648,351 +666,167 @@ class MainWindow(QtWidgets.QMainWindow):
                 
         measurement_values = {}
         
-        if self.ui.CryoBox.isChecked():
-            if self.cryo_connected:
-                waiting_time = self.calculate_time()
-                self.logger.info(f'{waiting_time}: ramp times for each ramp')
-                for value in waiting_time:
-                    
-                    if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
-                        self.cryo.open_minimized_LINK()
-                        
-                    self.cryo.start_measurement()
-                    time.sleep(value*60) # Better way of making program wait ?
-                    self.logger.info(f'. ramp completed - Starting sEQE measurement')  #{where(waiting_time == value)+1}                  
-                    
-                    if self.ui.scan_noFilter.isChecked():
+        if self.ui.scan_noFilter.isChecked():
 
-                        self.changeFilter(1)
+            self.changeFilter(1)
 
-                        if self.changeFilter(1):
+            if self.changeFilter(1):
 
-                            self.filter_addition = 'no'
+                self.filter_addition = 'no'
 
-                            self.logger.info('Moving to Open Filter Position')
+                self.logger.info('Moving to Open Filter Position')
 
-                            start_f1 = self.ui.scan_startNM_1.value()
-                            stop_f1 = self.ui.scan_stopNM_1.value()
-                            step_f1 = self.ui.scan_stepNM_1.value()
-                            amp_f1 = self.ui.scan_pickAmp_1.value()
+                start_f1 = self.ui.scan_startNM_1.value()
+                stop_f1 = self.ui.scan_stopNM_1.value()
+                step_f1 = self.ui.scan_stepNM_1.value()
+                amp_f1 = self.ui.scan_pickAmp_1.value()
 
-                            measurement_values['f1']=[start_f1,stop_f1,step_f1,amp_f1]
+                measurement_values['f1']=[start_f1,stop_f1,step_f1,amp_f1]
 
-                            self.amplification = amp_f1
-                            self.LockinUpdateParameters(self.amplification)
-                            self.MonoHandleSpeedButton() 
+                self.amplification = amp_f1
+                self.LockinUpdateParameters(self.amplification)
+                self.MonoHandleSpeedButton() 
 
-                            scan_list = self.createScanJob(start_f1, stop_f1, step_f1)
-                            self.HandleMeasurement(scan_list, start_f1, stop_f1, step_f1, amp_f1, 3)
+                scan_list = self.createScanJob(start_f1, stop_f1, step_f1)
+                self.HandleMeasurement(scan_list, start_f1, stop_f1, step_f1, amp_f1, 3)
 
-                    if self.ui.scan_Filter2.isChecked():
+        if self.ui.scan_Filter2.isChecked():
 
-                        self.changeFilter(2)
+            self.changeFilter(2)
 
-                        if self.changeFilter(2):
+            if self.changeFilter(2):
 
-                            self.filter_addition = str(int(self.ui.cuton_filter_2.value()))
+                self.filter_addition = str(int(self.ui.cuton_filter_2.value()))
 
-                            self.logger.info('Moving to %s nm Filter' % self.filter_addition)
+                self.logger.info('Moving to %s nm Filter' % self.filter_addition)
 
-                            start_f2 = self.ui.scan_startNM_2.value()
-                            stop_f2 = self.ui.scan_stopNM_2.value()
-                            step_f2 = self.ui.scan_stepNM_2.value()
-                            amp_f2 = self.ui.scan_pickAmp_2.value()
+                start_f2 = self.ui.scan_startNM_2.value()
+                stop_f2 = self.ui.scan_stopNM_2.value()
+                step_f2 = self.ui.scan_stepNM_2.value()
+                amp_f2 = self.ui.scan_pickAmp_2.value()
 
-                            measurement_values['f2']=[start_f2,stop_f2,step_f2,amp_f2]
+                measurement_values['f2']=[start_f2,stop_f2,step_f2,amp_f2]
 
-                            self.amplification = amp_f2
-                            self.LockinUpdateParameters(self.amplification)
-                            self.MonoHandleSpeedButton()
+                self.amplification = amp_f2
+                self.LockinUpdateParameters(self.amplification)
+                self.MonoHandleSpeedButton()
 
-                            scan_list = self.createScanJob(start_f2, stop_f2, step_f2)
-                            self.HandleMeasurement(scan_list, start_f2, stop_f2, step_f2, amp_f2, 3)
+                scan_list = self.createScanJob(start_f2, stop_f2, step_f2)
+                self.HandleMeasurement(scan_list, start_f2, stop_f2, step_f2, amp_f2, 3)
 
-                    if self.ui.scan_Filter3.isChecked():
+        if self.ui.scan_Filter3.isChecked():
 
-                        self.changeFilter(3)
+            self.changeFilter(3)
 
-                        if self.changeFilter(3):
+            if self.changeFilter(3):
 
-                            self.filter_addition = str(int(self.ui.cuton_filter_3.value()))
+                self.filter_addition = str(int(self.ui.cuton_filter_3.value()))
 
-                            self.logger.info('Moving to %s nm Filter' % self.filter_addition)
+                self.logger.info('Moving to %s nm Filter' % self.filter_addition)
 
-                            start_f3 = self.ui.scan_startNM_3.value()
-                            stop_f3 = self.ui.scan_stopNM_3.value()
-                            step_f3 = self.ui.scan_stepNM_3.value()
-                            amp_f3 = self.ui.scan_pickAmp_3.value()
+                start_f3 = self.ui.scan_startNM_3.value()
+                stop_f3 = self.ui.scan_stopNM_3.value()
+                step_f3 = self.ui.scan_stepNM_3.value()
+                amp_f3 = self.ui.scan_pickAmp_3.value()
 
-                            measurement_values['f3']=[start_f3,stop_f3,step_f3,amp_f3]
+                measurement_values['f3']=[start_f3,stop_f3,step_f3,amp_f3]
 
-                            self.amplification = amp_f3
-                            self.LockinUpdateParameters(self.amplification)
-                            self.MonoHandleSpeedButton()
+                self.amplification = amp_f3
+                self.LockinUpdateParameters(self.amplification)
+                self.MonoHandleSpeedButton()
 
-                            scan_list = self.createScanJob(start_f3, stop_f3, step_f3)
-                            self.HandleMeasurement(scan_list, start_f3, stop_f3, step_f3, amp_f3, 3)
+                scan_list = self.createScanJob(start_f3, stop_f3, step_f3)
+                self.HandleMeasurement(scan_list, start_f3, stop_f3, step_f3, amp_f3, 3)
 
-                    if self.ui.scan_Filter4.isChecked():
+        if self.ui.scan_Filter4.isChecked():
 
-                        self.changeFilter(4)
+            self.changeFilter(4)
 
-                        if self.changeFilter(4):
+            if self.changeFilter(4):
 
-                            self.filter_addition = str(int(self.ui.cuton_filter_4.value()))
+                self.filter_addition = str(int(self.ui.cuton_filter_4.value()))
 
-                            self.logger.info('Moving to %s nm Filter' % self.filter_addition)
+                self.logger.info('Moving to %s nm Filter' % self.filter_addition)
 
-                            start_f4 = self.ui.scan_startNM_4.value()
-                            stop_f4 = self.ui.scan_stopNM_4.value()
-                            step_f4 = self.ui.scan_stepNM_4.value()
-                            amp_f4 = self.ui.scan_pickAmp_4.value()
+                start_f4 = self.ui.scan_startNM_4.value()
+                stop_f4 = self.ui.scan_stopNM_4.value()
+                step_f4 = self.ui.scan_stepNM_4.value()
+                amp_f4 = self.ui.scan_pickAmp_4.value()
 
-                            measurement_values['f4']=[start_f4,stop_f4,step_f4,amp_f4]
+                measurement_values['f4']=[start_f4,stop_f4,step_f4,amp_f4]
 
-                            self.amplification = amp_f4
-                            self.LockinUpdateParameters(self.amplification)
-                            self.MonoHandleSpeedButton()
+                self.amplification = amp_f4
+                self.LockinUpdateParameters(self.amplification)
+                self.MonoHandleSpeedButton()
 
-                            scan_list = self.createScanJob(start_f4, stop_f4, step_f4)
-                            self.HandleMeasurement(scan_list, start_f4, stop_f4, step_f4, amp_f4, 3)
+                scan_list = self.createScanJob(start_f4, stop_f4, step_f4)
+                self.HandleMeasurement(scan_list, start_f4, stop_f4, step_f4, amp_f4, 3)
 
-                    if self.ui.scan_Filter5.isChecked():
+        if self.ui.scan_Filter5.isChecked():
 
-                        self.changeFilter(5)
+            self.changeFilter(5)
 
-                        if self.changeFilter(5):
+            if self.changeFilter(5):
 
-                            self.filter_addition = str(int(self.ui.cuton_filter_5.value()))
+                self.filter_addition = str(int(self.ui.cuton_filter_5.value()))
 
-                            self.logger.info('Moving to %s nm Filter' % self.filter_addition)
+                self.logger.info('Moving to %s nm Filter' % self.filter_addition)
 
-                            start_f5 = self.ui.scan_startNM_5.value()
-                            stop_f5 = self.ui.scan_stopNM_5.value()
-                            step_f5 = self.ui.scan_stepNM_5.value()
-                            amp_f5 = self.ui.scan_pickAmp_5.value()
+                start_f5 = self.ui.scan_startNM_5.value()
+                stop_f5 = self.ui.scan_stopNM_5.value()
+                step_f5 = self.ui.scan_stepNM_5.value()
+                amp_f5 = self.ui.scan_pickAmp_5.value()
 
-                            measurement_values['f5']=[start_f5,stop_f5,step_f5,amp_f5]
+                measurement_values['f5']=[start_f5,stop_f5,step_f5,amp_f5]
 
-                            self.amplification = amp_f5
-                            self.LockinUpdateParameters(self.amplification)
-                            self.MonoHandleSpeedButton()
+                self.amplification = amp_f5
+                self.LockinUpdateParameters(self.amplification)
+                self.MonoHandleSpeedButton()
 
-                            scan_list = self.createScanJob(start_f5, stop_f5, step_f5)
-                            self.HandleMeasurement(scan_list, start_f5, stop_f5, step_f5, amp_f5, 3)
+                scan_list = self.createScanJob(start_f5, stop_f5, step_f5)
+                self.HandleMeasurement(scan_list, start_f5, stop_f5, step_f5, amp_f5, 3)
 
-                    if self.ui.scan_Filter6.isChecked():
+        if self.ui.scan_Filter6.isChecked():
 
-                        self.changeFilter(6)
+            self.changeFilter(6)
 
-                        if self.changeFilter(6):
+            if self.changeFilter(6):
 
-                            self.filter_addition = str(int(self.ui.cuton_filter_6.value()))
+                self.filter_addition = str(int(self.ui.cuton_filter_6.value()))
 
-                            self.logger.info('Moving to %s nm Filter' % self.filter_addition)
+                self.logger.info('Moving to %s nm Filter' % self.filter_addition)
 
-                            start_f6 = self.ui.scan_startNM_6.value()
-                            stop_f6 = self.ui.scan_stopNM_6.value()
-                            step_f6 = self.ui.scan_stepNM_6.value()
-                            amp_f6 = self.ui.scan_pickAmp_6.value()
+                start_f6 = self.ui.scan_startNM_6.value()
+                stop_f6 = self.ui.scan_stopNM_6.value()
+                step_f6 = self.ui.scan_stepNM_6.value()
+                amp_f6 = self.ui.scan_pickAmp_6.value()
 
-                            measurement_values['f6']=[start_f6,stop_f6,step_f6,amp_f6]
+                measurement_values['f6']=[start_f6,stop_f6,step_f6,amp_f6]
 
-                            self.amplification = amp_f6
-                            self.LockinUpdateParameters(self.amplification)
-                            self.MonoHandleSpeedButton()
+                self.amplification = amp_f6
+                self.LockinUpdateParameters(self.amplification)
+                self.MonoHandleSpeedButton()
 
-                            scan_list = self.createScanJob(start_f6, stop_f6, step_f6)
-                            self.HandleMeasurement(scan_list, start_f6, stop_f6, step_f6, amp_f6, 3)
+                scan_list = self.createScanJob(start_f6, stop_f6, step_f6)
+                self.HandleMeasurement(scan_list, start_f6, stop_f6, step_f6, amp_f6, 3)
 
-                    self.changeFilter(1) 
-                    self.logger.info('Moving to open filter')               
-                    self.mono.chooseFilter(1)
-                    self.complete_scan = False   
-                    self.ui.imageCompleteScan_start.setPixmap(QtGui.QPixmap("Button_off.png"))
-                    self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_off.png"))
+        self.changeFilter(1) 
+        self.logger.info('Moving to open filter')               
+        self.mono.chooseFilter(1)
+        self.complete_scan = False   
+        self.ui.imageCompleteScan_start.setPixmap(QtGui.QPixmap("Button_off.png"))
+        self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_off.png"))
 
-                    self.logger.info('Finished Measurement') 
+        self.logger.info('Finished Measurement') 
 
-                    measurement_parameter = pd.DataFrame.from_dict(measurement_values)
-
-                    self.logger.info(f' measurement with cryo completed') #{where(waiting_time == value)+1}.
-                    self.cryo.open_minimized_LINK()
-                    self.cryo.stop_measurement()
-                    self.cryo.click_ok()
-                    self.cryo.close_results()
-                    self.cryo.change_ramp_cycle(True)
-                    self.cryo.set_start_cycle()
-                    
-                self.cryo.open_minimized_LINK()
-                self.cryo.go_to_first_ramp_cycle(waiting_time.shape[0])
-                self.cryo.set_start_cycle()
-                self.logger.info('Cryostat measurement finished')
-                
-            else: 
-                self.logger.info('Couldnt start MonoCryoHandleCompleteMeasurmentButton function - Cryostat not connected')
-
-        else:
-            if self.ui.scan_noFilter.isChecked():
-
-                self.changeFilter(1)
-
-                if self.changeFilter(1):
-
-                    self.filter_addition = 'no'
-
-                    self.logger.info('Moving to Open Filter Position')
-
-                    start_f1 = self.ui.scan_startNM_1.value()
-                    stop_f1 = self.ui.scan_stopNM_1.value()
-                    step_f1 = self.ui.scan_stepNM_1.value()
-                    amp_f1 = self.ui.scan_pickAmp_1.value()
-
-                    measurement_values['f1']=[start_f1,stop_f1,step_f1,amp_f1]
-
-                    self.amplification = amp_f1
-                    self.LockinUpdateParameters(self.amplification)
-                    self.MonoHandleSpeedButton() 
-
-                    scan_list = self.createScanJob(start_f1, stop_f1, step_f1)
-                    self.HandleMeasurement(scan_list, start_f1, stop_f1, step_f1, amp_f1, 3)
-
-            if self.ui.scan_Filter2.isChecked():
-
-                self.changeFilter(2)
-
-                if self.changeFilter(2):
-
-                    self.filter_addition = str(int(self.ui.cuton_filter_2.value()))
-
-                    self.logger.info('Moving to %s nm Filter' % self.filter_addition)
-
-                    start_f2 = self.ui.scan_startNM_2.value()
-                    stop_f2 = self.ui.scan_stopNM_2.value()
-                    step_f2 = self.ui.scan_stepNM_2.value()
-                    amp_f2 = self.ui.scan_pickAmp_2.value()
-
-                    measurement_values['f2']=[start_f2,stop_f2,step_f2,amp_f2]
-
-                    self.amplification = amp_f2
-                    self.LockinUpdateParameters(self.amplification)
-                    self.MonoHandleSpeedButton()
-
-                    scan_list = self.createScanJob(start_f2, stop_f2, step_f2)
-                    self.HandleMeasurement(scan_list, start_f2, stop_f2, step_f2, amp_f2, 3)
-
-            if self.ui.scan_Filter3.isChecked():
-
-                self.changeFilter(3)
-
-                if self.changeFilter(3):
-
-                    self.filter_addition = str(int(self.ui.cuton_filter_3.value()))
-
-                    self.logger.info('Moving to %s nm Filter' % self.filter_addition)
-
-                    start_f3 = self.ui.scan_startNM_3.value()
-                    stop_f3 = self.ui.scan_stopNM_3.value()
-                    step_f3 = self.ui.scan_stepNM_3.value()
-                    amp_f3 = self.ui.scan_pickAmp_3.value()
-
-                    measurement_values['f3']=[start_f3,stop_f3,step_f3,amp_f3]
-
-                    self.amplification = amp_f3
-                    self.LockinUpdateParameters(self.amplification)
-                    self.MonoHandleSpeedButton()
-
-                    scan_list = self.createScanJob(start_f3, stop_f3, step_f3)
-                    self.HandleMeasurement(scan_list, start_f3, stop_f3, step_f3, amp_f3, 3)
-
-            if self.ui.scan_Filter4.isChecked():
-
-                self.changeFilter(4)
-
-                if self.changeFilter(4):
-
-                    self.filter_addition = str(int(self.ui.cuton_filter_4.value()))
-
-                    self.logger.info('Moving to %s nm Filter' % self.filter_addition)
-
-                    start_f4 = self.ui.scan_startNM_4.value()
-                    stop_f4 = self.ui.scan_stopNM_4.value()
-                    step_f4 = self.ui.scan_stepNM_4.value()
-                    amp_f4 = self.ui.scan_pickAmp_4.value()
-
-                    measurement_values['f4']=[start_f4,stop_f4,step_f4,amp_f4]
-
-                    self.amplification = amp_f4
-                    self.LockinUpdateParameters(self.amplification)
-                    self.MonoHandleSpeedButton()
-
-                    scan_list = self.createScanJob(start_f4, stop_f4, step_f4)
-                    self.HandleMeasurement(scan_list, start_f4, stop_f4, step_f4, amp_f4, 3)
-
-            if self.ui.scan_Filter5.isChecked():
-
-                self.changeFilter(5)
-
-                if self.changeFilter(5):
-
-                    self.filter_addition = str(int(self.ui.cuton_filter_5.value()))
-
-                    self.logger.info('Moving to %s nm Filter' % self.filter_addition)
-
-                    start_f5 = self.ui.scan_startNM_5.value()
-                    stop_f5 = self.ui.scan_stopNM_5.value()
-                    step_f5 = self.ui.scan_stepNM_5.value()
-                    amp_f5 = self.ui.scan_pickAmp_5.value()
-
-                    measurement_values['f5']=[start_f5,stop_f5,step_f5,amp_f5]
-
-                    self.amplification = amp_f5
-                    self.LockinUpdateParameters(self.amplification)
-                    self.MonoHandleSpeedButton()
-
-                    scan_list = self.createScanJob(start_f5, stop_f5, step_f5)
-                    self.HandleMeasurement(scan_list, start_f5, stop_f5, step_f5, amp_f5, 3)
-
-            if self.ui.scan_Filter6.isChecked():
-
-                self.changeFilter(6)
-
-                if self.changeFilter(6):
-
-                    self.filter_addition = str(int(self.ui.cuton_filter_6.value()))
-
-                    self.logger.info('Moving to %s nm Filter' % self.filter_addition)
-
-                    start_f6 = self.ui.scan_startNM_6.value()
-                    stop_f6 = self.ui.scan_stopNM_6.value()
-                    step_f6 = self.ui.scan_stepNM_6.value()
-                    amp_f6 = self.ui.scan_pickAmp_6.value()
-
-                    measurement_values['f6']=[start_f6,stop_f6,step_f6,amp_f6]
-
-                    self.amplification = amp_f6
-                    self.LockinUpdateParameters(self.amplification)
-                    self.MonoHandleSpeedButton()
-
-                    scan_list = self.createScanJob(start_f6, stop_f6, step_f6)
-                    self.HandleMeasurement(scan_list, start_f6, stop_f6, step_f6, amp_f6, 3)
-
-            self.changeFilter(1) 
-            self.logger.info('Moving to open filter')               
-            self.mono.chooseFilter(1)
-            self.complete_scan = False   
-            self.ui.imageCompleteScan_start.setPixmap(QtGui.QPixmap("Button_off.png"))
-            self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_off.png"))
-
-            self.logger.info('Finished Measurement') 
-
-            measurement_parameter = pd.DataFrame.from_dict(measurement_values)
+        measurement_parameter = pd.DataFrame.from_dict(measurement_values)
         
-    def MonoCryoHandleCompleteMeasurementButton(self):
+    def MonoCryoHandleCompleteMeasurement(self):
         """Function to measure sEQE with temperature bias.
         """
         try:
-            if self.cryo_connected:
+            counter = 1
+            if self.cryo_connected and self.ui.CryoBox.isChecked():
                 waiting_time = self.calculate_time()
                 for value in waiting_time:
                     
@@ -1001,21 +835,27 @@ class MainWindow(QtWidgets.QMainWindow):
                         
                     self.cryo.start_measurement()
                     time.sleep(value) # Better way of making program wait ?
-                    self.logger.info(f'{np.where(waiting_time == value)+1}. ramp completed - Starting sEQE measurement')                    
-                    self.MonoHandleCompleteScanButton()
+                    self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')                    
+                    self.MonoHandleCompleteScan()
                     
-                    self.logger.info(f'{np.where(waiting_time == value)+1}. measurement with cryo completed')
+                    self.logger.info(f'{counter}. measurement with cryo completed')
+                    counter += 1 
                     self.cryo.open_minimized_LINK()
                     self.cryo.stop_measurement()
+                    self.cryo.click_ok()
                     self.cryo.close_results()
+                    # if waiting_time[counter]  needs ti be implemented to prevent the jibberish at the end
                     self.cryo.change_ramp_cycle(True)
+                    self.cryo.set_start_cycle()
                     
-                self.cryo.open_minimized_LINK()
+                if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
+                        self.cryo.open_minimized_LINK()
+                        
                 self.cryo.go_to_first_ramp_cycle(waiting_time.shape[0])
                 self.logger.info('Cryostat measurement finished')
                 
             else: 
-                self.logger.info('Couldnt start MonoCryoHandleCompleteMeasurmentButton function - Cryostat not connected')
+                self.logger.info('Couldnt start MonoCryoHandleCompleteMeasurementButton function - Cryostat not connected')
 
         # for ramp in dictionary : 
         #  wait the value calculated by self.calculate_time
@@ -1024,7 +864,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #  self.cryo.change.ramp_cycle(True)
         #
         except Exception as err:
-            self.logger.error(f"Unexpected {err=} during convert_cryo_parameter function, {type(err)=}")
+            self.logger.error(f"Unexpected {err=} during MonoCryoHandleCompleteMeasurementButton function, {type(err)=}")
             raise
     
     
@@ -1343,12 +1183,12 @@ class MainWindow(QtWidgets.QMainWindow):
             t_final = df['Limit [C]'].to_numpy()
             
             # calculate ramp time
-            ramp_time = (t_final - t_0)/rate
+            ramp_time = 60*(t_final - t_0)/rate
             
             #calcualte absolute time
             
-            abs_time = buffer_time + ramp_time
-            self.logger.info(f'Cryostat will need {ramp_time} min for ramping. sEQE measurement starts in {abs_time} min.')
+            abs_time = buffer_time*60 + ramp_time
+            self.logger.info(f'Cryostat will need {ramp_time} seconds for ramping. sEQE measurement starts in {abs_time} seconds.')
             
             return abs_time
         

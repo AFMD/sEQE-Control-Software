@@ -158,9 +158,17 @@ class Cryostat:
                 pyag.click(button='left')
                 pyag.write(f'{parameter}')
                 pyag.press('enter')
-        except KeyboardInterrupt:
-            print('\n')
-        return None
+            lnp_speed = pyag.locateOnScreen(str(self.picturepath / 'lnp-speed_logo.png') ,confidence=0.9)
+            pyag.moveTo(lnp_speed)
+            pyag.move(0,20)
+            pyag.click(button='left')
+            auto_button = pyag.locateOnScreen(str(self.picturepath / 'auto_button.png') ,confidence=0.9)
+            pyag.click(auto_button, clicks = 1 ,button='left')
+            pyag.press('enter')
+
+        except Exception as err:
+            logging.error(f"Unexpected {err=} during execution of set_parameter methode: {type(err)=}")
+            raise
 
     def change_ramp_cycle(self,direction):
         """ methode to change ramp cycle """
