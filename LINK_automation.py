@@ -207,6 +207,7 @@ class Cryostat:
         try:
             ramp_cycle = 0 
             parameter = args[0] # First [0] strips the args environment away
+            pyag.confirm('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
             for i in range(number_ramp_cycles):
                 rate = parameter[0][0]        
                 temperature = parameter[0][1] # [0][1] = First row second item

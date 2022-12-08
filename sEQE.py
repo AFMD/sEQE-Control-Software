@@ -643,9 +643,9 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         try: 
             if self.cryo_connected and self.ui.CryoBox.isChecked():
-                self.MonoCryoHandleCompleteMeasurement()
+                self.MonoCryoHandleCompleteScan()
 
-            else: self.MonoHandleCompleteMeasurement()
+            else: self.MonoHandleCompleteScan()
         
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of MonoHandleCompleteScanButton function:" + "\n" + f"{type(err)=}")
@@ -821,12 +821,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         measurement_parameter = pd.DataFrame.from_dict(measurement_values)
         
-    def MonoCryoHandleCompleteMeasurement(self):
+    def MonoCryoHandleCompleteScan(self):
         """Function to measure sEQE with temperature bias.
         """
         try:
             counter = 1
-            if self.cryo_connected and self.ui.CryoBox.isChecked():
+            userinput = pyag.confirm('sEQE Control GUI will be sleeping i.e. unusable during ramping time - do you want to proceed ?')
+
+
+            if self.cryo_connected and self.ui.CryoBox.isChecked() and userinput == 'OK':
                 waiting_time = self.calculate_time()
                 for value in waiting_time:
                     
@@ -834,8 +837,10 @@ class MainWindow(QtWidgets.QMainWindow):
                         self.cryo.open_minimized_LINK()
                         
                     self.cryo.start_measurement()
+                    self.logger.info(f'{value} seconds sleeping time from now')
                     time.sleep(value) # Better way of making program wait ?
-                    self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')                    
+                    self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')  
+                    
                     self.MonoHandleCompleteScan()
                     
                     self.logger.info(f'{counter}. measurement with cryo completed')
@@ -855,7 +860,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.logger.info('Cryostat measurement finished')
                 
             else: 
-                self.logger.info('Couldnt start MonoCryoHandleCompleteMeasurementButton function - Cryostat not connected')
+                self.logger.info('Couldnt start MonoCryoHandleCompleteScan function - Either user denied it or Cryostat is not connected or GUI Cryobox is not ticked.')
 
         # for ramp in dictionary : 
         #  wait the value calculated by self.calculate_time
@@ -863,8 +868,14 @@ class MainWindow(QtWidgets.QMainWindow):
         #  self.logger.info(f'{ramp}.ramp is completed')
         #  self.cryo.change.ramp_cycle(True)
         #
+        except KeyboardInterrupt:
+            self.logger.info('Measurement was interrupted with KeyboardInterrupt - cryostat will be stopped')
+            self.cryo.stop_measurement()
+            self.cryo.click_ok()
+            self.cryo.close_results()
+            
         except Exception as err:
-            self.logger.error(f"Unexpected {err=} during MonoCryoHandleCompleteMeasurementButton function, {type(err)=}")
+            self.logger.error(f"Unexpected {err=} during MonoCryoHandleCompleteScan function, {type(err)=}")
             raise
     
     
@@ -1087,7 +1098,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             root = Tk() # Creates master window for tkinters filedialog window
             root.withdraw() # Hides master window
-            filepath = filedialog.asksaveasfilename(title= "Choose cryo parameter file name") # Creates pop-up window to ask for file save
+            filepath = filedialog.asksaveasfilename(title= "Choose cryo parameter file name - Type in name with .csv ending") # Creates pop-up window to ask for file save
 
             content = self.ui.cryo_parameter.toPlainText().split('\n')
             
@@ -1098,7 +1109,7 @@ class MainWindow(QtWidgets.QMainWindow):
             for element in data:
                 data[data.index(element)] = element.split(',')
             content = pd.DataFrame(data,columns = column_labels )
-            content.to_csv(filepath+'.csv', index= False)
+            content.to_csv(filepath, index= False)
             
         except IndexError:
              self.logger.error('Something went wrong - check file name')
@@ -1129,12 +1140,10 @@ class MainWindow(QtWidgets.QMainWindow):
             print(data)
             
             if self.cryo_connected:
-                pyag.confirm('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
                 self.cryo.multiple_ramps(num_ramp_cycles,data)
                 self.cryo.export_lpf(filepath.split('/')[-1]) # Give only filename, not filepath
                 self.logger.info('Typed in the cryometer parameter and saved to .lpf file')
         
-                
             else:
                 self.logger.info('Could not convert .csv to .lpf file - Cryostat not connected')
 
@@ -1171,7 +1180,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # read in  current temperature and buffer time 
             t_0 = self.ui.current_temperature.value()
             buffer_time = self.ui.buffer_time.value()
-            
+            ramp_time = np.array([])
             # read in ramp speed and final temperature
             root = Tk() # Creates master window for tkinters filedialog window
             root.withdraw() # Hides master window
@@ -1183,7 +1192,10 @@ class MainWindow(QtWidgets.QMainWindow):
             t_final = df['Limit [C]'].to_numpy()
             
             # calculate ramp time
-            ramp_time = 60*(t_final - t_0)/rate
+            for count, value in ndenumerate(t_final):
+
+                ramp_time = np.append(ramp_time,60*abs(value - t_0)/rate[count]) # abs value due to negative Celsius temperatures
+                t_0 = value 
             
             #calcualte absolute time
             
