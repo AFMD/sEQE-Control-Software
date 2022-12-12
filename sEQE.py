@@ -1180,7 +1180,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # read in  current temperature and buffer time 
             t_0 = self.ui.current_temperature.value()
             buffer_time = self.ui.buffer_time.value()
-            ramp_time = np.array([])
+            ramp_time = array([])
             # read in ramp speed and final temperature
             root = Tk() # Creates master window for tkinters filedialog window
             root.withdraw() # Hides master window
