@@ -33,6 +33,8 @@ from scipy.interpolate import interp1d
 
 import codecs
 import pyautogui as pyag
+pyag.PAUSE = 1 # default: 0.1 ; Windows programs need more time though
+
 
 from monochromator import Monochromator
 from microscope.filterwheels.thorlabs import ThorlabsFilterWheel
@@ -241,7 +243,6 @@ class MainWindow(QtWidgets.QMainWindow):
             
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of connectToMono function: {type(err)=}")
-            raise
             
     # Establish connection to LOCKIN
     
@@ -262,7 +263,6 @@ class MainWindow(QtWidgets.QMainWindow):
     
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of connectToLockin function: {type(err)=}")
-            raise
 
     # Establish connection to Filterwheel
 
@@ -285,7 +285,6 @@ class MainWindow(QtWidgets.QMainWindow):
             
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of connectToFilter function: {type(err)=}")
-            raise
 
             
     def connectToCryo(self):
@@ -314,7 +313,6 @@ class MainWindow(QtWidgets.QMainWindow):
                   
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of connectToCryo function: {type(err)=}")
-            raise
         
     # Establish connection to all equipment
         
@@ -326,12 +324,15 @@ class MainWindow(QtWidgets.QMainWindow):
         None
         
         """
-        self.connectToLockin()
-        self.connectToMono()
-        self.connectToFilter()
-        
-        self.ui.imageConnect.setPixmap(QtGui.QPixmap("Button_on.png"))        
-    
+        try:
+            self.connectToLockin()
+            self.connectToMono()
+            self.connectToFilter()
+
+            self.ui.imageConnect.setPixmap(QtGui.QPixmap("Button_on.png"))        
+
+        except Exception as err:
+                    logging.error(f"Unexpected {err=} during execution of connectToEquipment function: {type(err)=}")
 # -----------------------------------------------------------------------------------------------------------        
     
     #### Functions to handle parameter buttons for Monochromator and Lock-in
@@ -1106,8 +1107,10 @@ class MainWindow(QtWidgets.QMainWindow):
             column_labels = column_labels.split(',')
             
             data = content[1::]
+            self.logger.info(data)
             for element in data:
                 data[data.index(element)] = element.split(',')
+            self.logger.info(data)
             content = pd.DataFrame(data,columns = column_labels )
             content.to_csv(filepath, index= False)
             
@@ -1143,6 +1146,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.cryo.multiple_ramps(num_ramp_cycles,data)
                 self.cryo.export_lpf(filepath.split('/')[-1]) # Give only filename, not filepath
                 self.logger.info('Typed in the cryometer parameter and saved to .lpf file')
+                pyag.alert('Mouse is free to use')
         
             else:
                 self.logger.info('Could not convert .csv to .lpf file - Cryostat not connected')
@@ -1194,7 +1198,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # calculate ramp time
             for count, value in ndenumerate(t_final):
 
-                ramp_time = np.append(ramp_time,60*abs(value - t_0)/rate[count]) # abs value due to negative Celsius temperatures
+                ramp_time = append(ramp_time,60*abs(value - t_0)/rate[count]) # abs value due to negative Celsius temperatures
                 t_0 = value 
             
             #calcualte absolute time

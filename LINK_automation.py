@@ -74,12 +74,14 @@ class Cryostat:
         try:
             root = Tk() # Creates master window for tkinters filedialog window
             root.withdraw() # Hides master window
+            
             picturepath = pathlib.Path(filedialog.askdirectory(title = 'Choose the LINK screenshot folder'))
-            return picturepath
-        
-        except TypeError as err:
-            logging.error(f'{err=} during execution of define_picture_path function: {type(err)=}' + '\n' + 'filepath choice got canceled')
-        
+            
+            if not picturepath == '':
+                return picturepath
+            
+            else: 
+                logging.error('Empty picturepath - please choose a folder path again')
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of define_picture_path function:" + '\n' + f"{type(err)=}")
             
@@ -111,20 +113,30 @@ class Cryostat:
             subprocess.Popen(self.LINKpath) #'C:\\Program Files\\Linkam Scientific\\LINK\\LINK.exe'
             self.picturepath = self.define_picture_path()
             
-            pyag.alert('Confirm that the LINK software has started, is open in front of you and you are ready for pyautogui to take over the mouse.')
-            controller_menu = pyag.locateOnScreen(str(self.picturepath / 'controller-menu.png') ,confidence=0.9)
-            pyag.moveTo(controller_menu)
-            pyag.click(controller_menu, clicks = 1 ,button='left')
-            time.sleep(1)
-            pyag.move(0,30)
-            pyag.click(clicks=1, button='left')
-            time.sleep(2)
+            user_input = pyag.alert('Confirm that the LINK software has started, is open in front of you and you are ready for pyautogui to take over the mouse.')
+            if user_input == 'OK':
+                controller_menu = pyag.locateOnScreen(str(self.picturepath / 'controller-menu.png') ,confidence=0.9)
+                pyag.moveTo(controller_menu)
+                pyag.click(controller_menu, clicks = 1 ,button='left')
+                time.sleep(1)
+                pyag.move(0,30)
+                pyag.click(clicks=1, button='left')
+                time.sleep(2)
             
-            if pyag.locateOnScreen(str(self.picturepath / 'Temp_logo.png') ,confidence=0.9):
-                self.connected = True
-                pyag.alert('Mouse is free to use')
+                if pyag.locateOnScreen(str(self.picturepath / 'Temp_logo.png') ,confidence=0.9):
+                    self.connected = True
+                    pyag.alert('Mouse is free to use')
                 
-            return self.connected, self.picturepath
+                return self.connected, self.picturepath
+            
+            else: self.logger.info('Confitm')
+            
+        except OSError as err:
+            logging.error(f'{err=} during execution of connect methode: {type(err)=}' + '\n' + 'screenshot objects were not found on the screen.')
+        
+        except TypeError as err:
+            logging.error(f'{err=} during execution of connect methode: {type(err)=}' + '\n' + 'filepath choice got canceled')
+        
             
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of connect function:" + '\n' + f"{type(err)=}")
@@ -290,18 +302,21 @@ class Cryostat:
         try:
             ramp_cycle = 0 
             parameter = args[0] # First [0] strips the args environment away
-            pyag.confirm('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
-            for i in range(number_ramp_cycles):
-                rate = parameter[0][0]        
-                temperature = parameter[0][1] # [0][1] = First row second item
-                duration = parameter[0][2]    # [0][2] = First row third item
-                parameter = parameter[1:] # Move on to second row 
-                self.set_parameter(rate,temperature,duration)
-                ramp_cycle += 1
-                self.change_ramp_cycle(ramp_cycle < number_ramp_cycles)
+            user_input = pyag.alert('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
+            if user_input == 'OK': 
+                for i in range(number_ramp_cycles):
+                    rate = parameter[0][0]        
+                    temperature = parameter[0][1] # [0][1] = First row second item
+                    duration = parameter[0][2]    # [0][2] = First row third item
+                    parameter = parameter[1:] # Move on to second row 
+                    self.set_parameter(rate,temperature,duration)
+                    ramp_cycle += 1
+                    self.change_ramp_cycle(ramp_cycle < number_ramp_cycles)
+
+                self.go_to_first_ramp_cycle(number_ramp_cycles)
                 
-            self.go_to_first_ramp_cycle(number_ramp_cycles)
-                
+            else:
+                self.logger.info('Could not confirm LINK window for multiple_ramps methode - please try again')
 
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of multiple_ramps methode:" + '\n' + f"{type(err)=}")
