@@ -42,8 +42,7 @@ class Monochromator():
                 return self.connected
             
         except Exception as err:
-            logging.error(f"Unexpected {err=} during connect function, {type(err)=}")
-            raise 
+            logging.exception(f"Unexpected {err=} during connect function, {type(err)=}") 
        
     
     # Check Monochromator response
@@ -64,7 +63,7 @@ class Monochromator():
         """
         counter = 0
         ret = False
-        self.p.timeout = 40
+        self.p.timeout = 30
         shouldbEOk = 'filler'
         
         try:
@@ -80,7 +79,7 @@ class Monochromator():
                     logging.info('Waiting for "ok" signal')
                     counter += 1
                     if counter > 2:
-                        logging.error('waitForOK function couldnt find "ok" - please check monochromator connections')
+                        logging.error('waitForOK function could not find "ok" response - please check monochromator connections')
                         break
                     #print('Connection to Monochromator Could Not Be Established')
            

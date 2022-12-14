@@ -222,15 +222,9 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.mono_connected:
                 self.logger.info('Connection to Monochromator Established')
                 self.ui.imageConnect_mono.setPixmap(QtGui.QPixmap("Button_on.png"))
-            
-            else:
-                pass
-                # Monochromator delivers message, if needed reimplement the one below: 
-                # self.logger.error("No connection to Monochromator - check cables and try again")
-            
-            
+                            
         except Exception as err:
-            self.logger.exception(f"Unexpected {err=} during execution of connectToMono function: {type(err)=}")
+            self.logger.exception("Unexpected during execution of connectToMono function:")
             
     # Establish connection to LOCKIN
     
@@ -250,7 +244,7 @@ class MainWindow(QtWidgets.QMainWindow):
             return self.daq, self.device
     
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of connectToLockin function: {type(err)=}")
+            self.logger.exception("Unexpected error during execution of connectToLockin function:")
 
     # Establish connection to Filterwheel
 
@@ -273,7 +267,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.filter_connected = False
             
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of connectToFilter function: {type(err)=}")
+            self.logger.exception("Unexpected error during execution of connectToFilter function:")
 
             
     def connectToCryo(self):
@@ -301,7 +295,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
                   
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of connectToCryo function: {type(err)=}")
+            self.logger.exception("Unexpected during execution of connectToCryo function:")
         
     # Establish connection to all equipment
         
@@ -321,7 +315,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.imageConnect.setPixmap(QtGui.QPixmap("Button_on.png"))        
 
         except Exception as err:
-                    logging.error(f"Unexpected {err=} during execution of connectToEquipment function: {type(err)=}")
+                    self.logger.exception("Unexpected error during execution of connectToEquipment function:")
 # -----------------------------------------------------------------------------------------------------------        
     
     #### Functions to handle parameter buttons for Monochromator and Lock-in
@@ -424,9 +418,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.LockinUpdateParameters(self.amplification)
             else: 
                 self.logger.info('Lock-In not connected')
+                
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of LockinHandleParametersButton function: {type(err)=}")
-            raise
+            self.logger.exception("Unexpected error during execution of LockinHandleParametersButton function:")
         
     def LockinUpdateParameters(self,amplification):   # Function sets desired Lock-in parameters and calls setParameter function 
         """Function to update Lockin parameters.
@@ -473,8 +467,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.logger.error("Lock-In not connected")
                 
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of LockinUpdateParameters function: {type(err)=}")
-            raise
+            self.logger.exception("Unexpected error during execution of LockinUpdateParameters function:")
              
         
 # -----------------------------------------------------------------------------------------------------------        
@@ -608,14 +601,18 @@ class MainWindow(QtWidgets.QMainWindow):
             Raises error if second filter wheel not connected
        
         """
-        
-        if not self.filter_connected:
-            self.logger.error("External Filter Wheel Not Connected")
-            return False
+        try:
+            if not self.filter_connected:
+                self.logger.error("External Filter Wheel Not Connected")
+                return False
 
-        self.thorfilterwheel._do_set_position(pos-1)
-        self.logger.info('Thorlabs filterwheel updated')
-        return True
+            self.thorfilterwheel._do_set_position(pos-1)
+            self.logger.info('Thorlabs filterwheel updated')
+            return True
+        
+        except Exception as err: 
+            self.logger.exception("Unexpected error during execution of changeFilter function:")
+        
         
 # -----------------------------------------------------------------------------------------------------------        
     
@@ -638,7 +635,7 @@ class MainWindow(QtWidgets.QMainWindow):
             else: self.MonoHandleCompleteScan()
         
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of MonoHandleCompleteScanButton function:" + "\n" + f"{type(err)=}")
+            self.logger.exception("Unexpected error during execution of MonoHandleCompleteScanButton function:")
 
         
         
@@ -816,7 +813,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         try:
             counter = 1
-            userinput = pyag.confirm('sEQE Control GUI will be sleeping i.e. unusable during ramping time - do you want to proceed ?')
+            userinput = pyag.confirm('Cryostat measurement: sEQE Control GUI will be unusable during ramping time - do you want to proceed ? If you need to interrupt the process, use ctrl+c interrupt')
 
 
             if self.cryo_connected and self.ui.CryoBox.isChecked() and userinput == 'OK':
@@ -850,7 +847,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.logger.info('Cryostat measurement finished')
                 
             else: 
-                self.logger.info('Couldnt start MonoCryoHandleCompleteScan function - Either user denied it or Cryostat is not connected or GUI Cryobox is not ticked.')
+                self.logger.info('Could not start MonoCryoHandleCompleteScan function - Either user cancled it or Cryostat is not connected or GUI Cryobox is not ticked.')
 
         # for ramp in dictionary : 
         #  wait the value calculated by self.calculate_time
@@ -860,13 +857,13 @@ class MainWindow(QtWidgets.QMainWindow):
         #
         except KeyboardInterrupt:
             self.logger.info('Measurement was interrupted with KeyboardInterrupt - cryostat will be stopped')
+            self.cryo.open_minimized_LINK()
             self.cryo.stop_measurement()
             self.cryo.click_ok()
             self.cryo.close_results()
             
         except Exception as err:
-            self.logger.error(f"Unexpected {err=} during MonoCryoHandleCompleteScan function, {type(err)=}")
-            raise
+            self.logger.exception("Unexpected error during MonoCryoHandleCompleteScan function:")
     
     
     def load_naming(self):
@@ -892,11 +889,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.user.setText(names[5])
             self.ui.experiment.setText(names[6])
             
-        except Exception as e:
-            self.logger.exception(e)
+        except Exception as err:
+            self.logger.exception("Unexpected error during execution of load_naming function:")
     
     def save_mono_parameter(self):
-        """Function to save measurement parameters to file
+        """Function to save monochromator measurement parameters to file
         
         Parameters
         ----------
@@ -995,11 +992,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.logger.warning('No parameters were safed due to missing filename')
             
         except Exception as err:
-            self.logger.exception(err)
+            self.logger.exception("Unexpected error during execution of save_mono_parameter function:")
     
     
     def load_mono_parameter(self):
-        """Function to load measurement parameters from file.
+        """Function to load monochromator measurement parameters from file.
         
         Parameters
         ----------
@@ -1064,8 +1061,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.scan_stepNM_6.setValue(measurement_parameters['f6'][2])
                 self.ui.scan_pickAmp_6.setValue(measurement_parameters['f6'][3])
                 
-        except Exception as e:
-            self.logger.exception(e)        
+        except Exception as err:
+            self.logger.exception("Unexpected error during execution of load_mono_parameter function:")        
 
             
     def save_cryo_parameter(self):
@@ -1111,8 +1108,7 @@ class MainWindow(QtWidgets.QMainWindow):
             pyag.alert('Too many values in a line of the cryo parameter .csv file - confirm that each row only has three values')
             
         except Exception as err:
-            self.logger.error(f"Unexpected {err=} during save_cryo_parameter function, {type(err)=}")
-            raise 
+            self.logger.exception("Unexpected error during save_cryo_parameter function:") 
             
         # Open LINK
         # Automatically type in GUI parameter and name file
@@ -1142,7 +1138,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         
         except Exception as err:
-            self.logger.error(f"Unexpected {err=} during convert_cryo_parameter function, {type(err)=}")
+            self.logger.exception("Unexpected error during convert_cryo_parameter function:")
             
                                
     def load_cryo_parameter(self):
@@ -1161,12 +1157,27 @@ class MainWindow(QtWidgets.QMainWindow):
             self.cryo.import_lpf(profilefile.split('.')[0]+'.lpf')
             
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of load_cryo_parameter function: {type(err)=}")
-            raise
+            self.logger.exception("Unexpected error during execution of load_cryo_parameter function:")
+
         
         
     def calculate_time(self,):
-        """Methode to calculate measurment time for synchronization with cryo.
+        """Methode to calculate measurement time for synchronization with cryo.
+        
+        Parameter
+        ---------
+        None
+        
+        Returns
+        -------
+        None 
+        
+        Notes
+        -----
+        Reads in current temperature of cryostat, wanted buffer time and the used .lpf 
+        parameter from the .csv equivalent. From there, the function calculates the 
+        needed ramp time and the needed total time for all ramps in this measurement 
+        cycle.
         
         """
         try:
@@ -1198,8 +1209,8 @@ class MainWindow(QtWidgets.QMainWindow):
             return abs_time
         
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of calculate_time function: {type(err)=}")
-            raise
+            self.logger.exception("Unexpected error during execution of calculate_time function:")
+
     
     # General function to create scanning list
         
@@ -1599,18 +1610,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
 # -----------------------------------------------------------------------------------------------------------   
         
-    def HandleStopButton(self):
-        """Function to stop measurement.
-        
-        Returns
-        -------
-        None
-
-        """
-        self.measuring = False
-        self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_on.png"))
-        return self.measuring
-
 
     def HandleStopCompleteScanButton(self):
         """Function to stop multi-filter measurement.
@@ -1662,8 +1661,7 @@ def main():
         sys.exit(app.exec_())
         
     except Exception as error:
-        logging.error(f"Unexpected {error=} during main function, {type(error)=}")
-        raise
+        logging.exception("Unexpected error during main function: ")
 
 if __name__ == "__main__": 
     main()
