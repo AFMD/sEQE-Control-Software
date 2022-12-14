@@ -62,6 +62,7 @@ class Monochromator():
             Raises error if monochromator connection failed or Exception handling
         
         """
+        counter = 0
         ret = False
         self.p.timeout = 40
         shouldbEOk = 'filler'
@@ -77,6 +78,10 @@ class Monochromator():
                     return ret
                 else:
                     logging.info('Waiting for "ok" signal')
+                    counter += 1
+                    if counter > 2:
+                        logging.error('waitForOK function couldnt find "ok" - please check monochromator connections')
+                        break
                     #print('Connection to Monochromator Could Not Be Established')
            
             self.p.timeout = 0
@@ -84,7 +89,7 @@ class Monochromator():
 
             
         except Exception as error:
-            logging.error(f"Unexpected {err=} during execution of waitForOk function, is ok still detected ? , {type(err)=}")
+            logging.exception(f"Unexpected {err=} during execution of waitForOk function, is ok still detected ? , {type(err)=}")
             print(error)
             
 

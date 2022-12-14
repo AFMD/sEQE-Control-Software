@@ -62,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
             
             for i in range(len(pNpdata)):
                 if pNpdata[i] == '':
-                    print('Empty string in pathsNdevices.txt found. The current file will be deleted, please recreate the file')
+                    print('Empty string in pathsNdevices_config.txt found. The current file will be deleted, please recreate the file')
                     file.unlink()  # to delete file
                 
         else:
@@ -224,11 +224,13 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.imageConnect_mono.setPixmap(QtGui.QPixmap("Button_on.png"))
             
             else:
-                self.logger.error("No connection to Monochromator - check cables and try again")
+                pass
+                # Monochromator delivers message, if needed reimplement the one below: 
+                # self.logger.error("No connection to Monochromator - check cables and try again")
             
             
         except Exception as err:
-            logging.error(f"Unexpected {err=} during execution of connectToMono function: {type(err)=}")
+            self.logger.exception(f"Unexpected {err=} during execution of connectToMono function: {type(err)=}")
             
     # Establish connection to LOCKIN
     
