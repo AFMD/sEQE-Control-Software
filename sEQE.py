@@ -51,12 +51,14 @@ class MainWindow(QtWidgets.QMainWindow):
         file = pathlib.Path('pathsNdevices_config.txt')
         if file.exists():
             pNpdata = file.read_text().split(',')
-            print(pNpdata)
+            
             self.zurich_device = pNpdata[0]
             self.filter_port = pNpdata[1]
             self.mono_port =  pNpdata[2]
             self.save_path = pNpdata[3]
             self.LINK_path = pNpdata[4]
+            
+            print(f'Found the following details for setup in pathsNdevices.txt: \n zurich instrument device name: {self.zurich_device} \n second filter wheel port: {self.filter_port} \n monochromator port: {self.mono_port} \n default path where data are saved: {self.save_path}')
             
             for i in range(len(pNpdata)):
                 if pNpdata[i] == '':
