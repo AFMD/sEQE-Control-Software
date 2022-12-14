@@ -116,7 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.filter_connected = False  # Set the filterwheel connection to False
         self.cryo_connected = False # Set the cryostat connection To False
         
-        self.thorfilterwheel = ThorlabsFilterWheel(com=self.filter_usb) # Initialize Thorlabs filter wheel
+        # Initialize Thorlabs filter wheel
         self.mono = Monochromator(self.mono_usb)
         self.lockin = LockIn(self.zurich_device)
         self.cryo = Cryostat(self.LINK_path)
@@ -275,6 +275,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         """ 
         try:
+            self.thorfilterwheel = ThorlabsFilterWheel(com=self.filter_usb)
             if self.thorfilterwheel.position == 0:
                 self.filter_connected = True
                 self.logger.info("Connection to External Filter Wheel Established")
