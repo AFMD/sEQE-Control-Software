@@ -639,7 +639,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         
         
-    def MonoHandleCompleteScan(self):
+    def MonoHandleCompleteScan(self,*args):
         """Function to measure samples with different filters.
         
         Returns
@@ -675,7 +675,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.MonoHandleSpeedButton() 
 
                 scan_list = self.createScanJob(start_f1, stop_f1, step_f1)
-                self.HandleMeasurement(scan_list, start_f1, stop_f1, step_f1, amp_f1, 3)
+                self.HandleMeasurement(scan_list, start_f1, stop_f1, step_f1, amp_f1, 3,*args)
 
         if self.ui.scan_Filter2.isChecked():
 
@@ -699,7 +699,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f2, stop_f2, step_f2)
-                self.HandleMeasurement(scan_list, start_f2, stop_f2, step_f2, amp_f2, 3)
+                self.HandleMeasurement(scan_list, start_f2, stop_f2, step_f2, amp_f2, 3,*args)
 
         if self.ui.scan_Filter3.isChecked():
 
@@ -723,7 +723,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f3, stop_f3, step_f3)
-                self.HandleMeasurement(scan_list, start_f3, stop_f3, step_f3, amp_f3, 3)
+                self.HandleMeasurement(scan_list, start_f3, stop_f3, step_f3, amp_f3, 3,*args)
 
         if self.ui.scan_Filter4.isChecked():
 
@@ -747,7 +747,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f4, stop_f4, step_f4)
-                self.HandleMeasurement(scan_list, start_f4, stop_f4, step_f4, amp_f4, 3)
+                self.HandleMeasurement(scan_list, start_f4, stop_f4, step_f4, amp_f4, 3,*args)
 
         if self.ui.scan_Filter5.isChecked():
 
@@ -771,7 +771,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f5, stop_f5, step_f5)
-                self.HandleMeasurement(scan_list, start_f5, stop_f5, step_f5, amp_f5, 3)
+                self.HandleMeasurement(scan_list, start_f5, stop_f5, step_f5, amp_f5, 3,*args)
 
         if self.ui.scan_Filter6.isChecked():
 
@@ -795,7 +795,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.MonoHandleSpeedButton()
 
                 scan_list = self.createScanJob(start_f6, stop_f6, step_f6)
-                self.HandleMeasurement(scan_list, start_f6, stop_f6, step_f6, amp_f6, 3)
+                self.HandleMeasurement(scan_list, start_f6, stop_f6, step_f6, amp_f6, 3,*args)
 
         self.changeFilter(1) 
         self.logger.info('Moving to open filter')               
@@ -817,7 +817,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
             if self.cryo_connected and self.ui.CryoBox.isChecked() and userinput == 'OK':
-                waiting_time = self.calculate_time()
+                waiting_time, temperatures = self.calculate_time()
                 for value in waiting_time:
                     
                     if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
@@ -828,7 +828,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     time.sleep(value) # Better way of making program wait ?
                     self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')  
                     
-                    self.MonoHandleCompleteScan()
+                    self.MonoHandleCompleteScan(temperatures[counter-1])
                     
                     self.logger.info(f'{counter}. measurement with cryo completed')
                     counter += 1 
@@ -1170,7 +1170,12 @@ class MainWindow(QtWidgets.QMainWindow):
         
         Returns
         -------
-        None 
+        abs_time: array, required
+            total times for individual measurements 
+        
+        t_final: array, required
+            final temperatures for individual measurements 
+        
         
         Notes
         -----
@@ -1206,7 +1211,7 @@ class MainWindow(QtWidgets.QMainWindow):
             abs_time = buffer_time*60 + ramp_time
             self.logger.info(f'Cryostat will need {ramp_time} seconds for ramping. sEQE measurement starts in {abs_time} seconds.')
             
-            return abs_time
+            return abs_time , t_final
         
         except Exception as err:
             self.logger.exception("Unexpected error during execution of calculate_time function:")
@@ -1251,7 +1256,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
     # Measure LOCKIN response    
      
-    def HandleMeasurement(self, scan_list, start, stop, step, amp, number):  
+    def HandleMeasurement(self, scan_list, start, stop, step, amp, number,*args):  
         """Function to prepare sample measurement.
         
         Parameters
@@ -1292,10 +1297,17 @@ class MainWindow(QtWidgets.QMainWindow):
             if number == 3:
                 name = self.ui.file.text()
 
-            if not self.complete_scan: # If not a complete scan is taken
-                fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)'
-            elif self.complete_scan:
-                fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)' 
+            if not args: 
+                if not self.complete_scan: # If not a complete scan is taken
+                    fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)'
+                elif self.complete_scan:
+                    fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)'
+            else:
+                if not self.complete_scan: # If not a complete scan is taken
+                    fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + str(args[0]) + 'degreeC'
+                elif self.complete_scan:
+                    fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no 
+                    + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + str(args[0]) + 'degreeC'
         
             #Set up path to save data
             self.path =f'{self.save_path}/{userName}/{experimentName}'
