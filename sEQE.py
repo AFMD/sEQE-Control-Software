@@ -830,19 +830,22 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.MonoHandleCompleteScan(temperatures[counter-1])
                     
                     self.logger.info(f'{counter}. measurement with cryo completed')
-                    counter += 1 
                     self.cryo.open_minimized_LINK()
                     self.cryo.stop_measurement()
                     self.cryo.click_ok()
                     self.cryo.close_results()
-                    # if waiting_time[counter]  needs ti be implemented to prevent the jibberish at the end
-                    self.cryo.change_ramp_cycle(True)
-                    self.cryo.set_start_cycle()
-                    
+                    if not counter == len(waiting_time):
+                        self.cryo.change_ramp_cycle(True)
+                        self.cryo.set_start_cycle()
+                    counter += 1 
+
                 if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
                         self.cryo.open_minimized_LINK()
                         
-                self.cryo.go_to_first_ramp_cycle(waiting_time.shape[0])
+                self.cryo.go_to_first_ramp_cycle(len(waiting_time)) # This doesnt work, just leaves the current ramp where it is
+                #self.logger.info('Moved back to ramp 1')
+                #self.cryo.set_start_cycle()
+
                 self.logger.info('Cryostat measurement finished')
                 
             else: 
