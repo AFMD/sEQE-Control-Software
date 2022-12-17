@@ -822,12 +822,11 @@ class MainWindow(QtWidgets.QMainWindow):
                     
                     if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
                         self.cryo.open_minimized_LINK()
-                        
                     self.cryo.start_measurement()
                     self.logger.info(f'{value} seconds sleeping time from now')
                     time.sleep(value) # Better way of making program wait ?
                     self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')  
-                    
+
                     self.MonoHandleCompleteScan(temperatures[counter-1])
                     
                     self.logger.info(f'{counter}. measurement with cryo completed')
@@ -1211,7 +1210,7 @@ class MainWindow(QtWidgets.QMainWindow):
             abs_time = buffer_time*60 + ramp_time
             self.logger.info(f'Cryostat will need {ramp_time} seconds for ramping. sEQE measurement starts in {abs_time} seconds.')
             
-            return abs_time , t_final
+            return abs_time,t_final
         
         except Exception as err:
             self.logger.exception("Unexpected error during execution of calculate_time function:")
@@ -1288,6 +1287,8 @@ class MainWindow(QtWidgets.QMainWindow):
             stop_no = str(int(stop))
             step_no = str(int(step))
             amp_no = str(int(amp))
+            temperature = str(args[0].astype(str))
+            
             if number == 1:
 #                name = 'Si_ref_diode'
                 name = self.ui.file.text()  
@@ -1296,7 +1297,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 name = self.ui.file.text()  
             if number == 3:
                 name = self.ui.file.text()
-
+                
             if not args: 
                 if not self.complete_scan: # If not a complete scan is taken
                     fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)'
@@ -1304,10 +1305,9 @@ class MainWindow(QtWidgets.QMainWindow):
                     fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)'
             else:
                 if not self.complete_scan: # If not a complete scan is taken
-                    fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + str(args[0]) + 'degreeC'
+                    fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + temperature + 'degreeC'
                 elif self.complete_scan:
-                    fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no 
-                    + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + str(args[0]) + 'degreeC'
+                    fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + temperature + 'degreeC'
         
             #Set up path to save data
             self.path =f'{self.save_path}/{userName}/{experimentName}'
