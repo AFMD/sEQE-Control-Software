@@ -5,4 +5,7 @@ sEQE-Control-Software
    :maxdepth: 4
 
    GUI_template
+   LINK_automation
+   lockin
+   monochromator
    sEQE
