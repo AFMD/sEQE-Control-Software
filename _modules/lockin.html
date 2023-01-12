@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lockin &mdash; AFMDs sEQE setup October 2022 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/AFMD_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">sEQE-Control-Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licence.html">Licence</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AFMDs sEQE setup</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lockin</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lockin</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="kn">import</span> <span class="nn">GUI_template</span>
+<span class="kn">import</span> <span class="nn">serial</span>
+<span class="kn">import</span> <span class="nn">zhinst.utils</span>
+<span class="kn">import</span> <span class="nn">zhinst.ziPython</span>
+ 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">serial</span>
+
+<span class="kn">import</span> <span class="nn">codecs</span>
+
+
+
+
+<div class="viewcode-block" id="LockIn"><a class="viewcode-back" href="../lockin.html#lockin.LockIn">[docs]</a><span class="k">class</span> <span class="nc">LockIn</span><span class="p">():</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">device</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span> <span class="o">=</span> <span class="n">device</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">c6</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
+    
+<div class="viewcode-block" id="LockIn.connect"><a class="viewcode-back" href="../lockin.html#lockin.LockIn.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to establish connection to Lockin.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Zurich Instruments localhost name, device details and True if device is connected</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="c1"># Find device via Device Discovery and open connection to ziServer </span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">zhinst</span><span class="o">.</span><span class="n">ziPython</span><span class="o">.</span><span class="n">ziDiscovery</span><span class="p">()</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span><span class="p">))</span>
+        <span class="n">daq</span> <span class="o">=</span> <span class="n">zhinst</span><span class="o">.</span><span class="n">ziPython</span><span class="o">.</span><span class="n">ziDAQServer</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;serveraddress&#39;</span><span class="p">],</span>
+                                          <span class="n">props</span><span class="p">[</span><span class="s1">&#39;serverport&#39;</span><span class="p">],</span> 
+                                          <span class="n">props</span><span class="p">[</span><span class="s1">&#39;apilevel&#39;</span><span class="p">])</span>
+        <span class="n">daq</span><span class="o">.</span><span class="n">connectDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span><span class="p">,</span> 
+                          <span class="n">props</span><span class="p">[</span><span class="s1">&#39;interfaces&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">daq</span> <span class="o">=</span> <span class="n">daq</span>
+        
+        <span class="c1"># Detect device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">zhinst</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">autoDetect</span><span class="p">(</span><span class="n">daq</span><span class="p">)</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Connection to Lock-In Established&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">True</span>       
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span></div>
+    
+<div class="viewcode-block" id="LockIn.setParameters"><a class="viewcode-back" href="../lockin.html#lockin.LockIn.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">diff_2</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span><span class="n">imp50</span><span class="p">,</span><span class="n">imp50_2</span><span class="p">,</span><span class="n">ac</span><span class="p">,</span><span class="n">Range</span><span class="p">,</span><span class="n">lowpass</span><span class="p">,</span><span class="n">rate</span><span class="p">,</span><span class="n">tc</span><span class="p">,</span><span class="n">c_2</span><span class="p">,</span><span class="n">amplification</span><span class="p">):</span>       
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to set default Lockin parameters.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        diff : int, required</span>
+<span class="sd">            Boolean representation to turn differentiale mode on and off: default: 1</span>
+<span class="sd">            </span>
+<span class="sd">        imp50 : int, required</span>
+<span class="sd">            Boolean representation to turn 50 Ohm impedance(?) on or off, default: 0</span>
+<span class="sd">        </span>
+<span class="sd">        imp50_2 : int,required</span>
+<span class="sd">            Boolean representation to turn on 50 Ohm on channel 2 to attenuate signal from chopper controller as reference signal, default: 1 </span>
+<span class="sd">        </span>
+<span class="sd">        ac : int, required</span>
+<span class="sd">            Boolean representation to turn AC voltage on or off, default: 0</span>
+<span class="sd">            </span>
+<span class="sd">        Range : int, required</span>
+<span class="sd">            Voltage range for measurement, default: 2V</span>
+<span class="sd">        </span>
+<span class="sd">        lowpass : int, required</span>
+<span class="sd">            low pass filter order</span>
+<span class="sd">        </span>
+<span class="sd">        rate : int, required</span>
+<span class="sd">            data transfer rate</span>
+<span class="sd">        </span>
+<span class="sd">        tc : int, required</span>
+<span class="sd">             time constant for measurement</span>
+<span class="sd">        </span>
+<span class="sd">        c_2 : str, required</span>
+<span class="sd">            Channel 2, with value 1, for the reference input</span>
+<span class="sd">        </span>
+<span class="sd">        amplification : int, required</span>
+<span class="sd">            Lock-in amplification of the signal</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diff</span> <span class="o">=</span> <span class="n">diff</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diff_2</span> <span class="o">=</span> <span class="n">diff_2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imp50</span> <span class="o">=</span> <span class="n">imp50</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imp50_2</span> <span class="o">=</span> <span class="n">imp50_2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ac</span> <span class="o">=</span> <span class="n">ac</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="n">Range</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">lowpass</span> <span class="o">=</span> <span class="n">lowpass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rate</span> <span class="o">=</span> <span class="n">rate</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">tc</span> <span class="o">=</span> <span class="n">tc</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c_2</span> <span class="o">=</span> <span class="n">c_2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">amplification</span> <span class="o">=</span> <span class="n">amplification</span>
+            
+            <span class="c1"># Disable all outputs and all demods</span>
+            <span class="n">general_setting</span> <span class="o">=</span> <span class="p">[</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/0/trigger&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/1/trigger&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/2/trigger&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/3/trigger&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/4/trigger&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/5/trigger&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigouts/0/enables/*&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigouts/1/enables/*&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">general_setting</span><span class="p">)</span>
+
+            <span class="c1"># Set test settings</span>
+            <span class="n">t1_sigOutIn_setting</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="c1"># Diff Button (Enable for differential mode to measure the difference between +In and -In.)</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigins/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/diff&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff</span><span class="p">],</span>  
+
+                <span class="c1"># 50 Ohm Button (Enable to switch input impedance between low (50 Ohm) and high (approx 1 MOhm). </span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigins/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/imp50&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">imp50</span><span class="p">],</span>   <span class="c1"># Select for signal frequencies of &gt; 10 MHz.)</span>
+
+                <span class="c1"># AC Button (Enable for AC coupling to remove DC signal. Cutoff frequency = 1kHz) </span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigins/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/ac&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ac</span><span class="p">],</span>  
+
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigins/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/range&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="p">],</span>  <span class="c1"># Input Range               </span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/order&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">lowpass</span><span class="p">],</span>  <span class="c1"># Low-Pass Filter Order                        </span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/timeconstant&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">],</span>  <span class="c1"># Time Constant</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/rate&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">],</span>  <span class="c1"># Data Transfer Rate </span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/oscselect&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>  <span class="c1"># Oscillators</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/harmonic&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Harmonicss</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/phaseshift&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Phase Shift       </span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/zctrls/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/tamp/0/currentgain&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplification</span><span class="p">],</span>  <span class="c1">#  Amplifier Setting for wire 1</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/zctrls/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/tamp/1/currentgain&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplification</span><span class="p">],</span>  <span class="c1">#  Amplifier Setting for wire 2 </span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/demods/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/adcselect&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="c1"># ???</span>
+
+            <span class="c1"># For locked reference signal</span>
+                <span class="c1"># 50 Ohm Button (Enable to switch input impedance between low (50 Ohm) and high (approx 1 MOhm).</span>
+                <span class="c1"># Select for signal frequencies of &gt; 10 MHz.)</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigins/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_2</span><span class="p">,</span><span class="s1">&#39;/imp50&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">imp50_2</span><span class="p">],</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/sigins/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c_2</span><span class="p">,</span><span class="s1">&#39;/diff&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_2</span><span class="p">],</span> 
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/plls/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/enable&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Manual [0], External Reference [1]</span>
+                <span class="p">[[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="s1">&#39;/plls/&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="s1">&#39;/adcselect&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">],</span> <span class="c1"># ???</span>
+
+            <span class="c1"># For manual reference signal - The frequency tab is currently not implemented in the GUI</span>
+    <span class="c1">#            [[&#39;/&#39;, self.device, &#39;/plls/&#39;,self.c,&#39;/enable&#39;], 0],  # Manual [0], External Reference [1]</span>
+    <span class="c1">#            [[&#39;/&#39;, self.device, &#39;/oscs/&#39;,self.c,&#39;/freq&#39;], self.frequency],  # Demodulation Frequency</span>
+
+            <span class="c1"># Additional settings ?                        </span>
+        <span class="c1">#        [[&#39;/&#39;, self.device, &#39;/sigouts/&#39;,self.c,&#39;/add&#39;], -179.8390],  # Output Add Button (Adds signal from &quot;Add&quot; connection)</span>
+        <span class="c1">#        [[&#39;/&#39;, self.device, &#39;/sigouts/&#39;,self.c,&#39;/on&#39;], 1],  # Turn on Output Channel</span>
+        <span class="c1">#        [[&#39;/&#39;, self.device, &#39;/sigouts/&#39;,self.c,&#39;/enables/&#39;,c6], 1],  # Enable Output Channel</span>
+        <span class="c1">#        [[&#39;/&#39;, self.device, &#39;/sigouts/&#39;,self.c,&#39;/range&#39;], 1],  # Output Range</span>
+        <span class="c1">#        [[&#39;/&#39;, self.device, &#39;/sigouts/&#39;,self.c,&#39;/amplitudes/&#39;,c6], amplitude],  # Output Amplitude</span>
+        <span class="c1">#        [[&#39;/&#39;, self.device, &#39;/sigouts/&#39;,self.c,&#39;/offset&#39;], 0],  # Output Offset</span>
+
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">t1_sigOutIn_setting</span><span class="p">);</span>       
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># wait 1s to get a settled lowpass filter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>   <span class="c1"># clean queue</span>
+        
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unexpected error during execution of setParameters function:&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Anna Jungbluth.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #244694; <!-- #F3631D -->
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #ffe95b; <!-- #343131 -->
+    }
+    
+    /* Sidebar text */ 
+    .wy-nav-side a {
+    color: #818181;
+    }
+    
+  </style>
+
+
+</body>
+</html>
