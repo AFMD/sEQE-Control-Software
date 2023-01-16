@@ -39,12 +39,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../README.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../hardware.html">Hardware</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">sEQE-Control-Software</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../licence.html">Licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../control_generated/modules.html">sEQE-Control-Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis_generated/modules.html">sEQE-Analysis-Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/licence.html">Licence</a></li>
 </ul>
 
         </div>
@@ -85,8 +86,8 @@
 <span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtWidgets</span>
 
 
-<div class="viewcode-block" id="Ui_MainWindow"><a class="viewcode-back" href="../GUI_template.html#GUI_template.Ui_MainWindow">[docs]</a><span class="k">class</span> <span class="nc">Ui_MainWindow</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="Ui_MainWindow.setupUi"><a class="viewcode-back" href="../GUI_template.html#GUI_template.Ui_MainWindow.setupUi">[docs]</a>    <span class="k">def</span> <span class="nf">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MainWindow</span><span class="p">):</span>
+<div class="viewcode-block" id="Ui_MainWindow"><a class="viewcode-back" href="../control_generated/GUI_template.html#GUI_template.Ui_MainWindow">[docs]</a><span class="k">class</span> <span class="nc">Ui_MainWindow</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Ui_MainWindow.setupUi"><a class="viewcode-back" href="../control_generated/GUI_template.html#GUI_template.Ui_MainWindow.setupUi">[docs]</a>    <span class="k">def</span> <span class="nf">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MainWindow</span><span class="p">):</span>
         <span class="n">MainWindow</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">)</span>
         <span class="n">MainWindow</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1050</span><span class="p">,</span> <span class="mi">940</span><span class="p">)</span>
         <span class="n">MainWindow</span><span class="o">.</span><span class="n">setLayoutDirection</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">LeftToRight</span><span class="p">)</span>
@@ -1898,7 +1899,7 @@
         <span class="n">MainWindow</span><span class="o">.</span><span class="n">setTabOrder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connectButton_Mono</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">connectButton_Lockin</span><span class="p">)</span>
         <span class="n">MainWindow</span><span class="o">.</span><span class="n">setTabOrder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connectButton_Lockin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">connectButton_Filter</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Ui_MainWindow.retranslateUi"><a class="viewcode-back" href="../GUI_template.html#GUI_template.Ui_MainWindow.retranslateUi">[docs]</a>    <span class="k">def</span> <span class="nf">retranslateUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MainWindow</span><span class="p">):</span>
+<div class="viewcode-block" id="Ui_MainWindow.retranslateUi"><a class="viewcode-back" href="../control_generated/GUI_template.html#GUI_template.Ui_MainWindow.retranslateUi">[docs]</a>    <span class="k">def</span> <span class="nf">retranslateUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MainWindow</span><span class="p">):</span>
         <span class="n">_translate</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span>
         <span class="n">MainWindow</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;MainWindow&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mono_settings_label</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Monochromator Settings&quot;</span><span class="p">))</span>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sEQE module &mdash; AFMDs sEQE setup October 2022 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sEQE-Analysis-Software" href="../analysis_generated/modules.html" />
+    <link rel="prev" title="monochromator module" href="monochromator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/AFMD_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../content/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">sEQE-Control-Software</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="GUI_template.html">GUI_template module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lockin.html">lockin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monochromator.html">monochromator module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">sEQE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sEQE.MainWindow"><code class="docutils literal notranslate"><span class="pre">MainWindow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.HandleMeasurement"><code class="docutils literal notranslate"><span class="pre">MainWindow.HandleMeasurement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.HandleStopCompleteScanButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.HandleStopCompleteScanButton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.LockinHandleParameterButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.LockinHandleParameterButton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.LockinUpdateParameters"><code class="docutils literal notranslate"><span class="pre">MainWindow.LockinUpdateParameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleCompleteScanButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleCompleteScanButton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleFilterButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleFilterButton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleFilterInitButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleFilterInitButton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleGratingButtons"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleGratingButtons()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleSpeedButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleSpeedButton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleWavelengthButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleWavelengthButton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.calculatePower"><code class="docutils literal notranslate"><span class="pre">MainWindow.calculatePower()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToEquipment"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToEquipment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToFilter"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToFilter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToLockin"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToLockin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToMono"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToMono()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.createScanJob"><code class="docutils literal notranslate"><span class="pre">MainWindow.createScanJob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.get_logger"><code class="docutils literal notranslate"><span class="pre">MainWindow.get_logger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.interpolate"><code class="docutils literal notranslate"><span class="pre">MainWindow.interpolate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.load_mono_parameter"><code class="docutils literal notranslate"><span class="pre">MainWindow.load_mono_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.load_naming"><code class="docutils literal notranslate"><span class="pre">MainWindow.load_naming()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.measure"><code class="docutils literal notranslate"><span class="pre">MainWindow.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.monoCheckFilter"><code class="docutils literal notranslate"><span class="pre">MainWindow.monoCheckFilter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.monoCheckGrating"><code class="docutils literal notranslate"><span class="pre">MainWindow.monoCheckGrating()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.naming"><code class="docutils literal notranslate"><span class="pre">MainWindow.naming()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.pause"><code class="docutils literal notranslate"><span class="pre">MainWindow.pause()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.save_mono_parameter"><code class="docutils literal notranslate"><span class="pre">MainWindow.save_mono_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.set_up_plot"><code class="docutils literal notranslate"><span class="pre">MainWindow.set_up_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.thorChangeFilter"><code class="docutils literal notranslate"><span class="pre">MainWindow.thorChangeFilter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sEQE.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis_generated/modules.html">sEQE-Analysis-Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/licence.html">Licence</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AFMDs sEQE setup</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">sEQE-Control-Software</a></li>
+      <li class="breadcrumb-item active">sEQE module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/control_generated/sEQE.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sEQE">
+<span id="seqe-module"></span><h1>sEQE module<a class="headerlink" href="#module-sEQE" title="Permalink to this heading"></a></h1>
+<p>Created on Fri Sep 28 11:59:40 2018</p>
+<p>&#64;author: jungbluth</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sEQE.MainWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sEQE.</span></span><span class="sig-name descname"><span class="pre">MainWindow</span></span><a class="reference internal" href="../_modules/sEQE.html#MainWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QMainWindow</span></code></p>
+<p>sEQE control software main window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>QtWidgets.QMainWindow</strong> – The Qt5 GUI Interface</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.HandleMeasurement">
+<span class="sig-name descname"><span class="pre">HandleMeasurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.HandleMeasurement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.HandleMeasurement" title="Permalink to this definition"></a></dt>
+<dd><p>Function to prepare sample measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scan_list</strong> (<em>list</em><em> of </em><em>ints</em><em>, </em><em>required</em>) – List of wavelength values to scan</p></li>
+<li><p><strong>start</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength start value</p></li>
+<li><p><strong>stop</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength stop value</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength step value</p></li>
+<li><p><strong>amp</strong> (<em>float</em><em>, </em><em>required</em>) – Pre-amplifier amplification value</p></li>
+<li><p><strong>number</strong> (<em>int</em><em>, </em><em>required</em>) – Specifier to decide if power value is calculated (1) or not (0)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.HandleStopCompleteScanButton">
+<span class="sig-name descname"><span class="pre">HandleStopCompleteScanButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.HandleStopCompleteScanButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.HandleStopCompleteScanButton" title="Permalink to this definition"></a></dt>
+<dd><p>Function to stop multi-filter measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.LockinHandleParameterButton">
+<span class="sig-name descname"><span class="pre">LockinHandleParameterButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.LockinHandleParameterButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.LockinHandleParameterButton" title="Permalink to this definition"></a></dt>
+<dd><p>Function to read Lockin amplification value from GUI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.LockinUpdateParameters">
+<span class="sig-name descname"><span class="pre">LockinUpdateParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplification</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.LockinUpdateParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.LockinUpdateParameters" title="Permalink to this definition"></a></dt>
+<dd><p>Function to update Lockin parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>int</strong> (<em>amplification</em>) – amplification value of the LockIn signal</p></li>
+<li><p><strong>required</strong> – amplification value of the LockIn signal</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>LoggerError</strong> – Raises error if Lockin not connected or Exception handling</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.MonoHandleCompleteScanButton">
+<span class="sig-name descname"><span class="pre">MonoHandleCompleteScanButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleCompleteScanButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleCompleteScanButton" title="Permalink to this definition"></a></dt>
+<dd><p>Function to measure samples with different filters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.MonoHandleFilterButton">
+<span class="sig-name descname"><span class="pre">MonoHandleFilterButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleFilterButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleFilterButton" title="Permalink to this definition"></a></dt>
+<dd><p>Function to read filter position from GUI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.MonoHandleFilterInitButton">
+<span class="sig-name descname"><span class="pre">MonoHandleFilterInitButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleFilterInitButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleFilterInitButton" title="Permalink to this definition"></a></dt>
+<dd><p>Function to read filter initialization position from GUI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.MonoHandleGratingButtons">
+<span class="sig-name descname"><span class="pre">MonoHandleGratingButtons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleGratingButtons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleGratingButtons" title="Permalink to this definition"></a></dt>
+<dd><p>Function to read grating number from monochromator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.MonoHandleSpeedButton">
+<span class="sig-name descname"><span class="pre">MonoHandleSpeedButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleSpeedButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleSpeedButton" title="Permalink to this definition"></a></dt>
+<dd><p>Function to read monochromator speed from GUI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.MonoHandleWavelengthButton">
+<span class="sig-name descname"><span class="pre">MonoHandleWavelengthButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleWavelengthButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleWavelengthButton" title="Permalink to this definition"></a></dt>
+<dd><p>Function to read wavelength value from GUI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.calculatePower">
+<span class="sig-name descname"><span class="pre">calculatePower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cal_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.calculatePower"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.calculatePower" title="Permalink to this definition"></a></dt>
+<dd><p>Function to calculate power.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_df</strong> (<em>DataFrame</em><em>, </em><em>required</em>) – DataFrame of reference measurements</p></li>
+<li><p><strong>cal_df</strong> (<em>DataFrame</em><em>, </em><em>required</em>) – DataFrame of reference calibration measurements</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame of reference diode measurements incl. power</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.connectToEquipment">
+<span class="sig-name descname"><span class="pre">connectToEquipment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToEquipment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToEquipment" title="Permalink to this definition"></a></dt>
+<dd><p>Function to establish connection to monochromator, Lockin &amp; filter wheel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.connectToFilter">
+<span class="sig-name descname"><span class="pre">connectToFilter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToFilter" title="Permalink to this definition"></a></dt>
+<dd><p>Function to establish connection to filter wheel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.connectToLockin">
+<span class="sig-name descname"><span class="pre">connectToLockin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToLockin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToLockin" title="Permalink to this definition"></a></dt>
+<dd><p>Function to establish connection to Lockin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Zurich Instruments localhost name and device details</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.connectToMono">
+<span class="sig-name descname"><span class="pre">connectToMono</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToMono"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToMono" title="Permalink to this definition"></a></dt>
+<dd><p>Function to establish connection to monochromator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.createScanJob">
+<span class="sig-name descname"><span class="pre">createScanJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.createScanJob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.createScanJob" title="Permalink to this definition"></a></dt>
+<dd><p>Function to compile scan parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength start value</p></li>
+<li><p><strong>stop</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength stop value</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength step value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of integer wavelength values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.get_logger">
+<span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.get_logger" title="Permalink to this definition"></a></dt>
+<dd><p>Function to set up logger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>logger</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.interpolate">
+<span class="sig-name descname"><span class="pre">interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.interpolate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.load_mono_parameter">
+<span class="sig-name descname"><span class="pre">load_mono_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.load_mono_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.load_mono_parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Function to load monochromator measurement parameters from file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Selects a file via tkinter dialog, reads the values and sets measurement parameters</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.load_naming">
+<span class="sig-name descname"><span class="pre">load_naming</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.load_naming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.load_naming" title="Permalink to this definition"></a></dt>
+<dd><p>Function to load naming from directory path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.measure" title="Permalink to this definition"></a></dt>
+<dd><p>Function to perform sample measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scan_list</strong> (<em>list</em><em> of </em><em>ints</em><em>, </em><em>required</em>) – List of wavelength values to scan</p></li>
+<li><p><strong>number</strong> (<em>int</em><em>, </em><em>required</em>) – Specifier to decide if power value is calculated (1) or not (0)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.monoCheckFilter">
+<span class="sig-name descname"><span class="pre">monoCheckFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.monoCheckFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.monoCheckFilter" title="Permalink to this definition"></a></dt>
+<dd><p>Function to update position of first filter wheel from GUI defaults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>wavelength</strong> (<em>float</em><em>, </em><em>required</em>) – Current wavelength position of monochromator</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>LoggerError</strong> – Raises error if filter wheel commands are invalid or monochromator not connected</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.monoCheckGrating">
+<span class="sig-name descname"><span class="pre">monoCheckGrating</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.monoCheckGrating"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.monoCheckGrating" title="Permalink to this definition"></a></dt>
+<dd><p>Function to update monochromator grating position from GUI defaults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>wavelength</strong> (<em>float</em><em>, </em><em>required</em>) – Current wavelength position of monochromator</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>LoggerError</strong> – Raises error if grating commands are invalid or monochromator not connected</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.naming">
+<span class="sig-name descname"><span class="pre">naming</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.naming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.naming" title="Permalink to this definition"></a></dt>
+<dd><p>Function to compile filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<em>str</em><em>, </em><em>required</em>) – File name</p></li>
+<li><p><strong>path_name</strong> (<em>str</em><em>, </em><em>required</em>) – Path name</p></li>
+<li><p><strong>num</strong> (<em>str</em><em>, </em><em>required</em>) – Filter number</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.pause">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.pause" title="Permalink to this definition"></a></dt>
+<dd><p>Function to pause matplotlib without plt.show()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>interval</strong> (<em>int</em><em>, </em><em>required</em>) – Pause time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is a reimplementation of the matplotlib pause function, removing the final show() call.
+It prevents the matplotlib plot window to pop up after each measurement.</p>
+<p>The matplotlib 3.6 docstring says:</p>
+<p>“Run the GUI event loop for <em>interval</em> seconds.
+If there is an active figure, it will be updated and displayed before the
+pause, and the GUI event loop (if any) will run during the pause.
+This can be used for crude animation.  For more complex animation use
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.animation</span></code>.
+If there is no active figure, sleep for <em>interval</em> seconds instead.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.animation</span></code></dt><dd><p>Proper animations</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></dt><dd><p>Show all figures and optional block until all figures are closed.”</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.save_mono_parameter">
+<span class="sig-name descname"><span class="pre">save_mono_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.save_mono_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.save_mono_parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Function to save monochromator measurement parameters to file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>LoggerWarning</strong> – Raises warning if tkinter saving dialog was closed without entering filename</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Reads the spinbox values and saves them into a file selected via tkinter dialog</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.set_up_plot">
+<span class="sig-name descname"><span class="pre">set_up_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.set_up_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.set_up_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Function to set up plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sEQE.MainWindow.thorChangeFilter">
+<span class="sig-name descname"><span class="pre">thorChangeFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.thorChangeFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.thorChangeFilter" title="Permalink to this definition"></a></dt>
+<dd><p>Function to update position of second filter wheel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pos</strong> (<em>int</em><em>, </em><em>required</em>) – Target filter position, between 1-6</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if connection to second filter wheel is successful, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>LoggerError</strong> – Raises error if second filter wheel not connected</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sEQE.main">
+<span class="sig-prename descclassname"><span class="pre">sEQE.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="monochromator.html" class="btn btn-neutral float-left" title="monochromator module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../analysis_generated/modules.html" class="btn btn-neutral float-right" title="sEQE-Analysis-Software" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, AFMD Group - notably Kate Trinkhaus for logo and Maximilian Hanauske for documentation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #244694; <!-- #F3631D -->
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #ffe95b; <!-- #343131 -->
+    }
+    
+    /* Sidebar text */ 
+    .wy-nav-side a {
+    color: #818181;
+    }
+    
+  </style>
+
+
+</body>
+</html>
