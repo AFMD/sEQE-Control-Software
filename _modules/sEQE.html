@@ -76,12 +76,27 @@
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Created on Fri Sep 28 11:59:40 2018</span>
-
+<span class="sd">V.1.0 Created from September 2018 onwards</span>
 <span class="sd">@author: jungbluth</span>
+
+<span class="sd">V.2.0 Created from August 2022 onwards </span>
+<span class="sd">@author: jungbluth, hanauske </span>
+
+<span class="sd">sEQE Control Code Script</span>
+
+<span class="sd">This script allows the user to use the self-built sEQE setup of the AFMD group. It opens a PyQT5 GUI window which offers the user an interface to run the sEQE measurement. It is assumed that the user has read the online documentation at https://afmd.github.io/sEQE-Control-Software/. </span>
+
+<span class="sd">This tool needs no input to open the GUI.</span>
+
+<span class="sd">This script requires that several packages to be installed within the Python</span>
+<span class="sd">environment you are running this script in. To find out which read the requirements files in the github repository of the AFMD group.</span>
+
+<span class="sd">This file is not intended to be imported as a module.</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># AFMD standard python packages</span>
+
+<span class="c1"># Standard python packages</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">math</span>
@@ -89,16 +104,27 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">serial</span>
+
+<span class="c1"># Standard scientific python packages</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">style</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+
+<span class="c1"># AFMD modules</span>
+<span class="kn">import</span> <span class="nn">GUI_template</span>
+<span class="kn">from</span> <span class="nn">monochromator</span> <span class="kn">import</span> <span class="n">Monochromator</span>
+<span class="kn">from</span> <span class="nn">microscope.filterwheels.thorlabs</span> <span class="kn">import</span> <span class="n">ThorlabsFilterWheel</span>
+<span class="kn">from</span> <span class="nn">lockin</span> <span class="kn">import</span> <span class="n">LockIn</span>
 
 <span class="c1"># logging packages</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-
-<span class="kn">import</span> <span class="nn">platform</span>
-<span class="kn">import</span> <span class="nn">pathlib</span>
-
-
-<span class="kn">import</span> <span class="nn">serial</span>
 
 <span class="c1"># for zurich instruments lock in amplifier:</span>
 <span class="kn">import</span> <span class="nn">zhinst.utils</span>
@@ -109,22 +135,8 @@
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">Tk</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">filedialog</span>
 
-<span class="c1"># AFMD standard scientific python packages</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">style</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
-
 <span class="c1"># bit to unicode translator</span>
 <span class="kn">import</span> <span class="nn">codecs</span>
-
-<span class="c1"># AFMD modules</span>
-<span class="kn">import</span> <span class="nn">GUI_template</span>
-<span class="kn">from</span> <span class="nn">monochromator</span> <span class="kn">import</span> <span class="n">Monochromator</span>
-<span class="kn">from</span> <span class="nn">microscope.filterwheels.thorlabs</span> <span class="kn">import</span> <span class="n">ThorlabsFilterWheel</span>
-<span class="kn">from</span> <span class="nn">lockin</span> <span class="kn">import</span> <span class="n">LockIn</span>
 
 
 <div class="viewcode-block" id="MainWindow"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow">[docs]</a><span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
@@ -134,19 +146,29 @@
 <span class="sd">    ----------</span>
 <span class="sd">    QtWidgets.QMainWindow:</span>
 <span class="sd">        The Qt5 GUI Interface</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    -----------</span>
+
+
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
 
-        <span class="c1"># Initialising ports, device names and save path</span>
+        <span class="c1"># Initialising ports, device names and save path ------------------------------------------------------------------------</span>
+
         <span class="n">file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;pathsNdevices_config.txt&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="n">pNpdata</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">filter_port</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mono_port</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span>
+                <span class="mi">0</span>
+            <span class="p">]</span>  <span class="c1"># zurich instruments lock-in amplifier device name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filter_port</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># second filter wheel serial port number</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mono_port</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># monochromator serial port number</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="n">pNpdata</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># path to save data to</span>
 
             <span class="nb">print</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Found the following details for setup in pathsNdevices.txt: </span><span class="se">\n</span><span class="s2"> zurich instrument device name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> second filter wheel port: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_port</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> monochromator port: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mono_port</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> default path where data are saved: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -196,42 +218,45 @@
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_port</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mono_port</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
+        <span class="c1"># Miscellaneous ------------------------------------------------------------------------------------</span>
+
+        <span class="c1"># Set up the user interface from Designer and Logger</span>
+
         <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>  <span class="c1"># Reduce user distraction</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span>
-
-        <span class="c1"># Set up the user interface from Designer</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">GUI_template</span><span class="o">.</span><span class="n">Ui_MainWindow</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="c1"># Connections</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">mono_connected</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set the monochromator connection to False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lockin_connected</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set the Lock-in connection to False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">filter_connected</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set the filterwheel connection to False</span>
+        <span class="c1"># Connection default values - False to prevent MainWindow&#39;s methods being use before connecting tools</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mono_connected</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lockin_connected</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter_connected</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="c1"># Initialize Monochromator and Lock-In Amplifier</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mono</span> <span class="o">=</span> <span class="n">Monochromator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mono_port</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lockin</span> <span class="o">=</span> <span class="n">LockIn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zurich_device</span><span class="p">)</span>
 
-        <span class="c1"># General Setup</span>
+        <span class="c1"># General lock-in amplifier setup</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">c6</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c6</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># TODO: Is deprecated ?</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">do_plot</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_plot</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Enable plotting during measurement</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">complete_scan</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">complete_scan</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Enable to stop measurement</span>
 
         <span class="c1"># these can not be defined here, due to empty text boxes at start up</span>
         <span class="c1"># self.userName = self.ui.user.text()</span>
         <span class="c1"># self.experimentName = self.ui.experiment.text()</span>
         <span class="c1"># self.path =f&#39;{self.save_path}/{self.userName}/{self.experimentName}&#39;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">filter_addition</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>  <span class="c1">####################################################################################</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter_addition</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>  <span class="c1"># TODO: Is deprecated ?</span>
+
+        <span class="c1"># GUI button assignment -------------------------------------------------------------------------------------</span>
 
         <span class="c1"># Handle Monochromator Buttons</span>
 
@@ -273,19 +298,22 @@
         <span class="c1"># Handle Combined Buttons</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">connectButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connectToEquipment</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">completeScanButton_start</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">MonoHandleCompleteScanButton</span>
-        <span class="p">)</span>  <span class="c1">#########################################################################################</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">completeScanButton_stop</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">HandleStopCompleteScanButton</span>
-        <span class="p">)</span>  <span class="c1">#########################################################################################</span>
+        <span class="p">)</span>
 
-        <span class="c1"># Save and Import data from files or naming from path</span>
+        <span class="c1"># Handle Save and Import</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">save_to_file</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save_mono_parameter</span>
         <span class="p">)</span>  <span class="c1"># Save measurement parameter to file</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">import_from_file</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_mono_parameter</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">importNamingButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_naming</span><span class="p">)</span>
 
         <span class="c1"># Import photodiode calibration files</span>
@@ -300,7 +328,7 @@
         <span class="n">InGaAs_file</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelFile</span><span class="p">(</span><span class="s2">&quot;FGA21-CAL.xlsx&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">InGaAs_cal</span> <span class="o">=</span> <span class="n">InGaAs_file</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;Sheet1&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Close connection to Monochromator and Thorlabs filter wheel when window is closed</span>
+    <span class="c1"># Close connection to Monochromator and Thorlabs filter wheel when window is closed -------------------------</span>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -309,12 +337,6 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">pass</span>
-
-    <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
-
-    <span class="c1">#### Functions to import data into GUI</span>
-
-    <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
