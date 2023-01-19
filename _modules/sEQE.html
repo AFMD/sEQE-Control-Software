@@ -683,7 +683,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">chooseFilter</span><span class="p">(</span><span class="n">shouldbeFilterNo</span><span class="p">)</span>
 
             <span class="c1"># Take data and discard it, this is required to avoid kinks</span>
-            <span class="c1"># Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms)</span>
+            <span class="c1"># Poll data for data_average_factor * time constants, second parameter is poll timeout in [ms] (recomended value is 500ms)</span>
             <span class="n">dataDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="n">data_average_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
             <span class="c1"># Dictionary with [&#39;timestamp&#39;][&#39;x&#39;][&#39;y&#39;][&#39;frequency&#39;][&#39;phase&#39;][&#39;dio&#39;][&#39;trigger&#39;][&#39;auxin0&#39;][&#39;auxin1&#39;][&#39;time&#39;]</span>
 
@@ -709,6 +709,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">gratingNo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">checkGrating</span><span class="p">()</span>
+        <span class="n">data_average_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">data_average_factor</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 
         <span class="n">startNM_G1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">startNM_G1</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
         <span class="n">stopNM_G1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">stopNM_G1</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
@@ -735,8 +736,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">chooseGrating</span><span class="p">(</span><span class="n">shouldbeGratingNo</span><span class="p">)</span>
 
             <span class="c1"># Take data and discard it, this is required to avoid kinks</span>
-            <span class="c1"># Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms)</span>
-            <span class="n">dataDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+            <span class="c1"># Poll data for multiple of time constants, second parameter is poll timeout in [ms] (recomended value is 500ms)</span>
+            <span class="n">dataDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="n">data_average_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
             <span class="c1"># Dictionary with [&#39;timestamp&#39;][&#39;x&#39;][&#39;y&#39;][&#39;frequency&#39;][&#39;phase&#39;][&#39;dio&#39;][&#39;trigger&#39;][&#39;auxin0&#39;][&#39;auxin1&#39;][&#39;time&#39;]</span>
 
         <span class="k">else</span><span class="p">:</span>
@@ -1332,6 +1333,8 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">measuring</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">imageCompleteScan_stop</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="s2">&quot;Button_off.png&quot;</span><span class="p">))</span>
+        <span class="n">data_average_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">data_average_factor</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
 
         <span class="c1"># Set up plot style</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_plot</span><span class="p">:</span>
@@ -1365,9 +1368,9 @@
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">chooseWavelength</span><span class="p">(</span><span class="n">wavelength</span><span class="p">)</span>
 
-                <span class="c1"># Poll data for 5 time constants, second parameter is poll timeout in [ms] (recomended value is 500ms)</span>
+                <span class="c1"># Poll data for multiple of time constants, second parameter is poll timeout in [ms] (recomended value is 500ms)</span>
                 <span class="n">dataDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span>
-                    <span class="mi">5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">,</span> <span class="mi">500</span>
+                    <span class="n">data_average_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">,</span> <span class="mi">500</span>
                 <span class="p">)</span>  <span class="c1"># Dictionary with [&#39;timestamp&#39;][&#39;x&#39;][&#39;y&#39;][&#39;frequency&#39;][&#39;phase&#39;][&#39;dio&#39;][&#39;trigger&#39;][&#39;auxin0&#39;][&#39;auxin1&#39;][&#39;time&#39;]</span>
                 <span class="c1">#                print(dataDict[self.device][&#39;demods&#39;][self.c][&#39;sample&#39;][&#39;timestamp&#39;])</span>
 
