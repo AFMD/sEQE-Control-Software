@@ -17,6 +17,7 @@ import logging
 import warnings
 import platform
 import pathlib
+import datetime
 
 import GUI_template
 import matplotlib
@@ -634,7 +635,8 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.cryo_connected and self.ui.CryoBox.isChecked():
                 self.MonoCryoHandleCompleteScan()
 
-            else: self.MonoHandleCompleteScan()
+            else:
+                self.MonoHandleCompleteScan()
         
         except Exception as err:
             self.logger.exception("Unexpected error during execution of MonoHandleCompleteScanButton function:")
@@ -649,9 +651,10 @@ class MainWindow(QtWidgets.QMainWindow):
         None
         
         """
+        st_0 = datetime.datetime.now()
         self.complete_scan = True
         self.ui.imageCompleteScan_start.setPixmap(QtGui.QPixmap("Button_on.png"))
-        
+
                 
         measurement_values = {}
         
@@ -806,7 +809,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.imageCompleteScan_start.setPixmap(QtGui.QPixmap("Button_off.png"))
         self.ui.imageCompleteScan_stop.setPixmap(QtGui.QPixmap("Button_off.png"))
 
-        self.logger.info('Finished Measurement') 
+        end_0 = datetime.datetime.now()
+        elapsed_time_0 = end_0 - st_0
+        self.logger.info(f'Finished Measurement, execution time:{elapsed_time_0}') 
 
         measurement_parameter = pd.DataFrame.from_dict(measurement_values)
         
@@ -814,6 +819,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """Function to measure sEQE with temperature bias.
         """
         try:
+            st_1 = datetime.datetime.now()
             counter = 1
             userinput = pyag.confirm('Cryostat measurement: sEQE Control GUI will be unusable during ramping time - do you want to proceed ? If you need to interrupt the process, use ctrl+c interrupt')
 
@@ -824,14 +830,16 @@ class MainWindow(QtWidgets.QMainWindow):
                     
                     if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
                         self.cryo.open_minimized_LINK()
+                        
                     self.cryo.start_measurement()
                     self.logger.info(f'{value} seconds sleeping time from now')
                     time.sleep(value) # Better way of making program wait ?
                     self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')  
 
                     self.MonoHandleCompleteScan(temperatures[counter-1])
-                    
+
                     self.logger.info(f'{counter}. measurement with cryo completed')
+                    
                     self.cryo.open_minimized_LINK()
                     self.cryo.stop_measurement()
                     self.cryo.click_ok()
@@ -848,7 +856,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 #self.logger.info('Moved back to ramp 1')
                 #self.cryo.set_start_cycle()
 
-                self.logger.info('Cryostat measurement finished')
+   
+                end_1 = datetime.datetime.now()
+                elapsed_time_1 = end_1 - st_1
+                self.logger.info(f'Cryostat measurement finished, execution time:{elapsed_time_1}')
                 
             else: 
                 self.logger.info('Could not start MonoCryoHandleCompleteScan function - Either user cancled it or Cryostat is not connected or GUI Cryobox is not ticked.')
@@ -871,7 +882,7 @@ class MainWindow(QtWidgets.QMainWindow):
     
     
     def load_naming(self):
-        """Function to load naming from directory path
+        """ Function to load naming from directory path
 
         Parameters
         ----------
@@ -890,14 +901,17 @@ class MainWindow(QtWidgets.QMainWindow):
             filepath = filedialog.askdirectory() # Creates pop-up window to ask for file save
             
             names = filepath.split("/")
-            self.ui.user.setText(names[5])
-            self.ui.experiment.setText(names[6])
+            self.ui.user.setText(names[-2])
+            self.ui.experiment.setText(names[-1])
+        
+        except IndexErorr as err:
+            self.logger.warning("load_naming was either canceled or was not used on correct folder structure")
             
         except Exception as err:
             self.logger.exception("Unexpected error during execution of load_naming function:")
     
     def save_mono_parameter(self):
-        """Function to save monochromator measurement parameters to file
+        """ Function to save monochromator measurement parameters to file
         
         Parameters
         ----------
@@ -1292,7 +1306,8 @@ class MainWindow(QtWidgets.QMainWindow):
             stop_no = str(int(stop))
             step_no = str(int(step))
             amp_no = str(int(amp))
-            temperature = str(args[0].astype(str))
+            if self.cryo_connected and self.ui.CryoBox.isChecked():
+                temperature = str(args[0].astype(str))
             
             if number == 1:
 #                name = 'Si_ref_diode'
@@ -1303,16 +1318,18 @@ class MainWindow(QtWidgets.QMainWindow):
             if number == 3:
                 name = self.ui.file.text()
                 
-            if not args: 
+            if self.cryo_connected and self.ui.CryoBox.isChecked():
+                if not self.complete_scan: # If not a complete scan is taken
+                    fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + temperature + 'degreeC'
+                elif self.complete_scan:
+                    fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_'  +  temperature + 'degreeC'
+                
+            else:
                 if not self.complete_scan: # If not a complete scan is taken
                     fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)'
                 elif self.complete_scan:
                     fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)'
-            else:
-                if not self.complete_scan: # If not a complete scan is taken
-                    fileName = name + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + temperature + 'degreeC'
-                elif self.complete_scan:
-                    fileName = name + '_' + self.filter_addition + 'Filter' + '_(' + start_no + '-' + stop_no + 'nm_' + step_no + 'nm_' + amp_no + 'x)_' + temperature + 'degreeC'
+                
         
             #Set up path to save data
             self.path =f'{self.save_path}/{userName}/{experimentName}'
