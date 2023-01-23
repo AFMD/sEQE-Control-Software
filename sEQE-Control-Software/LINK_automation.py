@@ -113,7 +113,7 @@ class Cryostat:
             subprocess.Popen(self.LINKpath) #'C:\\Program Files\\Linkam Scientific\\LINK\\LINK.exe'
             self.picturepath = self.define_picture_path()
             
-            user_input = pyag.alert('Confirm that the LINK software has started, is open in front of you and you are ready for pyautogui to take over the mouse.')
+            user_input = pyag.alert('Confirm that the LINK software has started, is open in front of you and you are ready for pyautogui to take over the mouse. HANDS OFF MOUSE AFTER THIS')
             if user_input == 'OK':
                 controller_menu = pyag.locateOnScreen(str(self.picturepath / 'controller-menu.png') ,confidence=0.9)
                 pyag.moveTo(controller_menu)
@@ -129,7 +129,7 @@ class Cryostat:
                 
                 return self.connected, self.picturepath
             
-            else: self.logger.info('Confitm')
+            else: logging.info('User did not confirm - abort ')
             
         except OSError as err:
             logging.error(f'{err=} during execution of connect methode: {type(err)=}' + '\n' + 'screenshot objects were not found on the screen.')
@@ -261,10 +261,9 @@ class Cryostat:
             number of rows in this specific ramp cycle 
         """
         try:
-            for i in range(number_ramp_cycles):
-                if not pyag.locateOnScreen(str(self.picturepath / 'ramp-1_logo.png') ,confidence=0.9):
-                    self.change_ramp_cycle(False)
-                else: break
+            for i in range(number_ramp_cycles-1):
+                self.change_ramp_cycle(False)
+            self.set_start_cycle()
                 
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of go_to_first_ramp_cycle methode:" + '\n' + f"{type(err)=}")
@@ -302,7 +301,7 @@ class Cryostat:
         try:
             ramp_cycle = 0 
             parameter = args[0] # First [0] strips the args environment away
-            user_input = pyag.alert('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse.')
+            user_input = pyag.alert('Confirm that the LINK window is visible and you are ready for pyautogui to take over the mouse. HANDS OFF MOUSE AFTER THIS')
             if user_input == 'OK': 
                 for i in range(number_ramp_cycles):
                     rate = parameter[0][0]        
@@ -316,7 +315,7 @@ class Cryostat:
                 self.go_to_first_ramp_cycle(number_ramp_cycles)
                 
             else:
-                self.logger.info('Could not confirm LINK window for multiple_ramps methode - please try again')
+                logging.info('Could not confirm LINK window for multiple_ramps methode - please try again')
 
         except Exception as err:
             logging.error(f"Unexpected {err=} during execution of multiple_ramps methode:" + '\n' + f"{type(err)=}")

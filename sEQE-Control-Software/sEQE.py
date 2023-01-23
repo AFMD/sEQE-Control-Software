@@ -821,36 +821,41 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             st_1 = datetime.datetime.now()
             counter = 1
-            userinput = pyag.confirm('Cryostat measurement: sEQE Control GUI will be unusable during ramping time - do you want to proceed ? If you need to interrupt the process, use ctrl+c interrupt')
+            userinput = pyag.confirm('Cryostat measurement is about to begin - you will choose a .csv file now for calculating the waiting time')
 
 
             if self.cryo_connected and self.ui.CryoBox.isChecked() and userinput == 'OK':
                 waiting_time, temperatures = self.calculate_time()
-                for value in waiting_time:
-                    
+                userinput = pyag.confirm('Cryostat measurement begins after this prompt: sEQE Control GUI will be unusable during ramping time - do you want to proceed ? If you need to interrupt the process, use ctrl+c interrupt. You can use the mouse and keyboard during sEQE measurements, but be aware of poping up LINK windows. HANDS OFF MOUSE AFTER THIS') 
+                if userinput == 'OK':
+                    for value in waiting_time:
+
+                        if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
+                            self.cryo.open_minimized_LINK()
+
+                        self.cryo.start_measurement()
+                        self.logger.info(f'{value} seconds sleeping time from now')
+                        time.sleep(value) # Better way of making program wait ?
+                        self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')  
+
+                        self.MonoHandleCompleteScan(temperatures[counter-1])
+
+                        self.logger.info(f'{counter}. measurement with cryo completed')
+
+                        self.cryo.open_minimized_LINK()
+                        self.cryo.stop_measurement()
+                        self.cryo.click_ok()
+                        self.cryo.close_results()
+                        if not counter == len(waiting_time):
+                            self.cryo.change_ramp_cycle(True)
+                            self.cryo.set_start_cycle()
+                        counter += 1 
+
                     if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
-                        self.cryo.open_minimized_LINK()
-                        
-                    self.cryo.start_measurement()
-                    self.logger.info(f'{value} seconds sleeping time from now')
-                    time.sleep(value) # Better way of making program wait ?
-                    self.logger.info(f'{counter}. ramp completed - Starting sEQE measurement')  
+                            self.cryo.open_minimized_LINK()
+                else:
+                    self.logger.info('Could not start MonoCryoHandleCompleteScan function - the last userinput canceled the process')
 
-                    self.MonoHandleCompleteScan(temperatures[counter-1])
-
-                    self.logger.info(f'{counter}. measurement with cryo completed')
-                    
-                    self.cryo.open_minimized_LINK()
-                    self.cryo.stop_measurement()
-                    self.cryo.click_ok()
-                    self.cryo.close_results()
-                    if not counter == len(waiting_time):
-                        self.cryo.change_ramp_cycle(True)
-                        self.cryo.set_start_cycle()
-                    counter += 1 
-
-                if not pyag.locateOnScreen(str(self.cryo_picturepath / ('start_button.png')) ,confidence=0.9):
-                        self.cryo.open_minimized_LINK()
                         
                 self.cryo.go_to_first_ramp_cycle(len(waiting_time)) # This doesnt work, just leaves the current ramp where it is
                 #self.logger.info('Moved back to ramp 1')
@@ -860,6 +865,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 end_1 = datetime.datetime.now()
                 elapsed_time_1 = end_1 - st_1
                 self.logger.info(f'Cryostat measurement finished, execution time:{elapsed_time_1}')
+                pyag.alert('Mouse is free to use') 
                 
             else: 
                 self.logger.info('Could not start MonoCryoHandleCompleteScan function - Either user cancled it or Cryostat is not connected or GUI Cryobox is not ticked.')
