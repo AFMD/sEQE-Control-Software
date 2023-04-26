@@ -4,20 +4,20 @@ Acknowledgements and Linceses
 List of main AFMD contributors
 ------------------------------
 
-Dr. Anna Jungbluth: Creator of sEQE hardware, control software and analysis software
-Ming Zhu: Developer of sEQE control software and analysis software ; Current main user
-Maximilian Hanauske: Developer of sEQE control software; Creator of sEQE setup documentation
-Dr. Greyson Christoforo: Designer of the sEQE sample holder 
+	- Dr. Anna Jungbluth: Creator of sEQE hardware, control software and analysis software
+	- Ming Zhu: Developer of sEQE control software and analysis software ; Current main user
+	- Maximilian Hanauske: Developer of sEQE control software; Creator of sEQE setup documentation
+	- Dr. Greyson Christoforo: Designer of the sEQE sample holder 
 
 Acknowledgments
 ---------------
 
 Furthermore we want to thank all the people who have contributed to the sEQE measurement setup throughout the years:
 
-Prof. Dr. Moritz Riede: For his kind guidance, wisdom, ideas and his contribution to the sEQE paper
-Dr. Pascal Kaienburg: For his support regarding any questions of physical or engineering nature, his contribution to the sEQE paper and his user feedback
-Irfan Habib: For his reliable and constructive user feedback
-Kate Trinkhaus: Creator of an AFMD Logo which might be used in the future documentation
+	- Prof. Dr. Moritz Riede: For his kind guidance, wisdom, ideas and his contribution to the sEQE paper
+	- Dr. Pascal Kaienburg: For his support regarding any questions of physical or engineering nature, his contribution to the sEQE paper and his user feedback
+	- Irfan Habib: For his reliable and constructive user feedback
+	- Kate Trinkhaus: Creator of an AFMD Logo which might be used in the future documentation
 
 Licenses
 --------
