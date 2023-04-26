@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>sEQE module &mdash; AFMDs sEQE setup October 2022 documentation</title>
@@ -12,9 +12,6 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -29,12 +26,16 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html">
-            <img src="../_static/AFMD_placeholder.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/AFMD_placeholder.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -88,7 +89,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../analysis_generated/modules.html">sEQE-Analysis-Software</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../content/contact.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../content/licence.html">Licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content/licence.html">Acknowledgements and Linceses</a></li>
 </ul>
 
         </div>
@@ -104,7 +105,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="modules.html">sEQE-Control-Software</a></li>
       <li class="breadcrumb-item active">sEQE module</li>
       <li class="wy-breadcrumbs-aside">
@@ -134,7 +135,7 @@ environment you are running this script in. To find out which read the requireme
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QMainWindow</span></code></p>
 <p>sEQE control software main window.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>QtWidgets.QMainWindow</strong> – The Qt5 GUI Interface</p></li>
 <li><p><strong>Attributes</strong> – </p></li>
@@ -147,7 +148,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">HandleMeasurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.HandleMeasurement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.HandleMeasurement" title="Permalink to this definition"></a></dt>
 <dd><p>Function to prepare sample measurement.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>scan_list</strong> (<em>list</em><em> of </em><em>ints</em><em>, </em><em>required</em>) – List of wavelength values to scan</p></li>
 <li><p><strong>start</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength start value</p></li>
@@ -157,7 +158,7 @@ environment you are running this script in. To find out which read the requireme
 <li><p><strong>number</strong> (<em>int</em><em>, </em><em>required</em>) – Specifier to decide if power value is calculated (1) or not (0)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -168,7 +169,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">HandleStopCompleteScanButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.HandleStopCompleteScanButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.HandleStopCompleteScanButton" title="Permalink to this definition"></a></dt>
 <dd><p>Function to stop multi-filter measurement.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -179,7 +180,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">LockinHandleParameterButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.LockinHandleParameterButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.LockinHandleParameterButton" title="Permalink to this definition"></a></dt>
 <dd><p>Function to read Lockin amplification value from GUI.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -190,16 +191,16 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">LockinUpdateParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplification</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.LockinUpdateParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.LockinUpdateParameters" title="Permalink to this definition"></a></dt>
 <dd><p>Function to update Lockin parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>int</strong> (<em>amplification</em>) – amplification value of the LockIn signal</p></li>
 <li><p><strong>required</strong> – amplification value of the LockIn signal</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>LoggerError</strong> – Raises error if Lockin not connected or Exception handling</p>
 </dd>
 </dl>
@@ -210,7 +211,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">MonoHandleCompleteScanButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleCompleteScanButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleCompleteScanButton" title="Permalink to this definition"></a></dt>
 <dd><p>Function to measure samples with different filters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -221,7 +222,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">MonoHandleFilterButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleFilterButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleFilterButton" title="Permalink to this definition"></a></dt>
 <dd><p>Function to read filter position from GUI.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -232,7 +233,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">MonoHandleFilterInitButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleFilterInitButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleFilterInitButton" title="Permalink to this definition"></a></dt>
 <dd><p>Function to read filter initialization position from GUI.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -243,7 +244,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">MonoHandleGratingButtons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleGratingButtons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleGratingButtons" title="Permalink to this definition"></a></dt>
 <dd><p>Function to read grating number from monochromator.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -254,7 +255,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">MonoHandleSpeedButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleSpeedButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleSpeedButton" title="Permalink to this definition"></a></dt>
 <dd><p>Function to read monochromator speed from GUI.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -265,7 +266,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">MonoHandleWavelengthButton</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.MonoHandleWavelengthButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.MonoHandleWavelengthButton" title="Permalink to this definition"></a></dt>
 <dd><p>Function to read wavelength value from GUI.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -276,16 +277,16 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">calculatePower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cal_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.calculatePower"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.calculatePower" title="Permalink to this definition"></a></dt>
 <dd><p>Function to calculate power.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ref_df</strong> (<em>DataFrame</em><em>, </em><em>required</em>) – DataFrame of reference measurements</p></li>
 <li><p><strong>cal_df</strong> (<em>DataFrame</em><em>, </em><em>required</em>) – DataFrame of reference calibration measurements</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>DataFrame of reference diode measurements incl. power</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataFrame</p>
 </dd>
 </dl>
@@ -296,7 +297,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">connectToEquipment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToEquipment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToEquipment" title="Permalink to this definition"></a></dt>
 <dd><p>Function to establish connection to monochromator, Lockin &amp; filter wheel.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -307,7 +308,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">connectToFilter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToFilter" title="Permalink to this definition"></a></dt>
 <dd><p>Function to establish connection to filter wheel.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -318,10 +319,10 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">connectToLockin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToLockin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToLockin" title="Permalink to this definition"></a></dt>
 <dd><p>Function to establish connection to Lockin.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Zurich Instruments localhost name and device details</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list</p>
 </dd>
 </dl>
@@ -332,7 +333,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">connectToMono</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.connectToMono"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.connectToMono" title="Permalink to this definition"></a></dt>
 <dd><p>Function to establish connection to monochromator.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -343,17 +344,17 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">createScanJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.createScanJob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.createScanJob" title="Permalink to this definition"></a></dt>
 <dd><p>Function to compile scan parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>start</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength start value</p></li>
 <li><p><strong>stop</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength stop value</p></li>
 <li><p><strong>step</strong> (<em>float</em><em>, </em><em>required</em>) – Wavelength step value</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of integer wavelength values</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List</p>
 </dd>
 </dl>
@@ -364,7 +365,7 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.get_logger" title="Permalink to this definition"></a></dt>
 <dd><p>Function to set up logger.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>logger</p>
 </dd>
 </dl>
@@ -380,10 +381,10 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">load_mono_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.load_mono_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.load_mono_parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Function to load monochromator measurement parameters from file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -396,10 +397,10 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">load_naming</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.load_naming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.load_naming" title="Permalink to this definition"></a></dt>
 <dd><p>Function to load naming from directory path</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -410,13 +411,13 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.measure" title="Permalink to this definition"></a></dt>
 <dd><p>Function to perform sample measurement.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>scan_list</strong> (<em>list</em><em> of </em><em>ints</em><em>, </em><em>required</em>) – List of wavelength values to scan</p></li>
 <li><p><strong>number</strong> (<em>int</em><em>, </em><em>required</em>) – Specifier to decide if power value is calculated (1) or not (0)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -427,13 +428,13 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">monoCheckFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.monoCheckFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.monoCheckFilter" title="Permalink to this definition"></a></dt>
 <dd><p>Function to update position of first filter wheel from GUI defaults.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>wavelength</strong> (<em>float</em><em>, </em><em>required</em>) – Current wavelength position of monochromator</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>LoggerError</strong> – Raises error if filter wheel commands are invalid or monochromator not connected</p>
 </dd>
 </dl>
@@ -444,13 +445,13 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">monoCheckGrating</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.monoCheckGrating"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.monoCheckGrating" title="Permalink to this definition"></a></dt>
 <dd><p>Function to update monochromator grating position from GUI defaults.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>wavelength</strong> (<em>float</em><em>, </em><em>required</em>) – Current wavelength position of monochromator</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>LoggerError</strong> – Raises error if grating commands are invalid or monochromator not connected</p>
 </dd>
 </dl>
@@ -461,14 +462,14 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">naming</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.naming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.naming" title="Permalink to this definition"></a></dt>
 <dd><p>Function to compile filename.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file_name</strong> (<em>str</em><em>, </em><em>required</em>) – File name</p></li>
 <li><p><strong>path_name</strong> (<em>str</em><em>, </em><em>required</em>) – Path name</p></li>
 <li><p><strong>num</strong> (<em>str</em><em>, </em><em>required</em>) – Filter number</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -479,10 +480,10 @@ environment you are running this script in. To find out which read the requireme
 <span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.pause" title="Permalink to this definition"></a></dt>
 <dd><p>Function to pause matplotlib without plt.show()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>interval</strong> (<em>int</em><em>, </em><em>required</em>) – Pause time</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -512,13 +513,13 @@ If there is no active figure, sleep for <em>interval</em> seconds instead.</p>
 <span class="sig-name descname"><span class="pre">save_mono_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.save_mono_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.save_mono_parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Function to save monochromator measurement parameters to file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>LoggerWarning</strong> – Raises warning if tkinter saving dialog was closed without entering filename</p>
 </dd>
 </dl>
@@ -531,7 +532,7 @@ If there is no active figure, sleep for <em>interval</em> seconds instead.</p>
 <span class="sig-name descname"><span class="pre">set_up_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.set_up_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.set_up_plot" title="Permalink to this definition"></a></dt>
 <dd><p>Function to set up plot.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -542,16 +543,16 @@ If there is no active figure, sleep for <em>interval</em> seconds instead.</p>
 <span class="sig-name descname"><span class="pre">thorChangeFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sEQE.html#MainWindow.thorChangeFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sEQE.MainWindow.thorChangeFilter" title="Permalink to this definition"></a></dt>
 <dd><p>Function to update position of second filter wheel.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> (<em>int</em><em>, </em><em>required</em>) – Target filter position, between 1-6</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if connection to second filter wheel is successful, False otherwise</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>LoggerError</strong> – Raises error if second filter wheel not connected</p>
 </dd>
 </dl>
