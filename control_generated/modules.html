@@ -11,6 +11,8 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -47,10 +49,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../content/hardware.html">Hardware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../content/usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">sEQE-Control-Software</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="GUI_template.html">GUI_template module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lockin.html">lockin module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="monochromator.html">monochromator module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sEQE.html">sEQE module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequists">Prerequists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code">Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="GUI_template.html">GUI_template module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lockin.html">lockin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monochromator.html">monochromator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sEQE.html">sEQE module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../analysis_generated/modules.html">sEQE-Analysis-Software</a></li>
@@ -84,6 +91,30 @@
              
   <section id="seqe-control-software">
 <h1>sEQE-Control-Software<a class="headerlink" href="#seqe-control-software" title="Permalink to this heading"></a></h1>
+<section id="prerequists">
+<h2>Prerequists<a class="headerlink" href="#prerequists" title="Permalink to this heading"></a></h2>
+<p>Requirements to run the sEQE control code are mentioned in the project’s requirement file. The control code is written in Python 3.9. Furthermore, the program “LabOne” by zurich instruments is needed to control and monitor the Lock-In amplifier, e.g. during alignment.</p>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
+<p>The sEQE Setup is operated by a python script, creating a Graphical User Interface (GUI) enabling user input of measurement parameter.
+The GUI setup starts by a connection process started via the buttons in box 6: the monochromator, the lock-in amplifier and the second filter wheel get initialised, enabling the user afterwards to change the setup standard settings (box 1-3), experiment naming (box 5) and measurement parameter (box 7).
+The monochromator’s filter position, wavelength and the lock-in amplification are used during alignment of the setup.
+The measurement specific parameter are set in box 7 and can be imported like the experiment naming from .csv or .txt files (box 5 and 9). The measurement parameter include:</p>
+<ol class="arabic simple">
+<li><p>Secondary filter to be used. Each secondary filter will yield a single measurement with the following parameter.</p></li>
+<li><p>Start and stop of wavelength scan</p></li>
+<li><p>Step size of the monochromator</p></li>
+<li><p>Signal amplification by the pre-amplifier</p></li>
+</ol>
+<p>Each second filter ticked in the GUI will create an own data file.
+Box 4 enables the user to reset the first filter wheel if the GUI was started while the monochromator’s filter wheel was not in the correct starting position.
+The terminal serves during the measurement as the base for the code logger, offering the user a constant monitoring of the setup’s internal method execution and raised errors. The user can start and stop a measurement with box 8 buttons.</p>
+<a class="reference internal image-reference" href="../_images/Screenshot-GUI-Page-1.png"><img alt="Screenshot of the sEQE control GUI's first page." src="../_images/Screenshot-GUI-Page-1.png" style="width: 700px;" /></a>
+<a class="reference internal image-reference" href="../_images/Screenshot-Master-GUI-Page-2.png"><img alt="Screenshot of the sEQE control GUI's seconde page." src="../_images/Screenshot-Master-GUI-Page-2.png" style="width: 700px;" /></a>
+</section>
+<section id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="GUI_template.html">GUI_template module</a><ul>
@@ -155,6 +186,7 @@
 </ul>
 </div>
 </section>
+</section>
 
 
            </div>
@@ -167,7 +199,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, AFMD Group - notably Kate Trinkhaus for logo and Maximilian Hanauske for documentation.</p>
+    <p>&#169; Copyright 2022, AFMD Group.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

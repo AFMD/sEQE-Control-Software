@@ -11,6 +11,8 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -44,7 +46,12 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#individual-parts">Individual parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#d-printed-sample-holder">3D printed sample holder</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../control_generated/modules.html">sEQE-Control-Software</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analysis_generated/modules.html">sEQE-Analysis-Software</a></li>
@@ -78,9 +85,47 @@
              
   <section id="hardware">
 <h1>Hardware<a class="headerlink" href="#hardware" title="Permalink to this heading"></a></h1>
-<p>TODO: Fill out with details about the setup’s structural design, part names, vendors etc., Complete the details regarding sample holder</p>
-<p>The sEQE setup’s sample holder is custom design by Grey and the 3D printed parts can be found in the <a class="reference external" href="https://github.com/AFMD/smallProjects/tree/master/singleSubstrateHolder/newSSHolder">AFMD small projects subrepository</a> .
-These parts were designed in OpenSCAD and the code of the programms unique programming language resides in the .scad files.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<a class="reference internal image-reference" href="../_images/Schematic-EQE-Setup.png"><img alt="Schematic of the sEQE setup." src="../_images/Schematic-EQE-Setup.png" style="width: 700px;" /></a>
+<p>Schematic of the custom-built sEQE setup used in this work. White light from a tungsten-halogen light source is directed into a monochromator and split by wavelength. The monochromatic light is subsequently modulated by a chopper wheel and focused onto the device under testing (i.e. a solar cell or reference photodiode). When measuring OSCs, the devices are either loaded into a standard sample holder for room temperature measurements or connected inside a cryostat to perform temperature-dependent sEQE measurements. The resulting photocurrent is pre-amplified and converted to a voltage, before being analyzed further by a Lock-In amplifier</p>
+<a class="reference internal image-reference" href="../_images/sEQE_setup_without_cryo_Labelled.png"><img alt="Photograph of the sEQE setup from above." src="../_images/sEQE_setup_without_cryo_Labelled.png" style="width: 700px;" /></a>
+<p>Photo of the custom-built sensitive EQE setup used in this work. The individual components are numbered as (1) tungsten-halogen light source, (2) light source power supply, (3) monochromator, (4) filter wheels, (5) chopper wheel, (6) chopper wheel power supply, (7) focusing lenses, (8) sample holder stage, (9) custom-built sample holder, (10) BNC cables with crocodile clips, (11) preamplifier, (12) Lock-In amplifier, and (13) measurement computer.</p>
+</section>
+<section id="individual-parts">
+<h2>Individual parts<a class="headerlink" href="#individual-parts" title="Permalink to this heading"></a></h2>
+<p>The individual parts used in the AFMD setup include, labeled according to picture:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Princeton Instruments, TS-428, 250 W tungsten-halogen light source</p></li>
+<li><dl class="simple">
+<dt>Princeton Instruments, Spectra-Pro HRS300, Triple Grating Imaging Spectrograph with the following add-ons:</dt><dd><ul class="simple">
+<li><p>Princeton Instruments, spectral gratings 300/750/1600 nm blaze wavelength and 600 g/mm each</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Princeton Instruments, FA2448 Filter Wheel and Thorlabs, FW102C Motorized Filter Wheel with the following add-ons:</dt><dd><ul class="simple">
+<li><p>edge pass filters: Thorlabs, FESH0700, FESH1000, FELH0950</p></li>
+<li><p>long-pass filters: Thorlabs, FGL665, FGL715, FGL780, FGL850, FGL1000</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Stanford Research Systems, SR540, Optical Chopper</p></li>
+<li><p>Thorlabs, ID20/M Mounted Standard Iris an Thorlabs, LB1904 Bi-Convex Lens</p></li>
+<li><p>Zürich Instruments, HF2TA Current Amplifier</p></li>
+<li><p>Zürich Instruments, HF2LI Lock-In Amplifier</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="d-printed-sample-holder">
+<h2>3D printed sample holder<a class="headerlink" href="#d-printed-sample-holder" title="Permalink to this heading"></a></h2>
+<a class="reference internal image-reference" href="../_images/Sample_holder_All.png"><img alt="Photographs of the sample holder from multiple angels." src="../_images/Sample_holder_All.png" style="width: 700px;" /></a>
+<p>Photo of the custom-built sample holder used in this setup. The device is placed in a 3D printed sample box, contacted by a conducting spring system, and secured via a top cover (here red) and two side clips (here black). Connection to individual devices is achieved via crocodile clips.
+The sEQE setup’s sample holder is custom design by Grey and the 3D printed parts can be found in the <a class="reference external" href="https://github.com/AFMD/smallProjects/tree/master/singleSubstrateHolder/newSSHolder">AFMD small projects subrepository</a> . These parts were designed in OpenSCAD and the code of the programms unique programming language resides in the .scad files. The holder was printed with PLA plastic fillament using an Ultimaker 2 printer. The printed circuit boards were designed using KiCAD software and manufactured by JLCPCB.</p>
+</section>
 </section>
 
 
@@ -94,7 +139,7 @@ These parts were designed in OpenSCAD and the code of the programms unique progr
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, AFMD Group - notably Kate Trinkhaus for logo and Maximilian Hanauske for documentation.</p>
+    <p>&#169; Copyright 2022, AFMD Group.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

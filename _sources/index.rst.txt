@@ -6,12 +6,12 @@
 Welcome to the documentation of AFMD's sEQE setup !
 ===========================================================================================
 
-The documentation contains the full hardware, software and handling requirements to rebuild and use the sensitive external quantum efficiency (sEQE) setup of the AFMD Group.
+The documentation contains the full hardware, software and handling requirements to rebuild and use the sensitive external quantum efficiency (sEQE) setup of the `AFMD Group <https://www.physics.ox.ac.uk/research/group/advanced-functional-materials-and-devices-afmd-group>`_.
 
 
 What is this Project about ?
 ----------------------------
-This project is about a common technique in solar cell research to probe a solar cell's photocurrent upon illumination. The measured photocurrent can be used to calculate the so called external quantum efficiency (EQE) of the solar cell, which is a parameter for the solar cells performance. (TODO: for example with our sEQE-Analysis Program - Build reference):
+This project is about a common technique in solar cell research to probe a solar cell's photocurrent upon illumination. The measured photocurrent can be used to calculate the so called external quantum efficiency (EQE) of the solar cell, which is a parameter for the solar cells performance:
 	
 .. math::
 	\text{EQE} = \frac{\text{electron-hole pairs per sec}}{\text{photons per sec}}
@@ -24,19 +24,18 @@ For further background knowledge the interested reader is refered to:
 
 3. `Why do we measure EQE ? <https://en.wikipedia.org/wiki/Quantum_efficiency#Quantum_efficiency_of_solar_cells>`_
 
-The sEQE setup is an experimental setup built by Dr. Anna Jungbluth to provide a research group with the means to evaluate one of their own solar cell device's performance parameters. It is capable of reaching an EQE sensitivity of :math:`10^{-6}`.
-
-
+The sEQE setup is an experimental setup built by Dr. Anna Jungbluth to provide a research group with the means to evaluate one of their own solar cell device's performance parameters. It is capable of reaching an EQE sensitivity of :math:`10^{-6}` . 
+Furthermore has Dr. Anna Jungbluth written a program to extract the relevant solar cell parameter from the sEQE measurements which can be found under :doc:`analysis_generated/modules`.
 
 Where is this Project going ? 
 -----------------------------
-The sEQE setup is maintained by the AFMD group and they have many ideas for its future development. Some of those which are already in work are:
+The sEQE setup is maintained by Ming Zhu. There are many ideas for its future development some of which are:
 
-1. Integrating and automating a cryostate
+1. [X] Integrating and automating a cryostate 
 
-2. Integrating a light bias source
+2. [ ] Integrating a light bias source
 
-Feel free to reach out to the AFMD group if you have any ideas for further improvement or feedback.
+Feel free to reach out to Ming Zhu or the AFMD group if you have any feedback, ideas for future developments or questions. 
 
 .. toctree::
    :maxdepth: 2
@@ -51,9 +50,6 @@ Feel free to reach out to the AFMD group if you have any ideas for further impro
    content/licence
 	
 
-Credits
--------
-TODO: Mention AFMD members and third party package authors
 
 Indices and tables
 ==================

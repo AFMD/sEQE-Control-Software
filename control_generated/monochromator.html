@@ -11,6 +11,8 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -47,24 +49,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../content/hardware.html">Hardware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../content/usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">sEQE-Control-Software</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="GUI_template.html">GUI_template module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lockin.html">lockin module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">monochromator module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#monochromator.Monochromator"><code class="docutils literal notranslate"><span class="pre">Monochromator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.checkFilter"><code class="docutils literal notranslate"><span class="pre">Monochromator.checkFilter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.checkGrating"><code class="docutils literal notranslate"><span class="pre">Monochromator.checkGrating()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.chooseFilter"><code class="docutils literal notranslate"><span class="pre">Monochromator.chooseFilter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.chooseGrating"><code class="docutils literal notranslate"><span class="pre">Monochromator.chooseGrating()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.chooseScanSpeed"><code class="docutils literal notranslate"><span class="pre">Monochromator.chooseScanSpeed()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.chooseWavelength"><code class="docutils literal notranslate"><span class="pre">Monochromator.chooseWavelength()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.connect"><code class="docutils literal notranslate"><span class="pre">Monochromator.connect()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.initializeFilter"><code class="docutils literal notranslate"><span class="pre">Monochromator.initializeFilter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator.waitForOK"><code class="docutils literal notranslate"><span class="pre">Monochromator.waitForOK()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#prerequists">Prerequists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#description">Description</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#code">Code</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="GUI_template.html">GUI_template module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lockin.html">lockin module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">monochromator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#monochromator.Monochromator"><code class="docutils literal notranslate"><span class="pre">Monochromator</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="sEQE.html">sEQE module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="sEQE.html">sEQE module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../analysis_generated/modules.html">sEQE-Analysis-Software</a></li>
@@ -279,7 +275,7 @@ should periodically query the current monochromator filter wheel position.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, AFMD Group - notably Kate Trinkhaus for logo and Maximilian Hanauske for documentation.</p>
+    <p>&#169; Copyright 2022, AFMD Group.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

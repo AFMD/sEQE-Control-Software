@@ -11,6 +11,8 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -47,42 +49,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../content/hardware.html">Hardware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../content/usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">sEQE-Control-Software</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="GUI_template.html">GUI_template module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lockin.html">lockin module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="monochromator.html">monochromator module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">sEQE module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sEQE.MainWindow"><code class="docutils literal notranslate"><span class="pre">MainWindow</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.HandleMeasurement"><code class="docutils literal notranslate"><span class="pre">MainWindow.HandleMeasurement()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.HandleStopCompleteScanButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.HandleStopCompleteScanButton()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.LockinHandleParameterButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.LockinHandleParameterButton()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.LockinUpdateParameters"><code class="docutils literal notranslate"><span class="pre">MainWindow.LockinUpdateParameters()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleCompleteScanButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleCompleteScanButton()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleFilterButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleFilterButton()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleFilterInitButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleFilterInitButton()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleGratingButtons"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleGratingButtons()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleSpeedButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleSpeedButton()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.MonoHandleWavelengthButton"><code class="docutils literal notranslate"><span class="pre">MainWindow.MonoHandleWavelengthButton()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.calculatePower"><code class="docutils literal notranslate"><span class="pre">MainWindow.calculatePower()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToEquipment"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToEquipment()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToFilter"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToFilter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToLockin"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToLockin()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.connectToMono"><code class="docutils literal notranslate"><span class="pre">MainWindow.connectToMono()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.createScanJob"><code class="docutils literal notranslate"><span class="pre">MainWindow.createScanJob()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.get_logger"><code class="docutils literal notranslate"><span class="pre">MainWindow.get_logger()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.interpolate"><code class="docutils literal notranslate"><span class="pre">MainWindow.interpolate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.load_mono_parameter"><code class="docutils literal notranslate"><span class="pre">MainWindow.load_mono_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.load_naming"><code class="docutils literal notranslate"><span class="pre">MainWindow.load_naming()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.measure"><code class="docutils literal notranslate"><span class="pre">MainWindow.measure()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.monoCheckFilter"><code class="docutils literal notranslate"><span class="pre">MainWindow.monoCheckFilter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.monoCheckGrating"><code class="docutils literal notranslate"><span class="pre">MainWindow.monoCheckGrating()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.naming"><code class="docutils literal notranslate"><span class="pre">MainWindow.naming()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.pause"><code class="docutils literal notranslate"><span class="pre">MainWindow.pause()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.save_mono_parameter"><code class="docutils literal notranslate"><span class="pre">MainWindow.save_mono_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.set_up_plot"><code class="docutils literal notranslate"><span class="pre">MainWindow.set_up_plot()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow.thorChangeFilter"><code class="docutils literal notranslate"><span class="pre">MainWindow.thorChangeFilter()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#prerequists">Prerequists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#description">Description</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#code">Code</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="GUI_template.html">GUI_template module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lockin.html">lockin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monochromator.html">monochromator module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">sEQE module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.MainWindow"><code class="docutils literal notranslate"><span class="pre">MainWindow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sEQE.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#sEQE.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -578,7 +555,7 @@ If there is no active figure, sleep for <em>interval</em> seconds instead.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, AFMD Group - notably Kate Trinkhaus for logo and Maximilian Hanauske for documentation.</p>
+    <p>&#169; Copyright 2022, AFMD Group.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

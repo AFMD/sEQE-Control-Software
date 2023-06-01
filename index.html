@@ -11,6 +11,8 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -78,10 +80,10 @@
              
   <section id="welcome-to-the-documentation-of-afmd-s-seqe-setup">
 <h1>Welcome to the documentation of AFMD’s sEQE setup !<a class="headerlink" href="#welcome-to-the-documentation-of-afmd-s-seqe-setup" title="Permalink to this heading"></a></h1>
-<p>The documentation contains the full hardware, software and handling requirements to rebuild and use the sensitive external quantum efficiency (sEQE) setup of the AFMD Group.</p>
+<p>The documentation contains the full hardware, software and handling requirements to rebuild and use the sensitive external quantum efficiency (sEQE) setup of the <a class="reference external" href="https://www.physics.ox.ac.uk/research/group/advanced-functional-materials-and-devices-afmd-group">AFMD Group</a>.</p>
 <section id="what-is-this-project-about">
 <h2>What is this Project about ?<a class="headerlink" href="#what-is-this-project-about" title="Permalink to this heading"></a></h2>
-<p>This project is about a common technique in solar cell research to probe a solar cell’s photocurrent upon illumination. The measured photocurrent can be used to calculate the so called external quantum efficiency (EQE) of the solar cell, which is a parameter for the solar cells performance. (TODO: for example with our sEQE-Analysis Program - Build reference):</p>
+<p>This project is about a common technique in solar cell research to probe a solar cell’s photocurrent upon illumination. The measured photocurrent can be used to calculate the so called external quantum efficiency (EQE) of the solar cell, which is a parameter for the solar cells performance:</p>
 <div class="math notranslate nohighlight">
 \[\text{EQE} = \frac{\text{electron-hole pairs per sec}}{\text{photons per sec}}\]</div>
 <p>For further background knowledge the interested reader is refered to:</p>
@@ -90,16 +92,17 @@
 <li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Solar_cell">What is a Solar cell ?</a></p></li>
 <li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Quantum_efficiency#Quantum_efficiency_of_solar_cells">Why do we measure EQE ?</a></p></li>
 </ol>
-<p>The sEQE setup is an experimental setup built by Dr. Anna Jungbluth to provide a research group with the means to evaluate one of their own solar cell device’s performance parameters. It is capable of reaching an EQE sensitivity of <span class="math notranslate nohighlight">\(10^{-6}\)</span>.</p>
+<p>The sEQE setup is an experimental setup built by Dr. Anna Jungbluth to provide a research group with the means to evaluate one of their own solar cell device’s performance parameters. It is capable of reaching an EQE sensitivity of <span class="math notranslate nohighlight">\(10^{-6}\)</span> .
+Furthermore has Dr. Anna Jungbluth written a program to extract the relevant solar cell parameter from the sEQE measurements which can be found under <a class="reference internal" href="analysis_generated/modules.html"><span class="doc">sEQE-Analysis-Software</span></a>.</p>
 </section>
 <section id="where-is-this-project-going">
 <h2>Where is this Project going ?<a class="headerlink" href="#where-is-this-project-going" title="Permalink to this heading"></a></h2>
-<p>The sEQE setup is maintained by the AFMD group and they have many ideas for its future development. Some of those which are already in work are:</p>
+<p>The sEQE setup is maintained by Ming Zhu. There are many ideas for its future development some of which are:</p>
 <ol class="arabic simple">
-<li><p>Integrating and automating a cryostate</p></li>
-<li><p>Integrating a light bias source</p></li>
+<li><p>[X] Integrating and automating a cryostate</p></li>
+<li><p>[ ] Integrating a light bias source</p></li>
 </ol>
-<p>Feel free to reach out to the AFMD group if you have any ideas for further improvement or feedback.</p>
+<p>Feel free to reach out to Ming Zhu or the AFMD group if you have any feedback, ideas for future developments or questions.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -108,13 +111,17 @@
 <li class="toctree-l2"><a class="reference internal" href="content/README.html#installation">Installation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="content/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/hardware.html">Hardware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="content/hardware.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/hardware.html#individual-parts">Individual parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/hardware.html#d-printed-sample-holder">3D printed sample holder</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="content/usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="control_generated/modules.html">sEQE-Control-Software</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="control_generated/GUI_template.html">GUI_template module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="control_generated/lockin.html">lockin module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="control_generated/monochromator.html">monochromator module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="control_generated/sEQE.html">sEQE module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control_generated/modules.html#prerequists">Prerequists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control_generated/modules.html#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control_generated/modules.html#code">Code</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="analysis_generated/modules.html">sEQE-Analysis-Software</a><ul>
@@ -134,10 +141,6 @@
 </li>
 </ul>
 </div>
-</section>
-<section id="credits">
-<h2>Credits<a class="headerlink" href="#credits" title="Permalink to this heading"></a></h2>
-<p>TODO: Mention AFMD members and third party package authors</p>
 </section>
 </section>
 <section id="indices-and-tables">
@@ -159,7 +162,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, AFMD Group - notably Kate Trinkhaus for logo and Maximilian Hanauske for documentation.</p>
+    <p>&#169; Copyright 2022, AFMD Group.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -18,6 +18,7 @@ Furthermore we want to thank all the people who have contributed to the sEQE mea
 	- Dr. Pascal Kaienburg: For his support regarding any questions of physical or engineering nature, his contribution to the sEQE paper and his user feedback
 	- Irfan Habib: For his reliable and constructive user feedback
 	- Kate Trinkhaus: Creator of an AFMD Logo which might be used in the future documentation
+	- Dr. David Miguel Susano Pinto: For his help implementing a cryostat and with the `python microscope package <https://python-microscope.org/>`_
 
 Licenses
 --------
