@@ -3,7 +3,7 @@ Acknowledgements and Linceses
 
 .. image:: ../_static/certification-mark-UK000046-stacked.png
   :width: 175
-  :alt: Schematic of the sEQE setup.
+  :alt: OSHWA logo and UID number.
 
 List of main AFMD contributors
 ------------------------------
@@ -30,8 +30,9 @@ The sEQE project (control software + hardware + documentation) of the AFMD group
 
 .. image:: ../_static/oshw_facts.png
   :width: 175
-  :alt:
+  :alt: Open source licences overview 
 
+	This overview was generated with https://oshwa.github.io/certification-mark-generator/facts.
 ..
 	1. control software: The MIT License
 	2. hardware: CERN Open Hardware Licence Version 2 - Permissive (CERN-OHL-P-2.0)
