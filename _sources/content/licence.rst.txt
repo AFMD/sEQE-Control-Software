@@ -2,7 +2,7 @@ Acknowledgements and Linceses
 =============================
 
 .. image:: ../_static/certification-mark-UK000046-stacked.png
-  :width: 700
+  :width: 175
   :alt: Schematic of the sEQE setup.
 
 List of main AFMD contributors
@@ -26,10 +26,10 @@ Furthermore we want to thank all the people who have contributed to the sEQE mea
 
 Licenses
 --------
-The sEQE project (control code + hardware + documentation) of the AFMD group is licensed under the following three licenses:
+The sEQE project (control software + hardware + documentation) of the AFMD group is licensed under the following three licenses:
 
 .. image:: ../_static/oshw_facts.png
-  :width: 350
+  :width: 175
   :alt:
 
 ..
