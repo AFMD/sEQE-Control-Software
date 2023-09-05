@@ -10,11 +10,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=06525ffd"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -126,7 +126,9 @@
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="s2">&quot;Intel MKL ERROR&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="MainWindow"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow">[docs]</a><span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow">[docs]</a>
+<span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -443,7 +445,9 @@
 
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.writeText"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.writeText">[docs]</a>    <span class="k">def</span> <span class="nf">writeText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.writeText">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.writeText">[docs]</a>
+    <span class="k">def</span> <span class="nf">writeText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                   <span class="n">text_Box</span><span class="p">,</span>
                   <span class="n">textBox_no</span>
                   <span class="p">):</span>
@@ -601,6 +605,7 @@
             <span class="k">elif</span> <span class="n">textBox_no</span> <span class="o">==</span> <span class="s1">&#39;add3&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data_addEQE</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
@@ -611,7 +616,9 @@
 
     <span class="c1"># Function to select data and reference files</span>
 
-<div class="viewcode-block" id="MainWindow.pre_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">pre_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.pre_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">pre_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">ref_df</span><span class="p">,</span>
                 <span class="n">data_df</span><span class="p">,</span>
                 <span class="n">start</span><span class="p">,</span>
@@ -644,11 +651,14 @@
         <span class="k">if</span> <span class="n">Ref_Data_is_valid</span><span class="p">(</span><span class="n">ref_df</span><span class="p">,</span> <span class="n">data_df</span><span class="p">,</span> <span class="n">startNM</span><span class="p">,</span> <span class="n">stopNM</span><span class="p">,</span> <span class="n">range_no</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">calculate_EQE</span><span class="p">(</span><span class="n">ref_df</span><span class="p">,</span> <span class="n">data_df</span><span class="p">,</span> <span class="n">startNM</span><span class="p">,</span> <span class="n">stopNM</span><span class="p">,</span> <span class="n">range_no</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to calculate EQE</span>
 
-<div class="viewcode-block" id="MainWindow.calculate_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.calculate_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.calculate_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.calculate_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                       <span class="n">ref_df</span><span class="p">,</span>
                       <span class="n">data_df</span><span class="p">,</span>
                       <span class="n">startNM</span><span class="p">,</span>
@@ -825,11 +835,14 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Length mismatch.&#39;</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to export EQE</span>
 
-<div class="viewcode-block" id="MainWindow.export_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.export_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">export_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.export_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.export_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">export_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to export EQE to csv file</span>
 
 <span class="sd">        Parameters</span>
@@ -949,6 +962,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">export</span> <span class="o">=</span> <span class="kc">False</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
@@ -959,7 +973,9 @@
 
     <span class="c1"># Function to select EQE for plotting</span>
 
-<div class="viewcode-block" id="MainWindow.pre_plot_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_plot_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">pre_plot_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.pre_plot_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_plot_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">pre_plot_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                      <span class="n">number</span>
                      <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrapper function to select EQE file for plotting</span>
@@ -1043,11 +1059,14 @@
             <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to plot EQE</span>
 
-<div class="viewcode-block" id="MainWindow.plot_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.plot_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">plot_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.plot_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.plot_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">eqe_df</span><span class="p">,</span>
                  <span class="n">startNM</span><span class="p">,</span>
                  <span class="n">stopNM</span><span class="p">,</span>
@@ -1119,6 +1138,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
@@ -1130,7 +1150,9 @@
 
     <span class="c1"># Function to select EQE to fit</span>
 
-<div class="viewcode-block" id="MainWindow.pre_fit_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_fit_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">pre_fit_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.pre_fit_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_fit_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">pre_fit_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                     <span class="n">eqe_df</span><span class="p">,</span>
                     <span class="n">startE</span><span class="p">,</span>
                     <span class="n">stopE</span><span class="p">,</span>
@@ -1198,11 +1220,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">axFit_2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to fit and plot EQE</span>
 
-<div class="viewcode-block" id="MainWindow.plot_fit_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.plot_fit_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">plot_fit_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.plot_fit_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.plot_fit_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_fit_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                      <span class="n">eqe_df</span><span class="p">,</span>
                      <span class="n">startE</span><span class="p">,</span>
                      <span class="n">stopE</span><span class="p">,</span>
@@ -1629,11 +1654,14 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to generate heat map of fitting values</span>
 
-<div class="viewcode-block" id="MainWindow.heatMap"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.heatMap">[docs]</a>    <span class="k">def</span> <span class="nf">heatMap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.heatMap">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.heatMap">[docs]</a>
+    <span class="k">def</span> <span class="nf">heatMap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">eqe_df</span><span class="p">,</span>
                 <span class="n">startStartE</span><span class="p">,</span>
                 <span class="n">startStopE</span><span class="p">,</span>
@@ -2047,11 +2075,14 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;No fits determined.&#39;</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Gaussian function</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory</span>
 
 <span class="sd">        Parameters</span>
@@ -2074,7 +2105,10 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">E</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_CT</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)))</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span>
             <span class="o">-</span><span class="p">(</span><span class="n">Ect</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_CT</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="MainWindow.gaussian_disorder"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_disorder">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MainWindow.gaussian_disorder">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_disorder">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory including disorder</span>
 
 <span class="sd">        Parameters</span>
@@ -2101,11 +2135,14 @@
                     <span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_CT</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sig</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span></div>
 
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># MLJ function</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_gaussian"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span> 
+<div class="viewcode-block" id="MainWindow.MLJ_gaussian">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span> 
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory</span>
 
 <span class="sd">        Parameters</span>
@@ -2134,9 +2171,12 @@
             <span class="n">EQE</span> <span class="o">+=</span> <span class="n">EQE_n</span>
         <span class="k">return</span> <span class="n">EQE</span></div>
 
+
     <span class="c1"># MLJ function including disorder</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_gaussian_disorder"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_disorder">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_gaussian_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MLJ_gaussian_disorder">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_disorder">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_gaussian_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory including disorder</span>
 
 <span class="sd">        Parameters</span>
@@ -2167,6 +2207,7 @@
             <span class="n">EQE</span> <span class="o">+=</span> <span class="n">EQE_n</span>
         <span class="k">return</span> <span class="n">EQE</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Page 6 - Fit EL and EQE</span>
@@ -2177,7 +2218,9 @@
 
     <span class="c1"># TODO: Check and update EL components</span>
 
-<div class="viewcode-block" id="MainWindow.pre_plot_EL_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_plot_EL_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">pre_plot_EL_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.pre_plot_EL_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.pre_plot_EL_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">pre_plot_EL_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="n">data_df</span><span class="p">,</span>
                         <span class="n">startE</span><span class="p">,</span>
                         <span class="n">stopE</span><span class="p">,</span>
@@ -2327,6 +2370,7 @@
                                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">stopFit_EQE</span><span class="p">,</span>
                                     <span class="mi">1</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to fit reduced EL and EQE</span>
@@ -2336,7 +2380,9 @@
     <span class="c1"># TODO: Add guess fit function</span>
     <span class="c1"># TODO: Implement save fit function</span>
 
-<div class="viewcode-block" id="MainWindow.fit_EL_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.fit_EL_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">fit_EL_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.fit_EL_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.fit_EL_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">fit_EL_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">energy</span><span class="p">,</span>
                    <span class="n">y</span><span class="p">,</span>
                    <span class="n">startE</span><span class="p">,</span>
@@ -2588,11 +2634,14 @@
             <span class="k">except</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Optimal parameters not found.&#39;</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Gaussian function for reduced EL</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian_EL"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EL">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_EL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian_EL">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EL">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_EL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory for reduced EL data</span>
 
 <span class="sd">        Parameters</span>
@@ -2615,11 +2664,14 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)))</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span>
             <span class="o">-</span><span class="p">(</span><span class="n">Ect</span> <span class="o">-</span> <span class="n">l</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span><span class="p">))</span></div>
 
+
     <span class="c1"># Gaussian function for reduced EL including disorder</span>
 
     <span class="c1"># TODO: Add sigma as a fit parameter</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian_EL_disorder"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EL_disorder">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_EL_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian_EL_disorder">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EL_disorder">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_EL_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory including disorder for reduced EL data</span>
 
 <span class="sd">        Parameters</span>
@@ -2642,11 +2694,14 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sig_EL</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span>
             <span class="o">-</span><span class="p">(</span><span class="n">Ect</span> <span class="o">-</span> <span class="n">l</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sig_EL</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># MLJ function for reduced EL</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EL"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EL">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_gaussian_EL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EL">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EL">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_gaussian_EL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory for reduced EL data</span>
 
 <span class="sd">        Parameters</span>
@@ -2675,11 +2730,14 @@
             <span class="n">EL</span> <span class="o">+=</span> <span class="n">EL_n</span>
         <span class="k">return</span> <span class="n">EL</span></div>
 
+
     <span class="c1"># MLJ function for reduced EL including disorder</span>
 
     <span class="c1"># TODO: Add sigma as a fit parameter</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EL_disorder"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EL_disorder">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_gaussian_EL_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EL_disorder">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EL_disorder">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_gaussian_EL_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory including disorder for reduced EL data</span>
 
 <span class="sd">        Parameters</span>
@@ -2708,11 +2766,14 @@
             <span class="n">EL</span> <span class="o">+=</span> <span class="n">EL_n</span>
         <span class="k">return</span> <span class="n">EL</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Gaussian function for reduced EQE</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory for reduced EQE data</span>
 
 <span class="sd">        Parameters</span>
@@ -2735,11 +2796,14 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)))</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span>
             <span class="o">-</span><span class="p">(</span><span class="n">Ect</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span><span class="p">))</span></div>
 
+
     <span class="c1"># Gaussian function for reduced EQE including disorder</span>
 
     <span class="c1"># TODO: Add sigma as a fit parameter</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian_EQE_disorder"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EQE_disorder">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_EQE_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian_EQE_disorder">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_EQE_disorder">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_EQE_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory including disorder for reduced EQE data</span>
 
 <span class="sd">        Parameters</span>
@@ -2762,11 +2826,14 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sig_EL</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span>
             <span class="o">-</span><span class="p">(</span><span class="n">Ect</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_EL</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sig_EL</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># MLJ function for reduced EQE</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EQE"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EQE">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_gaussian_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EQE">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EQE">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_gaussian_EQE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory for reduced EQE data</span>
 
 <span class="sd">        Parameters</span>
@@ -2795,11 +2862,14 @@
             <span class="n">EQE</span> <span class="o">+=</span> <span class="n">EQE_n</span>
         <span class="k">return</span> <span class="n">EQE</span></div>
 
+
     <span class="c1"># MLJ function for reduced EQE including disorder</span>
 
     <span class="c1"># TODO: Add sigma as a fit parameter</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EQE_disorder"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EQE_disorder">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_gaussian_EQE_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MLJ_gaussian_EQE_disorder">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_gaussian_EQE_disorder">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_gaussian_EQE_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory including for reduced EQE data</span>
 
 <span class="sd">        Parameters</span>
@@ -2828,6 +2898,7 @@
             <span class="n">EQE</span> <span class="o">+=</span> <span class="n">EQE_n</span>
         <span class="k">return</span> <span class="n">EQE</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Page 7 - Subtract and Add Peak Fits</span>
@@ -2836,7 +2907,9 @@
 
     <span class="c1"># Function to subtract peak fit from EQE</span>
 
-<div class="viewcode-block" id="MainWindow.subtract_Fit"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.subtract_Fit">[docs]</a>    <span class="k">def</span> <span class="nf">subtract_Fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.subtract_Fit">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.subtract_Fit">[docs]</a>
+    <span class="k">def</span> <span class="nf">subtract_Fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                      <span class="n">data_Fit</span><span class="p">,</span>
                      <span class="n">data_EQE</span><span class="p">,</span>
                      <span class="n">label_Fit</span><span class="p">,</span>
@@ -2974,13 +3047,16 @@
                               <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">axSub_2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to add peak fits</span>
 
     <span class="c1"># TODO: Expand to plot MLJ fits</span>
 
-<div class="viewcode-block" id="MainWindow.add_Fits"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.add_Fits">[docs]</a>    <span class="k">def</span> <span class="nf">add_Fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MainWindow.add_Fits">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.add_Fits">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_Fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">data_OptFit</span><span class="p">,</span>
                  <span class="n">data_CTFit</span><span class="p">,</span>
                  <span class="n">data_EQE</span>
@@ -3150,6 +3226,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Please import a valid EQE file.&#39;</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Page 4 - Extended Fits (Marcus Theory)</span>
@@ -3160,7 +3237,9 @@
 
     <span class="c1"># Function to compile fits for separate double peak fitting</span>
 
-<div class="viewcode-block" id="MainWindow.double_fit"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.double_fit">[docs]</a>    <span class="k">def</span> <span class="nf">double_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.double_fit">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.double_fit">[docs]</a>
+    <span class="k">def</span> <span class="nf">double_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to perform separate double fit of S1 and CT peaks</span>
 
 <span class="sd">        Parameters</span>
@@ -3587,11 +3666,14 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="kc">False</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Gaussian fitting function for double fit</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian_double"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_double">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian_double">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_double">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory to separately fit double peaks</span>
 
 <span class="sd">        Parameters</span>
@@ -3615,7 +3697,10 @@
             <span class="o">-</span><span class="p">(</span><span class="n">Ect</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_double</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="MainWindow.gaussian_disorder_double"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_disorder_double">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_disorder_double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MainWindow.gaussian_disorder_double">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_disorder_double">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_disorder_double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory including disorder to separately fit double peaks</span>
 
 <span class="sd">        Parameters</span>
@@ -3641,13 +3726,16 @@
             <span class="o">-</span><span class="p">((</span><span class="n">Ect</span> <span class="o">-</span> <span class="p">(</span><span class="n">sig</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_double</span><span class="p">))</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="p">(</span><span class="n">sig</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_double</span><span class="p">))</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span>
                     <span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_double</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sig</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Simultaneous Double Peak Fit</span>
 
     <span class="c1"># Function to perform simultaneous double peak fitting once</span>
 
-<div class="viewcode-block" id="MainWindow.sim_double_fit_single"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.sim_double_fit_single">[docs]</a>    <span class="k">def</span> <span class="nf">sim_double_fit_single</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.sim_double_fit_single">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.sim_double_fit_single">[docs]</a>
+    <span class="k">def</span> <span class="nf">sim_double_fit_single</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to perform simultaneous double peak fitting for one energy range</span>
 
 <span class="sd">        Parameters</span>
@@ -3843,11 +3931,14 @@
                 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">)</span>  <span class="c1"># Change the directory back</span></div>
 
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to perform simultaneous double peak fitting multiple times</span>
 
-<div class="viewcode-block" id="MainWindow.sim_double_fit"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.sim_double_fit">[docs]</a>    <span class="k">def</span> <span class="nf">sim_double_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.sim_double_fit">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.sim_double_fit">[docs]</a>
+    <span class="k">def</span> <span class="nf">sim_double_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to perform simultaneous double peak fitting for multiple energy ranges</span>
 
 <span class="sd">        Parameters</span>
@@ -4077,11 +4168,14 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to load dictionary of fit bounds</span>
 
-<div class="viewcode-block" id="MainWindow.load_sim_dict"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.load_sim_dict">[docs]</a>    <span class="k">def</span> <span class="nf">load_sim_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.load_sim_dict">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.load_sim_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_sim_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to load dictionary of fit bounds from GUI paramaters</span>
 
 <span class="sd">        Parameters</span>
@@ -4147,11 +4241,14 @@
 
         <span class="k">return</span> <span class="n">bound_dict</span></div>
 
+
     <span class="c1"># # -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Gaussian fitting function for simultaneous double peak fit</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian_double_sim"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_double_sim">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_double_sim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">fCT</span><span class="p">,</span> <span class="n">lCT</span><span class="p">,</span> <span class="n">ECT</span><span class="p">,</span> <span class="n">fopt</span><span class="p">,</span> <span class="n">lopt</span><span class="p">,</span> <span class="n">Eopt</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian_double_sim">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_double_sim">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_double_sim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">fCT</span><span class="p">,</span> <span class="n">lCT</span><span class="p">,</span> <span class="n">ECT</span><span class="p">,</span> <span class="n">fopt</span><span class="p">,</span> <span class="n">lopt</span><span class="p">,</span> <span class="n">Eopt</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory to simultaneously fit double peaks</span>
 
 <span class="sd">        Parameters</span>
@@ -4184,9 +4281,12 @@
 
         <span class="k">return</span> <span class="n">val_CT</span> <span class="o">+</span> <span class="n">val_opt</span></div>
 
+
     <span class="c1"># Gaussian fitting function for simultaneous double peak fit including disorder</span>
 
-<div class="viewcode-block" id="MainWindow.gaussian_disorder_double_sim"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_disorder_double_sim">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_disorder_double_sim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">fCT</span><span class="p">,</span> <span class="n">lCT</span><span class="p">,</span> <span class="n">ECT</span><span class="p">,</span> <span class="n">fopt</span><span class="p">,</span> <span class="n">lopt</span><span class="p">,</span> <span class="n">Eopt</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.gaussian_disorder_double_sim">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.gaussian_disorder_double_sim">[docs]</a>
+    <span class="k">def</span> <span class="nf">gaussian_disorder_double_sim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">fCT</span><span class="p">,</span> <span class="n">lCT</span><span class="p">,</span> <span class="n">ECT</span><span class="p">,</span> <span class="n">fopt</span><span class="p">,</span> <span class="n">lopt</span><span class="p">,</span> <span class="n">Eopt</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus theory including disorder to simultaneously fit double peaks</span>
 
 <span class="sd">        Parameters</span>
@@ -4221,6 +4321,7 @@
 
         <span class="k">return</span> <span class="n">val_CT</span> <span class="o">+</span> <span class="n">val_opt</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Page 5 - Extended Fits (MLJ Theory)</span>
@@ -4231,7 +4332,9 @@
 
     <span class="c1"># Function to compile fits for separate double peak fitting</span>
 
-<div class="viewcode-block" id="MainWindow.double_fit_MLJ"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.double_fit_MLJ">[docs]</a>    <span class="k">def</span> <span class="nf">double_fit_MLJ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.double_fit_MLJ">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.double_fit_MLJ">[docs]</a>
+    <span class="k">def</span> <span class="nf">double_fit_MLJ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function for separate double peak fitting of S1 and CT state peaks using MLJ theory</span>
 
 <span class="sd">        Parameters</span>
@@ -4666,11 +4769,14 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="kc">False</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Gaussian fitting function for double fit</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_double_gaussian"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_double_gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_double_gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Eopt</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MLJ_double_gaussian">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_double_gaussian">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_double_gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Eopt</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory to separately fit double peaks</span>
 
 <span class="sd">        Parameters</span>
@@ -4693,9 +4799,12 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">E</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_xDouble</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)))</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span>
             <span class="o">-</span><span class="p">(</span><span class="n">Eopt</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="n">E</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_xDouble</span><span class="p">))</span></div>
 
+
     <span class="c1"># MLJ function</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_double"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_double">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span> 
+<div class="viewcode-block" id="MainWindow.MLJ_double">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_double">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">):</span> 
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory for double peak fitting</span>
 
 <span class="sd">        Parameters</span>
@@ -4724,9 +4833,12 @@
             <span class="n">EQE</span> <span class="o">+=</span> <span class="n">EQE_n</span>
         <span class="k">return</span> <span class="n">EQE</span></div>
 
+
     <span class="c1"># MLJ function including disorder</span>
 
-<div class="viewcode-block" id="MainWindow.MLJ_double_disorder"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_double_disorder">[docs]</a>    <span class="k">def</span> <span class="nf">MLJ_double_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MLJ_double_disorder">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.MLJ_double_disorder">[docs]</a>
+    <span class="k">def</span> <span class="nf">MLJ_double_disorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ect</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Marcus-Levich-Jortner theory including disorder for double peak fitting</span>
 
 <span class="sd">        Parameters</span>
@@ -4757,6 +4869,7 @@
             <span class="n">EQE</span> <span class="o">+=</span> <span class="n">EQE_n</span>
         <span class="k">return</span> <span class="n">EQE</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Functions to clear plots</span>
@@ -4765,7 +4878,9 @@
 
     <span class="c1"># Function to clear &quot;Calculate EQE&quot; plot</span>
 
-<div class="viewcode-block" id="MainWindow.clear_plot"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.clear_plot">[docs]</a>    <span class="k">def</span> <span class="nf">clear_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.clear_plot">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.clear_plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">clear_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to clear plot</span>
 
 <span class="sd">        Parameters</span>
@@ -4780,11 +4895,14 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># Close the current plot</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ax1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax2</span> <span class="o">=</span> <span class="n">set_up_plot</span><span class="p">()</span>  <span class="c1"># Setting up new plot is preferred over plt.clf() in case window was closed</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to clear EQE plot</span>
 
-<div class="viewcode-block" id="MainWindow.clear_EQE_plot"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.clear_EQE_plot">[docs]</a>    <span class="k">def</span> <span class="nf">clear_EQE_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.clear_EQE_plot">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.clear_EQE_plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">clear_EQE_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to clear EQE fit plot</span>
 
 <span class="sd">        Parameters</span>
@@ -4800,11 +4918,14 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">axFit_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axFit_2</span> <span class="o">=</span> <span class="n">set_up_EQE_plot</span><span class="p">()</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to clear EL plot</span>
 
-<div class="viewcode-block" id="MainWindow.clear_EL_plot"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.clear_EL_plot">[docs]</a>    <span class="k">def</span> <span class="nf">clear_EL_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.clear_EL_plot">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.MainWindow.clear_EL_plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">clear_EL_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to clear EL plot</span>
 
 <span class="sd">        Parameters</span>
@@ -4818,17 +4939,22 @@
 
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axEL_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axEL_2</span> <span class="o">=</span> <span class="n">set_up_EL_plot</span><span class="p">()</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axEL_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axEL_2</span> <span class="o">=</span> <span class="n">set_up_EL_plot</span><span class="p">()</span></div>
+</div>
+
 
 
 <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../analysis_generated/sEQE_Analysis.html#sEQE_Analysis.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
     <span class="n">monoUI</span> <span class="o">=</span> <span class="n">MainWindow</span><span class="p">()</span>
     <span class="n">monoUI</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span></div>
+
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

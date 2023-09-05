@@ -11,11 +11,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=06525ffd"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -84,16 +84,16 @@
            <div itemprop="articleBody">
              
   <section id="hardware">
-<h1>Hardware<a class="headerlink" href="#hardware" title="Permalink to this heading"></a></h1>
+<h1>Hardware<a class="headerlink" href="#hardware" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <a class="reference internal image-reference" href="../_images/Schematic-EQE-Setup.png"><img alt="Schematic of the sEQE setup." src="../_images/Schematic-EQE-Setup.png" style="width: 700px;" /></a>
 <p>Schematic of the custom-built sEQE setup used in this work. White light from a tungsten-halogen light source is directed into a monochromator and split by wavelength. The monochromatic light is subsequently modulated by a chopper wheel and focused onto the device under testing (i.e. a solar cell or reference photodiode). When measuring OSCs, the devices are either loaded into a standard sample holder for room temperature measurements or connected inside a cryostat to perform temperature-dependent sEQE measurements. The resulting photocurrent is pre-amplified and converted to a voltage, before being analyzed further by a Lock-In amplifier</p>
 <a class="reference internal image-reference" href="../_images/sEQE_setup_without_cryo_Labelled.png"><img alt="Photograph of the sEQE setup from above." src="../_images/sEQE_setup_without_cryo_Labelled.png" style="width: 700px;" /></a>
 <p>Photo of the custom-built sensitive EQE setup used in this work. The individual components are numbered as (1) tungsten-halogen light source, (2) light source power supply, (3) monochromator, (4) filter wheels, (5) chopper wheel, (6) chopper wheel power supply, (7) focusing lenses, (8) sample holder stage, (9) custom-built sample holder, (10) BNC cables with crocodile clips, (11) preamplifier, (12) Lock-In amplifier, and (13) measurement computer.</p>
 </section>
 <section id="individual-parts">
-<h2>Individual parts<a class="headerlink" href="#individual-parts" title="Permalink to this heading"></a></h2>
+<h2>Individual parts<a class="headerlink" href="#individual-parts" title="Link to this heading"></a></h2>
 <p>The individual parts used in the AFMD setup include, labeled according to picture:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -121,7 +121,7 @@
 </div></blockquote>
 </section>
 <section id="d-printed-sample-holder">
-<h2>3D printed sample holder<a class="headerlink" href="#d-printed-sample-holder" title="Permalink to this heading"></a></h2>
+<h2>3D printed sample holder<a class="headerlink" href="#d-printed-sample-holder" title="Link to this heading"></a></h2>
 <a class="reference internal image-reference" href="../_images/Sample_holder_All.png"><img alt="Photographs of the sample holder from multiple angels." src="../_images/Sample_holder_All.png" style="width: 700px;" /></a>
 <p>Photo of the custom-built sample holder used in this setup. The device is placed in a 3D printed sample box, contacted by a conducting spring system, and secured via a top cover (here red) and two side clips (here black). Connection to individual devices is achieved via crocodile clips.
 The sEQE setup’s sample holder is custom design by Grey and the 3D printed parts can be found in the <a class="reference external" href="https://github.com/AFMD/smallProjects/tree/master/singleSubstrateHolder/newSSHolder">AFMD small projects subrepository</a> . These parts were designed in OpenSCAD and the code of the programms unique programming language resides in the .scad files. The holder was printed with PLA plastic fillament using an Ultimaker 2 printer. The printed circuit boards were designed using KiCAD software and manufactured by JLCPCB.</p>

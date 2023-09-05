@@ -10,11 +10,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=06525ffd"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -142,7 +142,9 @@
 <span class="kn">import</span> <span class="nn">codecs</span>
 
 
-<div class="viewcode-block" id="MainWindow"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow">[docs]</a><span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow">[docs]</a>
+<span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;sEQE control software main window.</span>
 
 <span class="sd">    Parameters</span>
@@ -349,7 +351,9 @@
 
     <span class="c1"># Establish serial connection to Monochromator</span>
 
-<div class="viewcode-block" id="MainWindow.connectToMono"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToMono">[docs]</a>    <span class="k">def</span> <span class="nf">connectToMono</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.connectToMono">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToMono">[docs]</a>
+    <span class="k">def</span> <span class="nf">connectToMono</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to establish connection to monochromator.</span>
 
 <span class="sd">        Returns</span>
@@ -369,9 +373,12 @@
                 <span class="s2">&quot;Unexpected error during execution of connectToMono function:&quot;</span>
             <span class="p">)</span></div>
 
+
     <span class="c1"># Establish connection to LOCKIN</span>
 
-<div class="viewcode-block" id="MainWindow.connectToLockin"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToLockin">[docs]</a>    <span class="k">def</span> <span class="nf">connectToLockin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.connectToLockin">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToLockin">[docs]</a>
+    <span class="k">def</span> <span class="nf">connectToLockin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to establish connection to Lockin.</span>
 
 <span class="sd">        Returns</span>
@@ -391,9 +398,12 @@
                 <span class="s2">&quot;Unexpected error during execution of connectToLockin function:&quot;</span>
             <span class="p">)</span></div>
 
+
     <span class="c1"># Establish connection to Filterwheel</span>
 
-<div class="viewcode-block" id="MainWindow.connectToFilter"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToFilter">[docs]</a>    <span class="k">def</span> <span class="nf">connectToFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.connectToFilter">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToFilter">[docs]</a>
+    <span class="k">def</span> <span class="nf">connectToFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to establish connection to filter wheel.</span>
 
 <span class="sd">        Returns</span>
@@ -419,11 +429,14 @@
                 <span class="s2">&quot;Unexpected error during execution of connectToFilter function:&quot;</span>
             <span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Establish connection to all equipment</span>
 
-<div class="viewcode-block" id="MainWindow.connectToEquipment"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">connectToEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.connectToEquipment">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.connectToEquipment">[docs]</a>
+    <span class="k">def</span> <span class="nf">connectToEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to establish connection to monochromator, Lockin &amp; filter wheel.</span>
 
 <span class="sd">        Returns</span>
@@ -443,6 +456,7 @@
                 <span class="s2">&quot;Unexpected error during execution of connectToEquipment function:&quot;</span>
             <span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1">#### Functions to handle parameter buttons for Monochromator and Lock-in</span>
@@ -453,7 +467,9 @@
 
     <span class="c1"># Set and GOTO wavelength</span>
 
-<div class="viewcode-block" id="MainWindow.MonoHandleWavelengthButton"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleWavelengthButton">[docs]</a>    <span class="k">def</span> <span class="nf">MonoHandleWavelengthButton</span><span class="p">(</span>
+<div class="viewcode-block" id="MainWindow.MonoHandleWavelengthButton">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleWavelengthButton">[docs]</a>
+    <span class="k">def</span> <span class="nf">MonoHandleWavelengthButton</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">):</span>  <span class="c1"># Function sets desired wavelength and calls chooseWavelength function</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to read wavelength value from GUI.</span>
@@ -466,9 +482,12 @@
         <span class="n">wavelength</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pickNM</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">chooseWavelength</span><span class="p">(</span><span class="n">wavelength</span><span class="p">)</span></div>
 
+
     <span class="c1"># Update the scan speed</span>
 
-<div class="viewcode-block" id="MainWindow.MonoHandleSpeedButton"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleSpeedButton">[docs]</a>    <span class="k">def</span> <span class="nf">MonoHandleSpeedButton</span><span class="p">(</span>
+<div class="viewcode-block" id="MainWindow.MonoHandleSpeedButton">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleSpeedButton">[docs]</a>
+    <span class="k">def</span> <span class="nf">MonoHandleSpeedButton</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">):</span>  <span class="c1"># Function sets desired scan speed and calls chooseScanSpeed function</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to read monochromator speed from GUI.</span>
@@ -481,9 +500,12 @@
         <span class="n">speed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pickScanSpeed</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">chooseScanSpeed</span><span class="p">(</span><span class="n">speed</span><span class="p">)</span></div>
 
+
     <span class="c1"># Set and move to grating</span>
 
-<div class="viewcode-block" id="MainWindow.MonoHandleGratingButtons"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleGratingButtons">[docs]</a>    <span class="k">def</span> <span class="nf">MonoHandleGratingButtons</span><span class="p">(</span>
+<div class="viewcode-block" id="MainWindow.MonoHandleGratingButtons">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleGratingButtons">[docs]</a>
+    <span class="k">def</span> <span class="nf">MonoHandleGratingButtons</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">):</span>  <span class="c1"># Function sets desired grating number and calls chooseGrating function</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to read grating number from monochromator.</span>
@@ -502,9 +524,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">chooseGrating</span><span class="p">(</span><span class="n">gratingNo</span><span class="p">)</span></div>
 
+
     <span class="c1"># Update filter number</span>
 
-<div class="viewcode-block" id="MainWindow.MonoHandleFilterButton"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleFilterButton">[docs]</a>    <span class="k">def</span> <span class="nf">MonoHandleFilterButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MonoHandleFilterButton">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleFilterButton">[docs]</a>
+    <span class="k">def</span> <span class="nf">MonoHandleFilterButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to read filter position from GUI.</span>
 
 <span class="sd">        Returns</span>
@@ -515,9 +540,12 @@
         <span class="n">filterNo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pickFilter</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mono</span><span class="o">.</span><span class="n">chooseFilter</span><span class="p">(</span><span class="n">filterNo</span><span class="p">)</span></div>
 
+
     <span class="c1"># Initialize filter</span>
 
-<div class="viewcode-block" id="MainWindow.MonoHandleFilterInitButton"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleFilterInitButton">[docs]</a>    <span class="k">def</span> <span class="nf">MonoHandleFilterInitButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MonoHandleFilterInitButton">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleFilterInitButton">[docs]</a>
+    <span class="k">def</span> <span class="nf">MonoHandleFilterInitButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to read filter initialization position from GUI.</span>
 
 <span class="sd">        Returns</span>
@@ -531,13 +559,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">imageInit_filterwheel</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="s2">&quot;Button_on.png&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Monochromator Filter Wheel initialized&quot;</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1">## Lock-in Functions</span>
 
     <span class="c1"># Define and set Lock-in parameters</span>
 
-<div class="viewcode-block" id="MainWindow.LockinHandleParameterButton"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.LockinHandleParameterButton">[docs]</a>    <span class="k">def</span> <span class="nf">LockinHandleParameterButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.LockinHandleParameterButton">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.LockinHandleParameterButton">[docs]</a>
+    <span class="k">def</span> <span class="nf">LockinHandleParameterButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to read Lockin amplification value from GUI.</span>
 
 <span class="sd">        Returns</span>
@@ -557,7 +588,10 @@
                 <span class="s2">&quot;Unexpected error during execution of LockinHandleParametersButton function:&quot;</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MainWindow.LockinUpdateParameters"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.LockinUpdateParameters">[docs]</a>    <span class="k">def</span> <span class="nf">LockinUpdateParameters</span><span class="p">(</span>
+
+<div class="viewcode-block" id="MainWindow.LockinUpdateParameters">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.LockinUpdateParameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">LockinUpdateParameters</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">amplification</span>
     <span class="p">):</span>  <span class="c1"># Function sets desired Lock-in parameters and calls setParameter function</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to update Lockin parameters.</span>
@@ -626,13 +660,16 @@
                 <span class="s2">&quot;Unexpected error during execution of LockinUpdateParameters function:&quot;</span>
             <span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1">#### Functions to handle filter and grating changes</span>
 
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.monoCheckFilter"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.monoCheckFilter">[docs]</a>    <span class="k">def</span> <span class="nf">monoCheckFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>  <span class="c1"># Filter switching points from GUI</span>
+<div class="viewcode-block" id="MainWindow.monoCheckFilter">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.monoCheckFilter">[docs]</a>
+    <span class="k">def</span> <span class="nf">monoCheckFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>  <span class="c1"># Filter switching points from GUI</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to update position of first filter wheel from GUI defaults.</span>
 
@@ -693,7 +730,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="MainWindow.monoCheckGrating"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.monoCheckGrating">[docs]</a>    <span class="k">def</span> <span class="nf">monoCheckGrating</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>  <span class="c1"># Grating switching points from GUI</span>
+
+<div class="viewcode-block" id="MainWindow.monoCheckGrating">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.monoCheckGrating">[docs]</a>
+    <span class="k">def</span> <span class="nf">monoCheckGrating</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>  <span class="c1"># Grating switching points from GUI</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to update monochromator grating position from GUI defaults.</span>
 
 <span class="sd">        Parameters</span>
@@ -746,13 +786,16 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">pass</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1">#### Function to handle filter changes of Thorlabs filter wheel</span>
 
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.thorChangeFilter"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.thorChangeFilter">[docs]</a>    <span class="k">def</span> <span class="nf">thorChangeFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.thorChangeFilter">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.thorChangeFilter">[docs]</a>
+    <span class="k">def</span> <span class="nf">thorChangeFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to update position of second filter wheel.</span>
 
 <span class="sd">        Parameters</span>
@@ -787,13 +830,16 @@
                 <span class="s2">&quot;Unexpected error during execution of thorChangeFilter function:&quot;</span>
             <span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1">#### Functions to handle measurement parameter and measurment itself</span>
 
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.MonoHandleCompleteScanButton"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleCompleteScanButton">[docs]</a>    <span class="k">def</span> <span class="nf">MonoHandleCompleteScanButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.MonoHandleCompleteScanButton">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.MonoHandleCompleteScanButton">[docs]</a>
+    <span class="k">def</span> <span class="nf">MonoHandleCompleteScanButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to measure samples with different filters.</span>
 
 <span class="sd">        Returns</span>
@@ -978,7 +1024,10 @@
                 <span class="s2">&quot;Unexpected error during execution of MonoHandleCompleteScanButton function:&quot;</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MainWindow.load_naming"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.load_naming">[docs]</a>    <span class="k">def</span> <span class="nf">load_naming</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MainWindow.load_naming">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.load_naming">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_naming</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to load naming from directory path</span>
 
 <span class="sd">        Parameters</span>
@@ -1008,7 +1057,10 @@
                 <span class="s2">&quot;Unexpected error during execution of load_naming function:&quot;</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MainWindow.save_mono_parameter"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.save_mono_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">save_mono_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MainWindow.save_mono_parameter">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.save_mono_parameter">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_mono_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to save monochromator measurement parameters to file</span>
 
 <span class="sd">        Parameters</span>
@@ -1113,7 +1165,10 @@
                 <span class="s2">&quot;Unexpected error during execution of save_mono_parameter function:&quot;</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MainWindow.load_mono_parameter"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.load_mono_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">load_mono_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MainWindow.load_mono_parameter">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.load_mono_parameter">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_mono_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to load monochromator measurement parameters from file.</span>
 
 <span class="sd">        Parameters</span>
@@ -1186,9 +1241,12 @@
                 <span class="s2">&quot;Unexpected error during execution of load_mono_parameter function:&quot;</span>
             <span class="p">)</span></div>
 
+
     <span class="c1"># General function to create scanning list</span>
 
-<div class="viewcode-block" id="MainWindow.createScanJob"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.createScanJob">[docs]</a>    <span class="k">def</span> <span class="nf">createScanJob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.createScanJob">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.createScanJob">[docs]</a>
+    <span class="k">def</span> <span class="nf">createScanJob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to compile scan parameters.</span>
 
 <span class="sd">        Parameters</span>
@@ -1217,6 +1275,7 @@
 
         <span class="k">return</span> <span class="n">scan_list</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1">#### Functions to handle measurement</span>
@@ -1225,7 +1284,9 @@
 
     <span class="c1"># Measure LOCKIN response</span>
 
-<div class="viewcode-block" id="MainWindow.HandleMeasurement"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.HandleMeasurement">[docs]</a>    <span class="k">def</span> <span class="nf">HandleMeasurement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_list</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.HandleMeasurement">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.HandleMeasurement">[docs]</a>
+    <span class="k">def</span> <span class="nf">HandleMeasurement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_list</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to prepare sample measurement.</span>
 
 <span class="sd">        Parameters</span>
@@ -1309,7 +1370,10 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">scan_list</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MainWindow.measure"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.measure">[docs]</a>    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_list</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MainWindow.measure">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.measure">[docs]</a>
+    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_list</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to perform sample measurement.</span>
 
 <span class="sd">        Parameters</span>
@@ -1456,11 +1520,14 @@
         <span class="c1"># Unsubscribe to scope</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path0</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
     <span class="c1"># Function to calculate the reference power</span>
 
-<div class="viewcode-block" id="MainWindow.calculatePower"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.calculatePower">[docs]</a>    <span class="k">def</span> <span class="nf">calculatePower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref_df</span><span class="p">,</span> <span class="n">cal_df</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.calculatePower">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.calculatePower">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculatePower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref_df</span><span class="p">,</span> <span class="n">cal_df</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to calculate power.</span>
 
 <span class="sd">        Parameters</span>
@@ -1511,15 +1578,21 @@
 
         <span class="k">return</span> <span class="n">ref_df</span><span class="p">[</span><span class="s2">&quot;Power&quot;</span><span class="p">]</span></div>
 
+
     <span class="c1"># Function to interpolate values</span>
 
-<div class="viewcode-block" id="MainWindow.interpolate"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.interpolate">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.interpolate">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.interpolate">[docs]</a>
+    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">num</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.set_up_plot"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.set_up_plot">[docs]</a>    <span class="k">def</span> <span class="nf">set_up_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.set_up_plot">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.set_up_plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_up_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to set up plot.</span>
 
 <span class="sd">        Returns</span>
@@ -1584,7 +1657,10 @@
 
         <span class="k">return</span> <span class="n">fig1</span></div>
 
-<div class="viewcode-block" id="MainWindow.pause"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.pause">[docs]</a>    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MainWindow.pause">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.pause">[docs]</a>
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to pause matplotlib without plt.show()</span>
 
 <span class="sd">        Parameters</span>
@@ -1626,9 +1702,12 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.naming"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.naming">[docs]</a>    <span class="k">def</span> <span class="nf">naming</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.naming">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.naming">[docs]</a>
+    <span class="k">def</span> <span class="nf">naming</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to compile filename.</span>
 
 <span class="sd">        Parameters</span>
@@ -1658,9 +1737,12 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.HandleStopCompleteScanButton"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.HandleStopCompleteScanButton">[docs]</a>    <span class="k">def</span> <span class="nf">HandleStopCompleteScanButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.HandleStopCompleteScanButton">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.HandleStopCompleteScanButton">[docs]</a>
+    <span class="k">def</span> <span class="nf">HandleStopCompleteScanButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to stop multi-filter measurement.</span>
 
 <span class="sd">        Returns</span>
@@ -1672,9 +1754,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">imageCompleteScan_stop</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="s2">&quot;Button_on.png&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">measuring</span></div>
 
+
     <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="MainWindow.get_logger"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.get_logger">[docs]</a>    <span class="k">def</span> <span class="nf">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MainWindow.get_logger">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.MainWindow.get_logger">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to set up logger.</span>
 
 <span class="sd">        Returns</span>
@@ -1699,13 +1784,17 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console</span><span class="p">)</span>
         <span class="c1">#        logger.addHandler(logfile)</span>
 
-        <span class="k">return</span> <span class="n">logger</span></div></div>
+        <span class="k">return</span> <span class="n">logger</span></div>
+</div>
+
 
 
 <span class="c1"># -----------------------------------------------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../control_generated/sEQE.html#sEQE.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
@@ -1715,6 +1804,7 @@
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unexpected error during main function: &quot;</span><span class="p">)</span></div>
+
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>

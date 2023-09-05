@@ -10,11 +10,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=06525ffd"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -101,7 +101,9 @@
 
 
 
-<div class="viewcode-block" id="LockIn"><a class="viewcode-back" href="../control_generated/lockin.html#lockin.LockIn">[docs]</a><span class="k">class</span> <span class="nc">LockIn</span><span class="p">():</span>
+<div class="viewcode-block" id="LockIn">
+<a class="viewcode-back" href="../control_generated/lockin.html#lockin.LockIn">[docs]</a>
+<span class="k">class</span> <span class="nc">LockIn</span><span class="p">():</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">device</span><span class="p">):</span>
         
@@ -113,7 +115,9 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
     
-<div class="viewcode-block" id="LockIn.connect"><a class="viewcode-back" href="../control_generated/lockin.html#lockin.LockIn.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
+<div class="viewcode-block" id="LockIn.connect">
+<a class="viewcode-back" href="../control_generated/lockin.html#lockin.LockIn.connect">[docs]</a>
+    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to establish connection to Lockin.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
@@ -141,8 +145,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">True</span>       
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span></div>
+
     
-<div class="viewcode-block" id="LockIn.setParameters"><a class="viewcode-back" href="../control_generated/lockin.html#lockin.LockIn.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">diff_2</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span><span class="n">imp50</span><span class="p">,</span><span class="n">imp50_2</span><span class="p">,</span><span class="n">ac</span><span class="p">,</span><span class="n">Range</span><span class="p">,</span><span class="n">lowpass</span><span class="p">,</span><span class="n">rate</span><span class="p">,</span><span class="n">tc</span><span class="p">,</span><span class="n">c_2</span><span class="p">,</span><span class="n">amplification</span><span class="p">):</span>       
+<div class="viewcode-block" id="LockIn.setParameters">
+<a class="viewcode-back" href="../control_generated/lockin.html#lockin.LockIn.setParameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">diff_2</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span><span class="n">imp50</span><span class="p">,</span><span class="n">imp50_2</span><span class="p">,</span><span class="n">ac</span><span class="p">,</span><span class="n">Range</span><span class="p">,</span><span class="n">lowpass</span><span class="p">,</span><span class="n">rate</span><span class="p">,</span><span class="n">tc</span><span class="p">,</span><span class="n">c_2</span><span class="p">,</span><span class="n">amplification</span><span class="p">):</span>       
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to set default Lockin parameters.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
@@ -257,7 +264,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">daq</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>   <span class="c1"># clean queue</span>
         
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unexpected error during execution of setParameters function:&quot;</span><span class="p">)</span></div></div>
+            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unexpected error during execution of setParameters function:&quot;</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

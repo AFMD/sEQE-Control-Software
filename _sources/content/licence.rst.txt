@@ -1,6 +1,10 @@
 Acknowledgements and Linceses
 =============================
 
+.. image:: ../_static/certification-mark-UK000046-stacked.png
+  :width: 700
+  :alt: Schematic of the sEQE setup.
+
 List of main AFMD contributors
 ------------------------------
 
@@ -22,11 +26,17 @@ Furthermore we want to thank all the people who have contributed to the sEQE mea
 
 Licenses
 --------
-The sEQE project of the AFMD group is licensed under the following three licenses:
+The sEQE project (control code + hardware + documentation) of the AFMD group is licensed under the following three licenses:
 
+.. image:: ../_static/oshw_facts.png
+  :width: 350
+  :alt:
+
+..
 	1. control software: The MIT License
 	2. hardware: CERN Open Hardware Licence Version 2 - Permissive (CERN-OHL-P-2.0)
 	3. documentation: Creative Commons Attribution 4.0 International Public License (CC-BY-4.0)
+	
 
 You find the according license texts below. 
 
