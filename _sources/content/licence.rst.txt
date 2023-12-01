@@ -8,18 +8,18 @@ Acknowledgements and Linceses
 List of main AFMD contributors
 ------------------------------
 
-	- Dr. Anna Jungbluth: Creator of sEQE hardware, control software and analysis software
-	- Ming Zhu: Developer of sEQE control software and analysis software ; Current main user
+	- `Dr. Anna Jungbluth <https://orcid.org/0000-0002-9888-6262>`_: Creator of sEQE hardware, control software and analysis software 
+	- `Ming Zhu <https://orcid.org/0009-0002-9982-8184>`_: Developer of sEQE control software and analysis software ; Current main user 
 	- Maximilian Hanauske: Developer of sEQE control software; Creator of sEQE setup documentation
-	- Dr. Greyson Christoforo: Designer of the sEQE sample holder 
+	- `Dr. Greyson Christoforo <https://orcid.org/0000-0001-5507-4179>`_: Designer of the sEQE sample holder 
 
 Acknowledgments
 ---------------
 
 Furthermore we want to thank all the people who have contributed to the sEQE measurement setup throughout the years:
 
-	- Prof. Dr. Moritz Riede: For his kind guidance, wisdom, ideas and his contribution to the sEQE paper
-	- Dr. Pascal Kaienburg: For his support regarding any questions of physical or engineering nature, his contribution to the sEQE paper and his user feedback
+	- `Prof. Dr. Moritz Riede <https://orcid.org/0000-0002-5399-5510>`_: For his kind guidance, wisdom, ideas and his contribution to the sEQE paper
+	- `Dr. Pascal Kaienburg <https://orcid.org/0000-0003-3887-3395>`_: For his support regarding any questions of physical or engineering nature, his contribution to the sEQE paper and his user feedback
 	- Irfan Habib: For his reliable and constructive user feedback
 	- Kate Trinkhaus: Creator of an AFMD Logo which might be used in the future documentation
 	- Dr. David Miguel Susano Pinto: For his help implementing a cryostat and with the `python microscope package <https://python-microscope.org/>`_
