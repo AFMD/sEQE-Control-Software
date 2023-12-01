@@ -2,7 +2,7 @@ Usage
 =====
 
 The setup is running on Linux and Windows. Mac compatibility for the Analysis code is currently in development. 
-A schematic of the operational workflow of a sEQE measurement is shown below. The numbers refer to the sections in the graphical user interface - see :doc:'../control_generated/modules' - that perform the corresponding operations. After instrument initialisation, the user can perform measurements of reference diodes or samples under testing. This requires alignment of the sample and selection of measurement parameters. During the measurement, live plots show measurement progress. Once the measurements are finished, detailed data analysis can be performed, for instance using our custom-written sEQE analysis code
+A schematic of the operational workflow of a sEQE measurement is shown below. The numbers refer to the sections in the graphical user interface - see :doc:`../control_generated/modules` - that perform the corresponding operations. After instrument initialisation, the user can perform measurements of reference diodes or samples under testing. This requires alignment of the sample and selection of measurement parameters. During the measurement, live plots show measurement progress. Once the measurements are finished, detailed data analysis can be performed, for instance using our custom-written sEQE analysis code
 
 .. image:: ../_static/operational_flow.png
   :width: 700
